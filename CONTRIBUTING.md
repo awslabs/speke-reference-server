@@ -1,61 +1,52 @@
-# Contributing Guidelines
+# Contributing to SPEKE Reference Server
 
-Thank you for your interest in contributing to our project. Whether it's a bug report, new feature, correction, or additional 
-documentation, we greatly value feedback and contributions from our community.
+When contributing to this repository, please first discuss the change you wish to make via issue,
+email, or any other method with the owners of this repository before making a change. 
 
-Please read through this document before submitting any issues or pull requests to ensure we have all the necessary 
-information to effectively respond to your bug report or contribution.
+Third-party patches are essential for growing and enhancing SPEKE Reference Server. We want to keep it as easy as possible to contribute changes that
+get things working in your environment. There are a few guidelines that we
+need contributors to follow so that we can have a chance of keeping on
+top of things.
 
+Please note we have a code of conduct, please follow it in all your interactions with the project.
 
-## Reporting Bugs/Feature Requests
+## SPEKE Reference Server Core vs Extensions
 
-We welcome you to use the GitHub issue tracker to report bugs or suggest features.
+New functionality is typically directed toward extensions to provide a slimmer
+SPEKE Reference Server Core, reducing its surface area, and to allow greater freedom for
+module maintainers to ship releases at their own cadence. 
 
-When filing an issue, please check [existing open](https://github.com/awslabs/speke-reference-server/issues), or [recently closed](https://github.com/awslabs/speke-reference-server/issues?utf8=%E2%9C%93&q=is%3Aissue%20is%3Aclosed%20), issues to make sure somebody else hasn't already 
-reported the issue. Please try to include as much information as you can. Details like these are incredibly useful:
+Generally, non-backward compatible and OS-specific changes should be added as optional enhancements. Exceptions would be things like new cross-OS features and updates to existing core types.
 
-* A reproducible test case or series of steps
-* The version of our code being used
-* Any modifications you've made relevant to the bug
-* Anything unusual about your environment or deployment
+If you are unsure of whether your contribution should be implemented as an optional enhancement or part of SPEKE Reference Server Core, please first discuss the change you wish to make via issue,
+email, or any other method with the owners of this repository.
 
+## Pull Request Process
 
-## Contributing via Pull Requests
-Contributions via pull requests are much appreciated. Before sending us a pull request, please ensure that:
+1. Write one or more test cases to demonstrate how your feature, extension or fix operates. Include the test cases with your pull request.
+2. Ensure any install or build dependencies are removed before submitting your pull request.
+2. Update the README.md with details of changes to the solution. Include new environment 
+   variables, exposed ports, useful file locations and service parameters.
+3. Increase the version numbers in any examples files and the README.md to the new version that this
+   Pull Request would represent. The versioning scheme we use is [SemVer](http://semver.org/).
+4. You may merge the Pull Request in once you have the sign-off of two other developers, or if you 
+   do not have permission to do that, you may request the second reviewer to merge it for you.
 
-1. You are working against the latest source on the *master* branch.
-2. You check existing open, and recently merged, pull requests to make sure someone else hasn't addressed the problem already.
-3. You open an issue to discuss any significant work - we would hate for your time to be wasted.
+## Revert Policy
 
-To send us a pull request, please:
+By running tests in advance and by engaging with peer review for prospective
+changes, your contributions have a high probability of becoming long lived
+parts of the the project. 
 
-1. Fork the repository.
-2. Modify the source; please focus on the specific change you are contributing. If you also reformat all the code, it will be hard for us to focus on your change.
-3. Ensure local tests pass.
-4. Commit to your fork using clear commit messages.
-5. Send us a pull request, answering any default questions in the pull request interface.
-6. Pay attention to any automated CI failures reported in the pull request, and stay involved in the conversation.
+If the code change results in a failure, we will make our best effort to
+correct the error. If a fix cannot be determined and committed within 24 hours
+of its discovery, the commit(s) responsible _may_ be reverted, at the
+discretion of the committer and SPEKE Reference Server maintainers. This action would be taken
+to help maintain passing states in our testing pipelines.
 
-GitHub provides additional document on [forking a repository](https://help.github.com/articles/fork-a-repo/) and 
-[creating a pull request](https://help.github.com/articles/creating-a-pull-request/).
+The original contributor will be notified of the revert in the GitHub Issue
+associated with the change. A reference to the test(s) and operating system(s)
+that failed as a result of the code change will also be added to the GitHub Issue. This test(s) should be used to check future submissions of the code to
+ensure the issue has been resolved.
 
-
-## Finding contributions to work on
-Looking at the existing issues is a great way to find something to contribute on. As our projects, by default, use the default GitHub issue labels ((enhancement/bug/duplicate/help wanted/invalid/question/wontfix), looking at any ['help wanted'](https://github.com/awslabs/speke-reference-server/labels/help%20wanted) issues is a great place to start. 
-
-
-## Code of Conduct
-This project has adopted the [Amazon Open Source Code of Conduct](https://aws.github.io/code-of-conduct). 
-For more information see the [Code of Conduct FAQ](https://aws.github.io/code-of-conduct-faq) or contact 
-opensource-codeofconduct@amazon.com with any additional questions or comments.
-
-
-## Security issue notifications
-If you discover a potential security issue in this project we ask that you notify AWS/Amazon Security via our [vulnerability reporting page](http://aws.amazon.com/security/vulnerability-reporting/). Please do **not** create a public github issue.
-
-
-## Licensing
-
-See the [LICENSE](https://github.com/awslabs/speke-reference-server/blob/master/LICENSE) file for our project's licensing. We will ask you to confirm the licensing of your contribution.
-
-We may ask you to sign a [Contributor License Agreement (CLA)](http://en.wikipedia.org/wiki/Contributor_License_Agreement) for larger changes.
+[**Home**](README.md)
