@@ -92,6 +92,20 @@
                 },
                 "VersioningConfiguration": {
                     "Status": "Suspended"
+                },
+                "CorsConfiguration": {
+                    "CorsRules": [{
+                        "AllowedHeaders": [
+                            "*"
+                        ],
+                        "AllowedMethods": [
+                            "GET"
+                        ],
+                        "AllowedOrigins": [
+                            "*"
+                        ],
+                        "MaxAge": "3000"
+                    }]
                 }
             },
             "Metadata": {
