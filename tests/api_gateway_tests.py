@@ -18,7 +18,7 @@ from aws_requests_auth.boto_utils import BotoAWSRequestsAuth
 
 # UPDATE THIS CONSTANT TO MATCH YOUR CONFIGURATION
 
-#API_HOST = "lz9w9a2g89.execute-api.us-east-1.amazonaws.com"
+# API_HOST = "lz9w9a2g89.execute-api.us-east-1.amazonaws.com"
 API_HOST = "f8aix0vkl5.execute-api.us-east-1.amazonaws.com"
 
 # static testing values and endpoints
@@ -53,9 +53,9 @@ class TestSPEKEGateway(unittest.TestCase):
         response = requests.post(
             SERVER_API, headers=API_HEADERS, data=xml, auth=auth)
         # get the XML response
-        rootElement = ET.fromstring(response.text)
+        root_element = ET.fromstring(response.text)
         # check the key
-        key = rootElement.find(
+        key = root_element.find(
             ".//{urn:ietf:params:xml:ns:keyprov:pskc}PlainValue")
         self.assertEqual(EXPECTED_SERVER_KEY, base64.b64decode(key.text))
 
