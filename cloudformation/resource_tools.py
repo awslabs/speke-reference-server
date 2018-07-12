@@ -18,31 +18,31 @@ import re
 import time
 
 
-def send(event, context, responseStatus, responseData, physicalResourceId):
-    responseUrl = event['ResponseURL']
+def send(event, context, response_status, response_data, physical_resource_id):
+    response_url = event['ResponseURL']
 
-    responseBody = {
-        'Status': responseStatus,
+    response_body = {
+        'Status': response_status,
         'Reason': 'See the details in CloudWatch Log Stream: ' + context.log_stream_name,
-        'PhysicalResourceId': physicalResourceId or context.log_stream_name,
+        'PhysicalResourceId': physical_resource_id or context.log_stream_name,
         'StackId': event['StackId'],
         'RequestId': event['RequestId'],
         'LogicalResourceId': event['LogicalResourceId'],
-        'Data': responseData
+        'Data': response_data
     }
 
-    json_responseBody = json.dumps(responseBody)
+    json_response_body = json.dumps(response_body)
 
-    print("Response body:\n" + json_responseBody)
+    print("Response body:\n" + json_response_body)
 
     headers = {
         'content-type': '',
-        'content-length': str(len(json_responseBody))
+        'content-length': str(len(json_response_body))
     }
 
     try:
-        response = requests.put(responseUrl,
-                                data=json_responseBody,
+        response = requests.put(response_url,
+                                data=json_response_body,
                                 headers=headers)
         print("Status code: " + response.reason)
     except Exception as e:
