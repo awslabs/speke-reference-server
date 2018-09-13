@@ -431,6 +431,92 @@
                 }
             }
         },
+        "MediaConvertInvokeSPEKEPolicy": {
+            "Type": "AWS::IAM::Policy",
+            "Properties": {
+                "PolicyName": "MediaConvertInvokeSPEKEPolicy",
+                "PolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [{
+                            "Effect": "Allow",
+                            "Action": [
+                                "execute-api:Invoke"
+                            ],
+                            "Resource": [{
+                                "Fn::Join": [
+                                    "", [
+                                        "arn:aws:execute-api:",
+                                        {
+                                            "Ref": "AWS::Region"
+                                        },
+                                        ":",
+                                        {
+                                            "Ref": "AWS::AccountId"
+                                        },
+                                        ":",
+                                        {
+                                            "Ref": "SPEKEServerAPI"
+                                        },
+                                        "/*/POST/copyProtection"
+                                    ]
+                                ]
+                            }]
+                        },
+                        {
+                            "Effect": "Allow",
+                            "Action": [
+                                "s3:*"
+                            ],
+                            "Resource": [
+                                "*"
+                            ]
+                        }
+                    ]
+                },
+                "Roles": [{
+                    "Ref": "MediaConvertInvokeSPEKERole"
+                }]
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "02a69591-f669-4142-8d0d-a22fc7c8534f"
+                }
+            }
+        },
+        "MediaConvertInvokeSPEKERole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [{
+                        "Effect": "Allow",
+                        "Principal": {
+                            "Service": [
+                                "mediaconvert.amazonaws.com",
+                                "mediaconvert.us-east-1.amazonaws.com",
+                                "mediaconvert.ap-northeast-1.amazonaws.com",
+                                "mediaconvert.ap-southeast-1.amazonaws.com",
+                                "mediaconvert.ap-southeast-2.amazonaws.com",
+                                "mediaconvert.eu-central-1.amazonaws.com",
+                                "mediaconvert.eu-west-1.amazonaws.com",
+                                "mediaconvert.us-east-1.amazonaws.com",
+                                "mediaconvert.us-west-1.amazonaws.com",
+                                "mediaconvert.us-west-2.amazonaws.com"
+
+                            ]
+                        },
+                        "Action": [
+                            "sts:AssumeRole"
+                        ]
+                    }]
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "4b11cb71-2074-4b81-970a-1efed62a4f18"
+                }
+            }
+        },
         "InvokeSPEKEServerPermission": {
             "Type": "AWS::Lambda::Permission",
             "Properties": {
@@ -631,7 +717,9 @@
     },
     "Outputs": {
         "KeyBucket": {
-            "Value": { "Ref": "KeyBucket" },
+            "Value": {
+                "Ref": "KeyBucket"
+            },
             "Description": "Bucket name for the SPEKE key cache"
         },
         "MediaPackageSPEKERoleArn": {
@@ -642,6 +730,15 @@
                 ]
             },
             "Description": "ARN of the role for MediaPackage to invoke the SPEKE server"
+        },
+        "MediaConvertSPEKERoleArn": {
+            "Value": {
+                "Fn::GetAtt": [
+                    "MediaConvertInvokeSPEKERole",
+                    "Arn"
+                ]
+            },
+            "Description": "ARN of the role for MediaConvert to invoke the SPEKE server"
         },
         "SPEKEServerURL": {
             "Value": {
