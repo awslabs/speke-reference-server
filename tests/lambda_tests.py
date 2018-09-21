@@ -90,9 +90,9 @@ class TestSPEKELambdas(unittest.TestCase):
         decoded = json.loads(stream.read())
         stream.close()
         # get the XML embedded inside
-        rootElement = ET.fromstring(decoded["body"])
+        root_element = ET.fromstring(decoded["body"])
         # get the key element
-        key = rootElement.find(
+        key = root_element.find(
             ".//{urn:ietf:params:xml:ns:keyprov:pskc}PlainValue")
         # test the key against expected
         self.assertEqual(EXPECTED_SERVER_KEY, base64.b64decode(key.text))
