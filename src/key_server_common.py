@@ -84,7 +84,7 @@ class ServerResponseBuilder:
             system_id = drm_system.get("systemId")
             system_ids[system_id] = kid
 
-            if system_id == HLS_AES_128_SYSTEM_ID:
+            if system_id.lower() == HLS_AES_128_SYSTEM_ID.lower():
                 ext_x_key = get_client_url(
                     self.client_url_prefix, content_id, kid)
                 drm_system.find("{urn:dashif:org:cpix}URIExtXKey").text = base64.b64encode(
@@ -98,7 +98,7 @@ class ServerResponseBuilder:
                 drm_system.remove(
                     drm_system.find("{urn:aws:amazon:com:speke}ProtectionHeader"))
                 drm_system.remove(drm_system.find("{urn:dashif:org:cpix}PSSH"))
-            elif system_id == HLS_SAMPLE_AES_SYSTEM_ID:
+            elif system_id.lower() == HLS_SAMPLE_AES_SYSTEM_ID.lower():
                 ext_x_key = get_client_url(
                     self.client_url_prefix, content_id, kid)
                 drm_system.find("{urn:dashif:org:cpix}URIExtXKey").text = base64.b64encode(
@@ -112,7 +112,7 @@ class ServerResponseBuilder:
                 drm_system.remove(
                     drm_system.find("{urn:aws:amazon:com:speke}ProtectionHeader"))
                 drm_system.remove(drm_system.find("{urn:dashif:org:cpix}PSSH"))
-            elif system_id == DASH_CENC_SYSTEM_ID:
+            elif system_id.lower() == DASH_CENC_SYSTEM_ID.lower():
                 # uri = get_client_url(self.client_url_prefix, content_id, kid)
                 drm_system.find(
                     "{urn:dashif:org:cpix}PSSH").text = CENC_PSSH_BOX
@@ -126,7 +126,7 @@ class ServerResponseBuilder:
                     drm_system.find("{urn:aws:amazon:com:speke}ProtectionHeader"))
                 drm_system.remove(
                     drm_system.find("{urn:dashif:org:cpix}URIExtXKey"))
-            elif system_id == PLAYREADY_SYSTEM_ID:
+            elif system_id.lower() == PLAYREADY_SYSTEM_ID.lower():
                 drm_system.find(
                     "{urn:aws:amazon:com:speke}ProtectionHeader").text = PLAYREADY_PROTECTION_HEADER
                 drm_system.find(
