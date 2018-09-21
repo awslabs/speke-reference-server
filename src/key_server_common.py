@@ -186,7 +186,7 @@ class ServerResponseBuilder:
             "statusCode": 200,
             "headers": {
                 "Content-Type": "application/xml",
-                "Speke-User-Agent": "AWSElementalMockKeyServer"},
+                "Speke-User-Agent": "SPEKE Reference Server (https://github.com/awslabs/speke-reference-server)"},
             "body": ET.tostring(
                 self.root).decode('utf-8')}
 
