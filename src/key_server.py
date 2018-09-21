@@ -17,9 +17,7 @@ from key_server_common import ServerResponseBuilder
 
 def server_handler(event, context):
     print(event)
-    host = event['headers']['Host']
-    stage = event['requestContext']['stage']
-    client_url_prefix = os.environ["keystore_url"]
+    client_url_prefix = os.environ["KEYSTORE_URL"]
     body = event['body']
     if event['isBase64Encoded']:
         body = base64.b64decode(body)

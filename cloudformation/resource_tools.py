@@ -28,8 +28,7 @@ def send(event, context, response_status, response_data, physical_resource_id):
         'StackId': event['StackId'],
         'RequestId': event['RequestId'],
         'LogicalResourceId': event['LogicalResourceId'],
-        'Data': response_data
-    }
+        'Data': response_data}
 
     json_response_body = json.dumps(response_body)
 

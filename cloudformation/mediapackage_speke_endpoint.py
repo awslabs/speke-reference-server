@@ -30,7 +30,7 @@ def event_handler(event, context):
             result = create_endpoint(mediapackage, event, context)
         elif event["RequestType"] == "Update":
             result = common.update_endpoint(
-                mediapackage,  create_endpoint, event, context)
+                mediapackage, create_endpoint, event, context)
         elif event["RequestType"] == "Delete":
             result = common.delete_endpoint(mediapackage, event, context)
     except Exception as exp:
@@ -52,7 +52,8 @@ def create_endpoint(mediapackage, event, context, auto_id=True):
     """
 
     if auto_id:
-        endpoint_id = "%s-%s" % (resource_tools.stack_name(event), event["LogicalResourceId"])
+        endpoint_id = "%s-%s" % (resource_tools.stack_name(event),
+                                 event["LogicalResourceId"])
     else:
         endpoint_id = event["PhysicalResourceId"]
 
