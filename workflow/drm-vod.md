@@ -1,34 +1,21 @@
 # Module: Digital Rights Management (DRM) and Encryption
 
-When working with videos for your service or Over the Top (OTT) platform, you will very likely need to secure and protect your live streams prior to delivering content to your end users. Approaches for securing content include basic content _encryption_ or by applying highly secure Digital Rights Management (DRM) to the content. Examples of DRM include Fairplay, Widevine and PlayReady.
+When working with videos for your service or Over the Top (OTT) platform, you will very likely need to secure and protect your content prior to delivering videos to your end users. Approaches for securing content include basic content _encryption_ or by applying highly secure Digital Rights Management (DRM) to the content. Examples of DRM include Fairplay, Widevine and PlayReady.
 
-In this module, you'll use AWS Elemental MediaPackage, to secure and encrypt your live channels. You'll learn about the Secure Packager and Encoder Key Exchange (SPEKE) API, deploy an AWS SPEKE reference server, and configure AWS Elemental MediaPackage to encrypt HLS  content using AES-128 encryption.
+In this module, you'll use AWS Elemental MediaConvert, a file-based video transcoding service to secure and encrypt your videos. You'll learn about the Secure Packager and Encoder Key Exchange (SPEKE) API, deploy an AWS SPEKE reference server, and configure AWS Elemental MediaConvert to encrypt HLS packaged content using AES-128 encryption.
 
 ## Prerequisites
-You'll need to have previously installed the Live Streaming Solution
-<< LINK GOES HERE >>
-
 You'll need to have previously deployed the AWS SPEKE Reference Server.<br/>
 https://github.com/awslabs/speke-reference-server
-
-Once you've installed the AWS SPEKE Reference Server retrieve the SPEKE API URL and MediaPackage Role from the output of your Cloudformation Stack Details. 
 
 Goto CloudFormation-> Stacks -> **AWS SPEKE Reference Server Stack Name** -> Outputs
 and make a  note of the below paramters
 
 | Parameter | Example  |
 |--------------------------|-------------------------------------------------------------------------------------------|
-| SPEKEServerURL |``` https://{hostname}.execute-api.us-east-1.amazonaws.com/EkeStage/copyProtection ``` |
-| MediaPackageSPEKERoleArn|``` arn:aws:iam::{AWS_ACCOUNT}:role/speke-reference-MediaPackageInvokeSPEKERole-{INSTANCE_ID} ``` |
+| SPEKEServerURL |``` https://u42i7z1iic.execute-api.us-west-2.amazonaws.com/EkeStage/copyProtection ``` |
+| MediaConvertSPEKERoleArn|``` arn:aws:iam::{AWS_ACCOUNT}:role/speke-reference-MediaPackageInvokeSPEKERole-{INSTANCE_ID} ``` |
 
-Next, Goto CloudFormation -> **Live Streaming Solution Stack** -> Outouts and make a note of the parameters below.
-
-| Parameter |  |
-|--------------------------|-------------------------------------------------------------------------------------------|
-| DemoConsole |``` https://{hostname}.execute-api.us-east-1.amazonaws.com/EkeStage/copyProtection ``` |
-| CloudFrontHlsEnpoint |``` https://{hostname}.cloudfront.net/7b445d5fd31d447a8e233944747c7fb0/index.m3u8 ``` | 
-
-**Make sure you replace the various values such as hostname, aws_account with your own deployment vaues**
 
 ## 1. Testing the SPEKE API...
 
@@ -41,8 +28,8 @@ Next, Goto CloudFormation -> **Live Streaming Solution Stack** -> Outouts and ma
 1. Select the function that contains the name {STACKNAME}-SPEKEServerLambda-{}
 1. Pull down the test events list at the top right
 1. Choose Configure test events
-1. Set the Saved Test Event name to **ServerKeyRequest**
-1. Copy the following exactly into the text area for the event and replace the **hostname** with one from your SPEKEServerURL
+1. Set the Saved Test Event name to ServerKeyRequest
+1. Replace the **hostname** and Copy the following exactly into the text area for the event
 ```
 {
   "resource": "/copyProtection",
@@ -51,7 +38,7 @@ Next, Goto CloudFormation -> **Live Streaming Solution Stack** -> Outouts and ma
   "headers": {
     "Accept": "*/*",
     "content-type": "application/xml",
-    "Host": "hostname.execute-api.us-east-1.amazonaws.com"
+    "Host": "u42i7z1iic.execute-api.us-west-2.amazonaws.com"
   },
   "requestContext": {
     "path": "/EkeStage/copyProtection",
@@ -105,9 +92,9 @@ Next, Goto CloudFormation -> **Live Streaming Solution Stack** -> Outouts and ma
 1. Select the SPEKEReferenceAPI
 1. Select the POST method on the /copyProtection resource
 1. Click the Test link on the left side of the main compartment
-1. Replace the **hostname** and copy the following into the Headers {copyProtection} compartment
+1. Replace the **hostname** Copy the following into the Headers {copyProtection} compartment
 ```
-Host:hostname.execute-api.us-west-2.amazonaws.com
+Host:hostname.execute-api.us-east-1.amazonaws.com
 ```
 1. Copy the following into the Request Body compartment
 ```
@@ -163,41 +150,76 @@ Host:hostname.execute-api.us-west-2.amazonaws.com
     </cpix:ContentKeyUsageRuleList>
 </cpix:CPIX>
 ```
-## 2. Configuring DRM on a MediaPackage EndPoint
+## 2. Configuring DRM for a MediaConvert Job
 
-1. Login to the AWS Console
-1. Navigate to *MediaPackage*
-1. Select the **live-livestream** channel
-1. Scroll down to *Endpoints* section of the channel detals
+A  MediaConvert job Output group setting lets you configure the DRM parameters required to encrypt a video for that  job. You can have up to 2 DRM(s) applied to a video based on the output format. For example DASH allows for Widevine and PlayReady DRM to be used for a single video.
 
-![s3 link](/images/live_mediapackage-endpoints.png)
+In this module, you will create a MediaConvert job by duplicating and modifying and existing  MediaConvert Job Template to encrypt your video using AES-128 encryption using the AWS Speke Reference Server.
 
-5. Select the **live-livestream-hls** endpoint and *edit* the endpoint
-1. Scroll down to the *Package encryption* section of the endpoint details
-1. Select the **Encrypt Content** radio button
-1. Fill in the following encryption details
-ResourceID : ```6c5f5206-7d98-4808-84d8-94f132c1e9fe``` <br>
-DRM System ID :  ```81376844-f976-481e-a84e-cc25d39b0b33``` <br>
-URL : ``` { SPEKEServerURL }``` <br>
-MediaPackage Role : ```{MediaPackage Role from the Stack Output }```
-1. Expand the *additional configuration*  
-1. Select `AES 128` for the Encryption method.
+### Detailed Instructions
 
-![s3 link](/images/live_mediapackage_drm_config.png)
-1. Click on **Save** to update your changes.
+#### Job Templates section
 
-## 3. Play the videos
+1. Open the MediaConvert console for the region you are completing the lab in (US-West-Oregon).<br/> https://us-west-2.console.aws.amazon.com/mediaconvert/home?region=us-west-2#/welcome
+1. Select **Job templates** from the side bar menu. 
+1. Select **Custom Templates** from the dropdown menu
 
-![s3 link](/images/live_mediapackage-encryption_config.png)
+![Select Job Templates](./images/job_templates.jpeg)
 
-You can play the AES-128 encrypted HLS endpoint  using:
+4. Select `{HLS JOB TEMPLATE}` to open the Jobs templates details page.
+1. Click on **Update** to edit the Template
+1. Select `HLS OUTPUT GROUP NAME` on the Job panel.
+1. Turn on **DRM encryption**
+
+![HLS Output Group](./images/hls_output_group.jpeg)
+
+8. Select `AES 128` for the Encryption method.
+1. Select `SPEKE` as the Key provider type.
+1. Enter in a ResourceID e.g ```6c5f5206-7d98-4808-84d8-94f132c1e9fe```.
+1. Enter the DRM System ID for AES-128
+```
+   81376844-f976-481e-a84e-cc25d39b0b33
+```
+
+12. Enter your SPEKE Reference Server API as the URL. ( Replace the Hostname )
+
+```
+  https://{host}.execute-api.us-west-2.amazonaws.com/EkeStage/copyProtection
+```
+
+![HLS Output Group](./images/drm_settings.jpeg)
+
+13. Click on **Update** at the bottom of the page to save the Job template. 
+
+## 3. Resubmit / Reprocess the Video Asset with Encryption
+
+1. In the AWS Management Console choose **Services** then select **S3** under Storage.
+1. Select the bucket where your source input files are located.
+1. Rename the source asset ```{source asset name} ```
+1. This should trigger an asset workflow and the encrypted files will be output to a folder 
+
+  
+## 4. View outputs in S3  
+
+1. In the AWS Management Console choose **Services** then select **S3** under Storage.
+1. Select the bucket where your output files are located.  You should find a folder called `assets/VANLIFE/` with subfolders for `HLS`.
+1. **Save this page open in a browser tab** so you can access videos for playout in later modules.
+
+NOTE: You can also access the S3 bucket for each output group using the links in the **Outputs** section of the MediaConvert console **Job details** page.
+
+## 5. Play the videos
+
+To play the videos, you will use the S3 HTTPS resource **Link** on the videos S3 object **Overview** page.
+
+#### HLS
+
+The HLS manifest file is located in your ouput s3 bucket in the object: s3://YOUR-MediaBucket/assets/VANLIFE/HLS/VANLIFE.m3u8
+
+You can play the HLS using:
 * Safari browser by clicking on the **Link** for the object.
+* **JW Player Stream Tester** - by copying the link for the object and inputing it to the player.  https://developer.jwplayer.com/tools/stream-tester/ 
 
-* Open up the URL from the **DemoConsole** outlined in the Live Solution Stack.
-* Copy the URL outlined in  **CloudFrontHlsEnpoint**  into the player
-
-![s3 link](/images/live_mediapackage-preview-hls.png)
 
 ## Completion
 
-Congratulations!  You have successfully created an encrypted live stream using  AWS Elemental MediaPackage. 
+Congratulations!  You have successfully created an encrypted video asset using  AWS Elemental MediaConvert. 
