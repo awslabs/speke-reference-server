@@ -170,7 +170,7 @@ Host:hostname.execute-api.us-west-2.amazonaws.com
 1. Select the **live-livestream** channel
 1. Scroll down to *Endpoints* section of the channel detals
 
-![s3 link](/images/live_mediapackage-endpoints.png)
+![s3 link](./images/live_mediapackage-endpoints.png)
 
 5. Select the **live-livestream-hls** endpoint and *edit* the endpoint
 1. Scroll down to the *Package encryption* section of the endpoint details
@@ -183,12 +183,12 @@ MediaPackage Role : ```{MediaPackage Role from the Stack Output }```
 1. Expand the *additional configuration*  
 1. Select `AES 128` for the Encryption method.
 
-![s3 link](/images/live_mediapackage_drm_config.png)
+![s3 link](./images/live_mediapackage_drm_config.png)
 1. Click on **Save** to update your changes.
 
 ## 3. Play the videos
 
-![s3 link](/images/live_mediapackage-encryption_config.png)
+![s3 link](./images/live_mediapackage-encryption_config.png)
 
 You can play the AES-128 encrypted HLS endpoint  using:
 * Safari browser by clicking on the **Link** for the object.
@@ -196,7 +196,7 @@ You can play the AES-128 encrypted HLS endpoint  using:
 * Open up the URL from the **DemoConsole** outlined in the Live Solution Stack.
 * Copy the URL outlined in  **CloudFrontHlsEnpoint**  into the player
 
-![s3 link](/images/live_mediapackage-preview-hls.png)
+![s3 link](./images/live_mediapackage-preview-hls.png)
 
 ## Completion
 
