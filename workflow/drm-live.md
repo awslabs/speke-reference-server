@@ -104,10 +104,6 @@ Next, Goto CloudFormation -> **Live Streaming Solution Stack** -> Outouts and ma
 1. Select the SPEKEReferenceAPI
 1. Select the POST method on the /copyProtection resource
 1. Click the Test link on the left side of the main compartment
-1. Replace the **hostname** and copy the following into the Headers {copyProtection} compartment
-```
-Host:hostname.execute-api.us-west-2.amazonaws.com
-```
 1. Copy the following into the Request Body compartment
 ```
 <?xml version="1.0" encoding="UTF-8"?>
