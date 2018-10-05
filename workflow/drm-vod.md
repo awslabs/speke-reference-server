@@ -29,7 +29,7 @@ and make a  note of the below paramters
 1. Pull down the test events list at the top right
 1. Choose Configure test events
 1. Set the Saved Test Event name to ServerKeyRequest
-1. Replace the **hostname** and Copy the following exactly into the text area for the event
+1. Copy the following exactly into the text area for the event
 ```
 {
   "resource": "/copyProtection",
@@ -92,10 +92,6 @@ and make a  note of the below paramters
 1. Select the SPEKEReferenceAPI
 1. Select the POST method on the /copyProtection resource
 1. Click the Test link on the left side of the main compartment
-1. Replace the **hostname** Copy the following into the Headers {copyProtection} compartment
-```
-Host:hostname.execute-api.us-east-1.amazonaws.com
-```
 1. Copy the following into the Request Body compartment
 ```
 <?xml version="1.0" encoding="UTF-8"?>
