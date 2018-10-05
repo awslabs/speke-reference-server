@@ -42,7 +42,7 @@ Next, Goto CloudFormation -> **Live Streaming Solution Stack** -> Outouts and ma
 1. Pull down the test events list at the top right
 1. Choose Configure test events
 1. Set the Saved Test Event name to **ServerKeyRequest**
-1. Copy the following exactly into the text area for the event and replace the **hostname** with one from your SPEKEServerURL
+1. Copy the following exactly into the text area for the event.
 ```
 {
   "resource": "/copyProtection",
