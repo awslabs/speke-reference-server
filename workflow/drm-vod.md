@@ -37,8 +37,8 @@ and make a  note of the below paramters
   "httpMethod": "POST",
   "headers": {
     "Accept": "*/*",
-    "content-type": "application/xml",
-    "Host": "u42i7z1iic.execute-api.us-west-2.amazonaws.com"
+    "content-type": "application/xml"
+   
   },
   "requestContext": {
     "path": "/EkeStage/copyProtection",
