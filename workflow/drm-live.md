@@ -50,8 +50,7 @@ Next, Goto CloudFormation -> **Live Streaming Solution Stack** -> Outouts and ma
   "httpMethod": "POST",
   "headers": {
     "Accept": "*/*",
-    "content-type": "application/xml",
-    "Host": "hostname.execute-api.us-east-1.amazonaws.com"
+    "content-type": "application/xml"
   },
   "requestContext": {
     "path": "/EkeStage/copyProtection",
