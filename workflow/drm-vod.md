@@ -164,16 +164,21 @@ In this module, you will update an existing MediaConvert Job Template and config
 
 ![Select Job Templates](./images/job_templates.jpeg)
 
-4. Select `{HLS JOB TEMPLATE}` to open the Jobs templates details page.
+4. Select `{Stack}_Ott_720p_Avc_Aac_16x9` to open the Jobs templates details page.
 1. Click on **Update** to edit the Template
-1. Select `HLS OUTPUT GROUP NAME` on the Job panel.
+1. Select the `File Group` Output Group underneath the Output group Panel and click the **Remove Output Group** Button
+1. Select the `DASH ISP` Output Group  underneath the Output group Panel and click the **Remove Output Group** Button
+1. Select the 'Apple HLS ' Output Group underneath the Output group Panel  
 1. Turn on **DRM encryption**
 
 ![HLS Output Group](./images/hls_output_group.jpeg)
 
 8. Select `AES 128` for the Encryption method.
 1. Select `SPEKE` as the Key provider type.
-1. Enter in a ResourceID e.g ```6c5f5206-7d98-4808-84d8-94f132c1e9fe```.
+1. Enter in a ResourceID e.g 
+```
+6c5f5206-7d98-4808-84d8-94f132c1e9fe
+```
 1. Enter the DRM System ID for AES-128
 ```
    81376844-f976-481e-a84e-cc25d39b0b33
