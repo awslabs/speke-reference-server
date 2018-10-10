@@ -13,7 +13,7 @@ and make a  note of the below paramters
 
 | Parameter | Example  |
 |--------------------------|-------------------------------------------------------------------------------------------|
-| SPEKEServerURL |``` https://u42i7z1iic.execute-api.us-west-2.amazonaws.com/EkeStage/copyProtection ``` |
+| SPEKEServerURL |``` https://{HOST}.execute-api.us-west-2.amazonaws.com/EkeStage/copyProtection ``` |
 | MediaConvertSPEKERoleArn|``` arn:aws:iam::{AWS_ACCOUNT}:role/speke-reference-MediaPackageInvokeSPEKERole-{INSTANCE_ID} ``` |
 
 
