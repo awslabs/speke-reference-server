@@ -148,11 +148,9 @@ and make a  note of the below paramters
 ```
 ## 2. Configuring DRM for a MediaConvert Job
 
-A  MediaConvert job Output group setting lets you configure the DRM parameters required to encrypt a video for that  job. You can have up to 2 DRM(s) applied to a output group. For example DASH allows for Widevine and PlayReady DRM to be used for a single video.
+A  MediaConvert Output group setting lets you configure the DRM parameters required to encrypt a video for that  job. Please note : that you can currently  have one package format e.g HLS or DASH configured per Job Template. In addition you can have upto 2 DRM(s) applied to an output group. For example DASH allows for Widevine and PlayReady DRM to be used for a single video.
 
-*Please Note that you can currently only have one package format e.g HLS or DASH configured when using DRM on a MediaConvert Job Template.
-
-In this module, you will update an existing MediaConvert Job Template and configure it to encrypt your video using AES-128 encryption using the AWS Speke Reference Server.
+In this module, you will edit an existing MediaConvert Job Template and update it to encrypt your video using AES-128 encryption using the AWS Speke Reference Server.
 
 ### Detailed Instructions
 
