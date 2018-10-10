@@ -176,13 +176,9 @@ In this module, you will update an existing MediaConvert Job Template and config
 8. Select `AES 128` for the Encryption method.
 1. Select `SPEKE` as the Key provider type.
 1. Enter in a ResourceID e.g 
-```
-6c5f5206-7d98-4808-84d8-94f132c1e9fe
-```
+```6c5f5206-7d98-4808-84d8-94f132c1e9fe```
 1. Enter the DRM System ID for AES-128
-```
-   81376844-f976-481e-a84e-cc25d39b0b33
-```
+```81376844-f976-481e-a84e-cc25d39b0b33```
 
 12. Enter your SPEKE Reference Server API as the URL. ( Replace the Hostname )
 
