@@ -183,7 +183,7 @@ In this module, you will edit an existing MediaConvert Job Template and update i
 12. Enter your SPEKE Reference Server API as the URL. ( Replace the Hostname )
 
 ```
-  https://{host}.execute-api.us-west-2.amazonaws.com/EkeStage/copyProtection
+https://{host}.execute-api.us-west-2.amazonaws.com/EkeStage/copyProtection
 ```
 
 ![HLS Output Group](./images/drm_settings.jpeg)
@@ -192,6 +192,14 @@ In this module, you will edit an existing MediaConvert Job Template and update i
 
 ## 3. Resubmit / Reprocess the Video Asset with Encryption
 
+
+### Update Lambda to use the Encryption Template
+1. In the AWS Management Console, navigate to AWS Lambda
+1. Select the ```input-validate``` function and scroll down to the Enviornment varibale
+1. Look for the ```MediaConvert_Template_1080p``` parameter and replace it with **{stackname}_Ott_1080p_Avc_Aac_16x9_hls_encryption**
+1. Click on the **Save** Button
+
+### Trigger Workflow by renaming source asset. 
 1. In the AWS Management Console choose **Services** then select **S3** under Storage.
 1. Select the bucket where your source input files are located.
 1. Rename the source asset ```{source asset name} ```
