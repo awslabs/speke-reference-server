@@ -122,7 +122,7 @@ In this module, you will edit an existing MediaConvert Job Template and update i
 https://{host}.execute-api.us-west-2.amazonaws.com/EkeStage/copyProtection
 ```
 
-
+![DRM_Settings](./images/vod_drm_settings.png)
 
 13. Click on **Update** at the bottom of the page to save the Job template. 
 
