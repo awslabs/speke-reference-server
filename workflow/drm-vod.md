@@ -139,7 +139,7 @@ https://{host}.execute-api.us-west-2.amazonaws.com/EkeStage/copyProtection
 
 ### Trigger Workflow by renaming source asset. 
 1. In the AWS Management Console choose **Services** then select **S3** under Storage.
-1. Select the bucket where your source input files are located ```{stack}-source
+1. Select the bucket where your source input files are located ```{stack}-source```
 1. Rename the source asset ```van_life.mp4 ```
 1. This should trigger an asset workflow and the encrypted files will be output to a folder 
 
@@ -147,7 +147,7 @@ https://{host}.execute-api.us-west-2.amazonaws.com/EkeStage/copyProtection
 ## 4. View outputs in S3  
 
 1. In the AWS Management Console choose **Services** then select **S3** under Storage.
-1. Select the bucket where your output files are located. ```{stack}-destination/hls/
+1. Select the bucket where your output files are located. ```{stack}-destination/hls/```
 1. **Save this page open in a browser tab** so you can access videos for playout in later modules.
 
 NOTE: You can also access the S3 bucket for each output group using the links in the **Outputs** section of the MediaConvert console **Job details** page.
