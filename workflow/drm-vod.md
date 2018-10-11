@@ -158,7 +158,7 @@ To play the videos, you will use the S3 HTTPS resource **Link** on the videos S3
 
 #### HLS
 
-The HLS manifest file is located in your ouput s3 bucket in the object: s3://YOUR-MediaBucket/assets/VANLIFE/HLS/VANLIFE.m3u8
+The HLS manifest file is located in the ```{stack}-destination/hls/``` folder.
 
 You can play the HLS using:
 * Safari browser by clicking on the **Link** for the object.
