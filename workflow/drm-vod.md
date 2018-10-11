@@ -96,7 +96,7 @@ In this module, you will edit an existing MediaConvert Job Template and update i
 1. Select **Job templates** from the side bar menu. 
 1. Select **Custom Templates** from the dropdown menu
 
-![Select Job Templates](./images/job_templates.jpeg)
+![Select Job Templates](./images/vod_custom_templates.png)
 
 4. Select `{stack}_Ott_1080p_Avc_Aac_16x9_hls_encryption` to open the Jobs templates details page.
 1. Click on **Update** to edit the Template
