@@ -135,6 +135,8 @@ https://{host}.execute-api.us-west-2.amazonaws.com/EkeStage/copyProtection
 1. Look for the ```MediaConvert_Template_1080p``` parameter and replace it with **{stackname}_Ott_1080p_Avc_Aac_16x9_hls_encryption**
 1. Click on the **Save** Button
 
+![Replace_Template_in_Lambda](./images/vod_lambda_template.png)
+
 ### Trigger Workflow by renaming source asset. 
 1. In the AWS Management Console choose **Services** then select **S3** under Storage.
 1. Select the bucket where your source input files are located.
