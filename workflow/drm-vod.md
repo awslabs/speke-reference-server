@@ -103,7 +103,7 @@ In this module, you will edit an existing MediaConvert Job Template and update i
 1. Select the 'Apple HLS ' Output Group underneath the Output group Panel  
 1. Turn on **DRM encryption**
 
-![HLS Output Group](./images/hls_output_group.jpeg)
+![HLS Output Group](./images/vod_hls_output_group.png)
 
 8. Select `AES 128` for the Encryption method.
 1. Select `SPEKE` as the Key provider type.
