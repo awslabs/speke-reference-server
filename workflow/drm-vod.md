@@ -154,11 +154,7 @@ NOTE: You can also access the S3 bucket for each output group using the links in
 
 ## 5. Play the videos
 
-To play the videos, you will use the S3 HTTPS resource **Link** on the videos S3 object **Overview** page.
-
-#### HLS
-
-The HLS manifest file is located in the ```{stack}-destination/hls/``` folder.
+You should have received an email with a link to the HLS-128 encrypted asset upon completion of the workflow.
 
 You can play the HLS using:
 * Safari browser by clicking on the **Link** for the object.
