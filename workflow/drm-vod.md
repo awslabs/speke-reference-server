@@ -156,7 +156,7 @@ NOTE: You can also access the S3 bucket for each output group using the links in
 
 You should have received an email with a link to the HLS-128 encrypted asset upon completion of the workflow.
 
-You can play the HLS using:
+You can play the HLS streaming using:
 * Safari browser by clicking on the **Link** for the object.
 * **JW Player Stream Tester** - by copying the link for the object and inputing it to the player.  https://developer.jwplayer.com/tools/stream-tester/ 
 
