@@ -161,7 +161,7 @@ You should have received an email with a link to the HLS-128 encrypted asset upo
 1. In the AWS Management Console choose **Services** then select **DynamoDB** under Databases.
 1. Select the {stack-name} Table and Choose Items
 1. Find the GUID based on the Elemental MediaConvert Job GUID
-1. and copt the hlsURL value
+1. and copy the **hlsURL** value
 
 You can play the HLS streaming using:
 * Safari browser by clicking on the **Link** for the object.
