@@ -14,7 +14,7 @@ and make a  note of the below paramters
 | Parameter | Example  |
 |--------------------------|-------------------------------------------------------------------------------------------|
 | SPEKEServerURL |``` https://{HOST}.execute-api.us-west-2.amazonaws.com/EkeStage/copyProtection ``` |
-| MediaConvertSPEKERoleArn|``` arn:aws:iam::{AWS_ACCOUNT}:role/speke-reference-MediaPackageInvokeSPEKERole-{INSTANCE_ID} ``` |
+| MediaConvertSPEKERoleArn|``` arn:aws:iam::{AWS_ACCOUNT}:role/speke-reference-MediaConvertInvokeSPEKERole-{INSTANCE_ID} ``` |
 
 
 ## 1. Testing the SPEKE API...
