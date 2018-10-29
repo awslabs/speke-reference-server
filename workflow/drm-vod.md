@@ -16,6 +16,12 @@ and make a  note of the below paramters
 | SPEKEServerURL |``` https://{HOST}.execute-api.us-west-2.amazonaws.com/EkeStage/copyProtection ``` |
 | MediaConvertSPEKERoleArn|``` arn:aws:iam::{AWS_ACCOUNT}:role/speke-reference-MediaConvertInvokeSPEKERole-{INSTANCE_ID} ``` |
 
+Goto CloudFormation-> Stacks -> AWS VOD Reference Solution -> Outputs and make a note of the below paramters
+
+| Parameter | Example  |
+|--------------------------|-------------------------------------------------------------------------------------------|
+| DemoConsole |``` https://{host}.cloudfront.net/console/index.html ``` |
+
 
 ## 1. Testing the SPEKE API...
 
