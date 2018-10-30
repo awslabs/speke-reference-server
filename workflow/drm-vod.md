@@ -14,7 +14,13 @@ and make a  note of the below paramters
 | Parameter | Example  |
 |--------------------------|-------------------------------------------------------------------------------------------|
 | SPEKEServerURL |``` https://{HOST}.execute-api.us-west-2.amazonaws.com/EkeStage/copyProtection ``` |
-| MediaConvertSPEKERoleArn|``` arn:aws:iam::{AWS_ACCOUNT}:role/speke-reference-MediaPackageInvokeSPEKERole-{INSTANCE_ID} ``` |
+| MediaConvertSPEKERoleArn|``` arn:aws:iam::{AWS_ACCOUNT}:role/speke-reference-MediaConvertInvokeSPEKERole-{INSTANCE_ID} ``` |
+
+Goto CloudFormation-> Stacks -> AWS VOD Reference Solution -> Outputs and make a note of the below paramters
+
+| Parameter | Example  |
+|--------------------------|-------------------------------------------------------------------------------------------|
+| DemoConsole |``` https://{host}.cloudfront.net/console/index.html ``` |
 
 
 ## 1. Testing the SPEKE API...
@@ -155,6 +161,13 @@ NOTE: You can also access the S3 bucket for each output group using the links in
 ## 5. Play the videos
 
 You should have received an email with a link to the HLS-128 encrypted asset upon completion of the workflow.
+
+### Alternatively - Retrieving the HLS URL from Amazon DynamoDB
+
+1. In the AWS Management Console choose **Services** then select **DynamoDB** under Databases.
+1. Select the {stack-name} Table and Choose Items
+1. Find the GUID based on the Elemental MediaConvert Job GUID
+1. and copy the **hlsURL** value
 
 You can play the HLS streaming using:
 * Safari browser by clicking on the **Link** for the object.
