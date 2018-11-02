@@ -149,10 +149,10 @@ https://{host}.execute-api.eu-west-1.amazonaws.com/EkeStage/copyProtection
 1. This should trigger an asset workflow and the encrypted files will be output to a folder 
 
   
-## 4. Confirm Job Completion 
+## 4. Confirm MediaConvert Job Completion 
 
 1. In the AWS Management Console choose **AWS MediaConvert** then select **Jobs** from the righthand menu
-1. You should see the MediaConvert jobs in a Progressing or Complete State
+1. You should see a newly submitted  MediaConvert job in a PROGRESSING or COMPELTE state
 1. Once your Job is complete you should now be able to playback the encoded assets.
 1. Keep track of the MediaConvert Job ID which will be used to lookup the HLS Playback URL.
 
