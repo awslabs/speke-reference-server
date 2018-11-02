@@ -25,7 +25,7 @@ Next, Goto CloudFormation -> **Live Streaming Solution Stack** -> Outputs and ma
 
 | Parameter |  |
 |--------------------------|-------------------------------------------------------------------------------------------|
-| DemoConsole |``` https://{hostname}.execute-api.us-east-1.amazonaws.com/EkeStage/copyProtection ``` |
+| DemoConsole |``` https://{host}.cloudfront.net/console/index.html ``` |
 
 **Make sure you replace the various values such as hostname, aws_account with your own deployment vaues**
 
