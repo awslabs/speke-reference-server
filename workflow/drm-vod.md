@@ -13,7 +13,7 @@ and make a  note of the below paramters
 
 | Parameter | Example  |
 |--------------------------|-------------------------------------------------------------------------------------------|
-| SPEKEServerURL |``` https://{HOST}.execute-api.us-west-2.amazonaws.com/EkeStage/copyProtection ``` |
+| SPEKEServerURL |``` https://{HOST}.execute-api.eu-west-1.amazonaws.com/EkeStage/copyProtection ``` |
 | MediaConvertSPEKERoleArn|``` arn:aws:iam::{AWS_ACCOUNT}:role/speke-reference-MediaConvertInvokeSPEKERole-{INSTANCE_ID} ``` |
 
 Goto CloudFormation-> Stacks -> AWS VOD Reference Solution -> Outputs and make a note of the below paramters
@@ -98,7 +98,7 @@ In this module, you will edit an existing MediaConvert Job Template and update i
 
 #### Job Templates section
 
-1. Open the MediaConvert console for the region you are completing the lab in (US-West-Oregon).<br/> https://us-west-2.console.aws.amazon.com/mediaconvert/home?region=us-west-2#/welcome
+1. Open the MediaConvert console for the region you are completing the lab in (eu-west-1 Ireland).<br/> https://eu-west-1.console.aws.amazon.com/mediaconvert
 1. Select **Job templates** from the side bar menu. 
 1. Select **Custom Templates** from the dropdown menu
 
@@ -125,7 +125,7 @@ In this module, you will edit an existing MediaConvert Job Template and update i
 12. Enter your SPEKE Reference Server API as the URL. ( Replace the Hostname )
 
 ```
-https://{host}.execute-api.us-west-2.amazonaws.com/EkeStage/copyProtection
+https://{host}.execute-api.eu-west-1.amazonaws.com/EkeStage/copyProtection
 ```
 
 ![DRM_Settings](./images/vod_drm_settings.png)
