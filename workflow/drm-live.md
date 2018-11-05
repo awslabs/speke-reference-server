@@ -18,7 +18,7 @@ and make a  note of the below paramters
 
 | Parameter | Example  |
 |--------------------------|-------------------------------------------------------------------------------------------|
-| SPEKEServerURL |``` https://{hostname}.execute-api.us-east-1.amazonaws.com/EkeStage/copyProtection ``` |
+| SPEKEServerURL |``` https://{hostname}.execute-api.eu-west-1.amazonaws.com/EkeStage/copyProtection ``` |
 | MediaPackageSPEKERoleArn|``` arn:aws:iam::{AWS_ACCOUNT}:role/speke-reference-MediaPackageInvokeSPEKERole-{INSTANCE_ID} ``` |
 
 Next, Goto CloudFormation -> **Live Streaming Solution Stack** -> Outputs and make a note of the parameters below.
@@ -68,8 +68,8 @@ Next, Goto CloudFormation -> **Live Streaming Solution Stack** -> Outputs and ma
     </cpix:ContentKeyUsageRuleList>
 </cpix:CPIX>
 ```
-6. Click the Test button
-1. Review the Response Body for the encoded key value
+7. Click the Test button
+8. Confirm that you have a similar response returned by the API request.
 ```
 <cpix:CPIX xmlns:cpix="urn:dashif:org:cpix" xmlns:pskc="urn:ietf:params:xml:ns:keyprov:pskc" xmlns:speke="urn:aws:amazon:com:speke" id="5E99137A-BD6C-4ECC-A24D-A3EE04B4E011">
     <cpix:ContentKeyList>
