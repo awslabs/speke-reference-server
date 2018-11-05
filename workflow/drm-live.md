@@ -68,8 +68,8 @@ Next, Goto CloudFormation -> **Live Streaming Solution Stack** -> Outputs and ma
     </cpix:ContentKeyUsageRuleList>
 </cpix:CPIX>
 ```
-1. Click the Test button
-1. Confirm that you have a similar response returned by the API request.
+7. Click the Test button
+8. Confirm that you have a similar response returned by the API request.
 ```
 <cpix:CPIX xmlns:cpix="urn:dashif:org:cpix" xmlns:pskc="urn:ietf:params:xml:ns:keyprov:pskc" xmlns:speke="urn:aws:amazon:com:speke" id="5E99137A-BD6C-4ECC-A24D-A3EE04B4E011">
     <cpix:ContentKeyList>
