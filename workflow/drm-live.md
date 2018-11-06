@@ -6,7 +6,6 @@ In this module, you'll use AWS Elemental MediaPackage, to secure and encrypt you
 
 ## Prerequisites
 You'll need to have previously installed the Live Streaming Solution
-<< LINK GOES HERE >>
 
 You'll need to have previously deployed the AWS SPEKE Reference Server.<br/>
 https://github.com/awslabs/speke-reference-server
@@ -130,3 +129,6 @@ You can play the AES-128 encrypted HLS endpoint  using:
 ## Completion
 
 Congratulations!  You have successfully created an encrypted live stream using  AWS Elemental MediaPackage. 
+
+
+
