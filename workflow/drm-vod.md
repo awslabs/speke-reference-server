@@ -9,7 +9,7 @@ You'll need to have previously deployed the AWS SPEKE Reference Server.<br/>
 https://github.com/awslabs/speke-reference-server
 
 Goto CloudFormation-> Stacks -> **AWS SPEKE Reference Server Stack Name** -> Outputs
-and make a  note of the below paramters
+and make a  note of the below parameters
 
 | Parameter | Example  |
 |--------------------------|-------------------------------------------------------------------------------------------|
@@ -168,7 +168,7 @@ You should have received an email with a link to the HLS-128 encrypted asset upo
 
 You can play the HLS streaming using:
 * DemoConsole Player ( From the stack output of the AWS VOD Reference Solution)
-* **JW Player Stream Tester** - by copying the link for the object and inputing it to the player.  https://developer.jwplayer.com/tools/stream-tester/ 
+* or Open Safari on a Mac and paste the HLS URL into the browser.
 
 
 ## Completion
