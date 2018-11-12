@@ -15,11 +15,6 @@ and make a  note of the below parameters
 |--------------------------|-------------------------------------------------------------------------------------------|
 | SPEKEServerURL |``` https://{HOST}.execute-api.eu-west-1.amazonaws.com/EkeStage/copyProtection ``` |
 
-Goto CloudFormation-> Stacks -> AWS VOD Reference Solution -> Outputs and make a note of the below paramters
-
-| Parameter | Example  |
-|--------------------------|-------------------------------------------------------------------------------------------|
-| DemoConsole |``` https://{host}.cloudfront.net/console/index.html ``` |
 
 ## 1. Testing the SPEKE API...
 
@@ -167,7 +162,10 @@ You should have received an email with a link to the HLS-128 encrypted asset upo
 
 
 You can play the HLS streaming using:
-* DemoConsole Player ( From the stack output of the AWS VOD Reference Solution)
+* DemoConsole Player
+    1. Go the landing page for the Video On Demand workshop
+    1. Click on the Preview link to load the Video Player
+    1. Paste the HLS Url into the Cloudfront Url input box.
 * or Open Safari on a Mac and paste the HLS URL into the browser.
 
 
