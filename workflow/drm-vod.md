@@ -129,6 +129,9 @@ https://{host}.execute-api.eu-west-1.amazonaws.com/EkeStage/copyProtection
 
 ### Update Lambda to use the Encryption Template
 1. In the AWS Management Console, navigate to AWS Lambda
+
+![Look for Input_Validate Function_in_Lambda](./images/vod_lambda_input_validate.png)
+
 1. Select the ```{stackname}-input-validate``` function and scroll down to the enviornment variable
 1. Look for the ```MediaConvert_Template_1080p``` parameter and replace it with **{stackname}_Ott_1080p_Avc_Aac_16x9_hls_encryption**
 1. Click on the **Save** Button
