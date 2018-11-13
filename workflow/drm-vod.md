@@ -15,11 +15,6 @@ and make a  note of the below parameters
 |--------------------------|-------------------------------------------------------------------------------------------|
 | SPEKEServerURL |``` https://{HOST}.execute-api.eu-west-1.amazonaws.com/EkeStage/copyProtection ``` |
 
-Goto CloudFormation-> Stacks -> AWS VOD Reference Solution -> Outputs and make a note of the below paramters
-
-| Parameter | Example  |
-|--------------------------|-------------------------------------------------------------------------------------------|
-| DemoConsole |``` https://{host}.cloudfront.net/console/index.html ``` |
 
 ## 1. Testing the SPEKE API...
 
@@ -134,6 +129,9 @@ https://{host}.execute-api.eu-west-1.amazonaws.com/EkeStage/copyProtection
 
 ### Update Lambda to use the Encryption Template
 1. In the AWS Management Console, navigate to AWS Lambda
+
+![Look for Input_Validate Function_in_Lambda](./images/vod_lambda_input_validate.png)
+
 1. Select the ```{stackname}-input-validate``` function and scroll down to the enviornment variable
 1. Look for the ```MediaConvert_Template_1080p``` parameter and replace it with **{stackname}_Ott_1080p_Avc_Aac_16x9_hls_encryption**
 1. Click on the **Save** Button
@@ -167,7 +165,10 @@ You should have received an email with a link to the HLS-128 encrypted asset upo
 
 
 You can play the HLS streaming using:
-* DemoConsole Player ( From the stack output of the AWS VOD Reference Solution)
+* DemoConsole Player
+    1. Go the landing page for the Video On Demand workshop
+    1. Click on the Preview link to load the Video Player
+    1. Paste and preview the HLS Url into the Cloudfront Url input box.
 * or Open Safari on a Mac and paste the HLS URL into the browser.
 
 
