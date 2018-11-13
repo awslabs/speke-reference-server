@@ -168,7 +168,7 @@ You can play the HLS streaming using:
 * DemoConsole Player
     1. Go the landing page for the Video On Demand workshop
     1. Click on the Preview link to load the Video Player
-    1. Paste the HLS Url into the Cloudfront Url input box.
+    1. Paste and preview the HLS Url into the Cloudfront Url input box.
 * or Open Safari on a Mac and paste the HLS URL into the browser.
 
 
