@@ -96,7 +96,7 @@ Next, Goto CloudFormation -> **Live Streaming Solution Stack** -> Outputs and ma
 1. Login to the AWS Console
 1. Navigate to *MediaPackage*
 1. Select the **reinvent-live-livestream** channel
-1. Scroll down to *Endpoints* section of the channel detals
+1. Scroll down to *Endpoints* section of the channel details
 
 ![s3 link](./images/live_mediapackage-endpoints.png)
 
