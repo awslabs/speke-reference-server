@@ -120,7 +120,7 @@ MediaPackage Role : ```{MediaPackage Role from the Stack Output }```
 
 You can play the AES-128 encrypted HLS endpoint  using:
 
-* Open up the URL from the **DemoConsole** outlined in the Live Solution Stack.
+* Open up the **DemoConsole** URL in a browser. **DemoConsole** is outlined in the output of the Live Solution CloudFormation Stack.
 * Click on the **Preview** for the **HLS** Endpoint
 
 
