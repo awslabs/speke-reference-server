@@ -18,4 +18,4 @@ bucket_base = "rodeolabz"
 mediapackage_regions = boto3.session.Session().get_available_regions(service_name='mediapackage')
 
 for region in mediapackage_regions:
-    print("aws s3 sync . s3://rodeolabz-{region}/speke/ --delete".format(region=region))
+    print("aws s3 sync . s3://rodeolabz-{region}/speke/ --acl public-read --delete".format(region=region))

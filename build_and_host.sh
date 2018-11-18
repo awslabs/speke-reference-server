@@ -28,15 +28,19 @@ zip -r $BUILD/$ZIP mediapackage_endpoint_common.py mediapackage_speke_endpoint.p
 
 cd $BUILD
 
-aws s3 sync . s3://rodeolabz-ap-northeast-1/speke/ --delete
-aws s3 sync . s3://rodeolabz-ap-northeast-2/speke/ --delete
-aws s3 sync . s3://rodeolabz-ap-southeast-1/speke/ --delete
-aws s3 sync . s3://rodeolabz-ap-southeast-2/speke/ --delete
-aws s3 sync . s3://rodeolabz-eu-central-1/speke/ --delete
-aws s3 sync . s3://rodeolabz-eu-west-1/speke/ --delete
-aws s3 sync . s3://rodeolabz-eu-west-3/speke/ --delete
-aws s3 sync . s3://rodeolabz-sa-east-1/speke/ --delete
-aws s3 sync . s3://rodeolabz-us-east-1/speke/ --delete
-aws s3 sync . s3://rodeolabz-us-west-2/speke/ --delete
+# regional buckets hosting the pre-built cloudformation templates
+
+aws s3 sync . s3://rodeolabz-ap-northeast-1/speke/ --acl public-read --delete
+aws s3 sync . s3://rodeolabz-ap-northeast-2/speke/ --acl public-read --delete
+aws s3 sync . s3://rodeolabz-ap-south-1/speke/ --acl public-read --delete
+aws s3 sync . s3://rodeolabz-ap-southeast-1/speke/ --acl public-read --delete
+aws s3 sync . s3://rodeolabz-ap-southeast-2/speke/ --acl public-read --delete
+aws s3 sync . s3://rodeolabz-eu-central-1/speke/ --acl public-read --delete
+aws s3 sync . s3://rodeolabz-eu-west-1/speke/ --acl public-read --delete
+aws s3 sync . s3://rodeolabz-eu-west-3/speke/ --acl public-read --delete
+aws s3 sync . s3://rodeolabz-sa-east-1/speke/ --acl public-read --delete
+aws s3 sync . s3://rodeolabz-us-east-1/speke/ --acl public-read --delete
+aws s3 sync . s3://rodeolabz-us-west-1/speke/ --acl public-read --delete
+aws s3 sync . s3://rodeolabz-us-west-2/speke/ --acl public-read --delete
 
 cd $ORIGIN
