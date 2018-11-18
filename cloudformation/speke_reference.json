@@ -1,6 +1,23 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
     "Resources": {
+        "KeyBucketOriginAccessIdentity": {
+            "Type": "AWS::CloudFront::CloudFrontOriginAccessIdentity",
+            "Properties": {
+                "CloudFrontOriginAccessIdentityConfig": {
+                    "Comment": {
+                        "Fn::Join": [
+                            "", [
+                                "SPEKE Origin Access Identity for ",
+                                {
+                                    "Ref": "KeyBucket"
+                                }
+                            ]
+                        ]
+                    }
+                }
+            }
+        },
         "KeyBucketCloudFrontDistribution": {
             "Type": "AWS::CloudFront::Distribution",
             "Properties": {
@@ -41,7 +58,7 @@
                                 "", [{
                                         "Ref": "KeyBucket"
                                     },
-                                    ".s3-website-",
+                                    ".s3-",
                                     {
                                         "Ref": "AWS::Region"
                                     },
@@ -52,8 +69,16 @@
                         "Id": {
                             "Ref": "KeyBucket"
                         },
-                        "CustomOriginConfig": {
-                            "OriginProtocolPolicy": "http-only"
+                        "S3OriginConfig": {
+                            "OriginAccessIdentity": {
+                                "Fn::Join": [
+                                    "", ["origin-access-identity/cloudfront/",
+                                        {
+                                            "Ref": "KeyBucketOriginAccessIdentity"
+                                        }
+                                    ]
+                                ]
+                            }
                         }
                     }],
                     "Restrictions": {
@@ -67,20 +92,48 @@
                         "MinimumProtocolVersion": "TLSv1"
                     }
                 }
-            },
-            "Metadata": {
-                "AWS::CloudFormation::Designer": {
-                    "id": "9948befd-e4ac-4825-952d-14a9fe0480cf"
+            }
+        },
+        "KeyBucketPolicy": {
+            "Type": "AWS::S3::BucketPolicy",
+            "Properties": {
+                "Bucket": {
+                    "Ref": "KeyBucket"
+                },
+                "PolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Id": "PolicyForCloudFrontPrivateContent",
+                    "Statement": [{
+                        "Effect": "Allow",
+                        "Principal": {
+                            "CanonicalUser": {
+                                "Fn::GetAtt": [
+                                    "KeyBucketOriginAccessIdentity",
+                                    "S3CanonicalUserId"
+                                ]
+                            }
+                        },
+                        "Action": "s3:GetObject",
+                        "Resource": {
+                            "Fn::Join": [
+                                "", [{
+                                        "Fn::GetAtt": [
+                                            "KeyBucket",
+                                            "Arn"
+                                        ]
+                                    },
+                                    "/*"
+                                ]
+                            ]
+                        }
+
+                    }]
                 }
             }
         },
         "KeyBucket": {
             "Type": "AWS::S3::Bucket",
             "Properties": {
-                "WebsiteConfiguration": {
-                    "IndexDocument": "index.html"
-                },
-                "AccessControl": "Private",
                 "LifecycleConfiguration": {
                     "Rules": [{
                         "ExpirationInDays": {
@@ -89,9 +142,6 @@
                         "Id": "Expire old keys",
                         "Status": "Enabled"
                     }]
-                },
-                "VersioningConfiguration": {
-                    "Status": "Suspended"
                 },
                 "CorsConfiguration": {
                     "CorsRules": [{
@@ -106,44 +156,6 @@
                         ],
                         "MaxAge": "3000"
                     }]
-                }
-            },
-            "Metadata": {
-                "AWS::CloudFormation::Designer": {
-                    "id": "eeff2fe0-457a-46f7-b070-a57851af8a71"
-                }
-            }
-        },
-        "KeyBucketPolicy": {
-            "Type": "AWS::S3::BucketPolicy",
-            "Properties": {
-                "Bucket": {
-                    "Ref": "KeyBucket"
-                },
-                "PolicyDocument": {
-                    "Version": "2012-10-17",
-                    "Statement": [{
-                        "Sid": "AddPerm",
-                        "Effect": "Allow",
-                        "Principal": "*",
-                        "Action": "s3:GetObject",
-                        "Resource": {
-                            "Fn::Join": [
-                                "", [
-                                    "arn:aws:s3:::",
-                                    {
-                                        "Ref": "KeyBucket"
-                                    },
-                                    "/*"
-                                ]
-                            ]
-                        }
-                    }]
-                }
-            },
-            "Metadata": {
-                "AWS::CloudFormation::Designer": {
-                    "id": "3de75a2b-1f5f-4d21-acc4-bc46f7d07aaf"
                 }
             }
         },
@@ -181,14 +193,25 @@
                                 ]
                             ]
                         },
-                        "CENC_PSSH_BOX": "AAAAIHBzc2gAAAAAEHfv7MCyTQKs4zweUuL7SwAAAAA=",
-                        "PLAYREADY_PROTECTION_HEADER": "XAMAAAEAAQBSAzwAVwBSAE0ASABFAEEARABFAFIAIAB4AG0AbABuAHMAPQAiAGgAdAB0AHAAOgAvAC8AcwBjAGgAZQBtAGEAcwAuAG0AaQBjAHIAbwBzAG8AZgB0AC4AYwBvAG0ALwBEAFIATQAvADIAMAAwADcALwAwADMALwBQAGwAYQB5AFIAZQBhAGQAeQBIAGUAYQBkAGUAcgAiACAAdgBlAHIAcwBpAG8AbgA9ACIANAAuADAALgAwAC4AMAAiAD4APABEAEEAVABBAD4APABQAFIATwBUAEUAQwBUAEkATgBGAE8APgA8AEsARQBZAEwARQBOAD4AMQA2ADwALwBLAEUAWQBMAEUATgA+ADwAQQBMAEcASQBEAD4AQQBFAFMAQwBUAFIAPAAvAEEATABHAEkARAA+ADwALwBQAFIATwBUAEUAQwBUAEkATgBGAE8APgA8AEsASQBEAD4AcQA1AEgAZwBDAFQAagA0ADAAawBHAGUATgBWAGgAVABIADkARwBlAHgAdwA9AD0APAAvAEsASQBEAD4APABDAEgARQBDAEsAUwBVAE0APgB3ACsATwBaAFYAcgA4AHYAegByAFEAPQA8AC8AQwBIAEUAQwBLAFMAVQBNAD4APABMAEEAXwBVAFIATAA+AGgAdAB0AHAAcwA6AC8ALwBwAHIAbwBmAGYAaQBjAGkAYQBsAHMAaQB0AGUALgBrAGUAeQBkAGUAbABpAHYAZQByAHkALgBtAGUAZABpAGEAcwBlAHIAdgBpAGMAZQBzAC4AdwBpAG4AZABvAHcAcwAuAG4AZQB0AC8AUABsAGEAeQBSAGUAYQBkAHkALwA8AC8ATABBAF8AVQBSAEwAPgA8AEMAVQBTAFQATwBNAEEAVABUAFIASQBCAFUAVABFAFMAPgA8AEkASQBTAF8ARABSAE0AXwBWAEUAUgBTAEkATwBOAD4AOAAuADAALgAxADcAMAA1AC4AMQA5ADwALwBJAEkAUwBfAEQAUgBNAF8AVgBFAFIAUwBJAE8ATgA+ADwALwBDAFUAUwBUAE8ATQBBAFQAVABSAEkAQgBVAFQARQBTAD4APAAvAEQAQQBUAEEAPgA8AC8AVwBSAE0ASABFAEEARABFAFIAPgA=",
-                        "PLAYREADY_PSSH_BOX": "AAADfHBzc2gAAAAAmgTweZhAQoarkuZb4IhflQAAA1xcAwAAAQABAFIDPABXAFIATQBIAEUAQQBEAEUAUgAgAHgAbQBsAG4AcwA9ACIAaAB0AHQAcAA6AC8ALwBzAGMAaABlAG0AYQBzAC4AbQBpAGMAcgBvAHMAbwBmAHQALgBjAG8AbQAvAEQAUgBNAC8AMgAwADAANwAvADAAMwAvAFAAbABhAHkAUgBlAGEAZAB5AEgAZQBhAGQAZQByACIAIAB2AGUAcgBzAGkAbwBuAD0AIgA0AC4AMAAuADAALgAwACIAPgA8AEQAQQBUAEEAPgA8AFAAUgBPAFQARQBDAFQASQBOAEYATwA+ADwASwBFAFkATABFAE4APgAxADYAPAAvAEsARQBZAEwARQBOAD4APABBAEwARwBJAEQAPgBBAEUAUwBDAFQAUgA8AC8AQQBMAEcASQBEAD4APAAvAFAAUgBPAFQARQBDAFQASQBOAEYATwA+ADwASwBJAEQAPgBxADUASABnAEMAVABqADQAMABrAEcAZQBOAFYAaABUAEgAOQBHAGUAeAB3AD0APQA8AC8ASwBJAEQAPgA8AEMASABFAEMASwBTAFUATQA+AHcAKwBPAFoAVgByADgAdgB6AHIAUQA9ADwALwBDAEgARQBDAEsAUwBVAE0APgA8AEwAQQBfAFUAUgBMAD4AaAB0AHQAcABzADoALwAvAHAAcgBvAGYAZgBpAGMAaQBhAGwAcwBpAHQAZQAuAGsAZQB5AGQAZQBsAGkAdgBlAHIAeQAuAG0AZQBkAGkAYQBzAGUAcgB2AGkAYwBlAHMALgB3AGkAbgBkAG8AdwBzAC4AbgBlAHQALwBQAGwAYQB5AFIAZQBhAGQAeQAvADwALwBMAEEAXwBVAFIATAA+ADwAQwBVAFMAVABPAE0AQQBUAFQAUgBJAEIAVQBUAEUAUwA+ADwASQBJAFMAXwBEAFIATQBfAFYARQBSAFMASQBPAE4APgA4AC4AMAAuADEANwAwADUALgAxADkAPAAvAEkASQBTAF8ARABSAE0AXwBWAEUAUgBTAEkATwBOAD4APAAvAEMAVQBTAFQATwBNAEEAVABUAFIASQBCAFUAVABFAFMAPgA8AC8ARABBAFQAQQA+ADwALwBXAFIATQBIAEUAQQBEAEUAUgA+AA==",
-                        "KEY_STRING": "uFTnkSlVE6K5yf3c"
+                        "PLAYREADY_PSSH_BOX": {
+                            "Ref": "PlayReadyPSSHBox"
+                        },
+                        "PLAYREADY_PROTECTION_HEADER": {
+                            "Ref": "PlayReadyHeader"
+                        },
+                        "PLAYREADY_CONTENT_KEY": {
+                            "Ref": "PlayReadyContentKey"
+                        },
+                        "WIDEVINE_PSSH_BOX": {
+                            "Ref": "WidevinePSSHBox"
+                        },
+                        "WIDEVINE_PROTECTION_HEADER": {
+                            "Ref": "WidevineHeader"
+                        }
                     }
                 },
                 "Handler": "key_server.server_handler",
-                "MemorySize": 2048,
+                "MemorySize": 3008,
                 "Role": {
                     "Fn::GetAtt": [
                         "SPEKEServerLambdaRole",
@@ -196,12 +219,7 @@
                     ]
                 },
                 "Runtime": "python3.6",
-                "Timeout": 60
-            },
-            "Metadata": {
-                "AWS::CloudFormation::Designer": {
-                    "id": "aadf7068-24e0-4bb0-93ed-95989660b34b"
-                }
+                "Timeout": 15
             }
         },
         "SPEKEServerLambdaRole": {
@@ -225,11 +243,6 @@
                     }]
                 },
                 "Path": "/"
-            },
-            "Metadata": {
-                "AWS::CloudFormation::Designer": {
-                    "id": "a6dd1d5b-cea4-4bc5-9e14-fa1786d23adb"
-                }
             }
         },
         "SPEKEServerAPI": {
@@ -314,11 +327,6 @@
                         "*/*"
                     ]
                 }
-            },
-            "Metadata": {
-                "AWS::CloudFormation::Designer": {
-                    "id": "c10a42b6-d938-47e5-9911-b28fc7f5dc55"
-                }
             }
         },
         "SPEKEServerAPIDeployment": {
@@ -329,11 +337,34 @@
                     "Ref": "SPEKEServerAPI"
                 },
                 "StageName": "EkeStage"
-            },
-            "Metadata": {
-                "AWS::CloudFormation::Designer": {
-                    "id": "61924e01-2bfa-4ffc-8bf7-d6c73308aaa2"
-                }
+            }
+        },
+        "SPEKESecretsManagerPolicy": {
+            "Type": "AWS::IAM::Policy",
+            "Properties": {
+                "PolicyName": "SPEKESecretsManagerPolicy",
+                "PolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [{
+                            "Effect": "Allow",
+                            "Action": "secretsmanager:GetSecretValue",
+                            "Resource": {
+                                "Fn::Sub": "arn:aws:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:speke/*"
+                            }
+                        },
+                        {
+                            "Effect": "Allow",
+                            "Action": [
+                                "secretsmanager:GetRandomPassword",
+                                "secretsmanager:CreateSecret"
+                            ],
+                            "Resource": "*"
+                        }
+                    ]
+                },
+                "Roles": [{
+                    "Ref": "SPEKEServerLambdaRole"
+                }]
             }
         },
         "SPEKEServerKeyBucketPolicy": {
@@ -344,7 +375,10 @@
                     "Version": "2012-10-17",
                     "Statement": [{
                         "Effect": "Allow",
-                        "Action": "s3:PutObject",
+                        "Action": [
+                            "s3:PutObject",
+                            "s3:PutObjectAcl"
+                        ],
                         "Resource": {
                             "Fn::Join": [
                                 "", [{
@@ -362,11 +396,6 @@
                 "Roles": [{
                     "Ref": "SPEKEServerLambdaRole"
                 }]
-            },
-            "Metadata": {
-                "AWS::CloudFormation::Designer": {
-                    "id": "14572b02-4435-4c63-a874-c0899caea339"
-                }
             }
         },
         "MediaPackageInvokeSPEKEPolicy": {
@@ -404,11 +433,6 @@
                 "Roles": [{
                     "Ref": "MediaPackageInvokeSPEKERole"
                 }]
-            },
-            "Metadata": {
-                "AWS::CloudFormation::Designer": {
-                    "id": "02a69591-f669-4142-8d0d-a22fc7c8534f"
-                }
             }
         },
         "MediaPackageInvokeSPEKERole": {
@@ -427,11 +451,6 @@
                             "sts:AssumeRole"
                         ]
                     }]
-                }
-            },
-            "Metadata": {
-                "AWS::CloudFormation::Designer": {
-                    "id": "4b11cb71-2074-4b81-970a-1efed62a4f18"
                 }
             }
         },
@@ -480,11 +499,6 @@
                 "Roles": [{
                     "Ref": "MediaConvertInvokeSPEKERole"
                 }]
-            },
-            "Metadata": {
-                "AWS::CloudFormation::Designer": {
-                    "id": "02a69591-f669-4142-8d0d-a22fc7c8534f"
-                }
             }
         },
         "MediaConvertInvokeSPEKERole": {
@@ -513,11 +527,6 @@
                             "sts:AssumeRole"
                         ]
                     }]
-                }
-            },
-            "Metadata": {
-                "AWS::CloudFormation::Designer": {
-                    "id": "4b11cb71-2074-4b81-970a-1efed62a4f18"
                 }
             }
         },
@@ -551,171 +560,41 @@
                         ]
                     ]
                 }
-            },
-            "Metadata": {
-                "AWS::CloudFormation::Designer": {
-                    "id": "cfcd7377-0fba-4395-9f3b-5f504f4191b8"
-                }
             }
         }
     },
     "Description": "SPEKE reference server",
-    "Metadata": {
-        "AWS::CloudFormation::Designer": {
-            "eeff2fe0-457a-46f7-b070-a57851af8a71": {
-                "size": {
-                    "width": 60,
-                    "height": 60
-                },
-                "position": {
-                    "x": 60,
-                    "y": 140
-                },
-                "z": 1,
-                "embeds": []
-            },
-            "3de75a2b-1f5f-4d21-acc4-bc46f7d07aaf": {
-                "size": {
-                    "width": 60,
-                    "height": 60
-                },
-                "position": {
-                    "x": 320,
-                    "y": 140
-                },
-                "z": 1,
-                "embeds": [],
-                "isassociatedwith": [
-                    "eeff2fe0-457a-46f7-b070-a57851af8a71"
-                ]
-            },
-            "9948befd-e4ac-4825-952d-14a9fe0480cf": {
-                "size": {
-                    "width": 60,
-                    "height": 60
-                },
-                "position": {
-                    "x": 60,
-                    "y": 280
-                },
-                "z": 1,
-                "embeds": []
-            },
-            "aadf7068-24e0-4bb0-93ed-95989660b34b": {
-                "size": {
-                    "width": 60,
-                    "height": 60
-                },
-                "position": {
-                    "x": -80,
-                    "y": 140
-                },
-                "z": 0,
-                "embeds": []
-            },
-            "a6dd1d5b-cea4-4bc5-9e14-fa1786d23adb": {
-                "size": {
-                    "width": 60,
-                    "height": 60
-                },
-                "position": {
-                    "x": 160,
-                    "y": 20
-                },
-                "z": 0,
-                "embeds": []
-            },
-            "c10a42b6-d938-47e5-9911-b28fc7f5dc55": {
-                "size": {
-                    "width": 140,
-                    "height": 140
-                },
-                "position": {
-                    "x": -380,
-                    "y": 110
-                },
-                "z": 0,
-                "embeds": []
-            },
-            "61924e01-2bfa-4ffc-8bf7-d6c73308aaa2": {
-                "size": {
-                    "width": 60,
-                    "height": 60
-                },
-                "position": {
-                    "x": -340,
-                    "y": 300
-                },
-                "z": 0,
-                "embeds": [],
-                "iscontainedinside": [
-                    "c10a42b6-d938-47e5-9911-b28fc7f5dc55"
-                ]
-            },
-            "14572b02-4435-4c63-a874-c0899caea339": {
-                "size": {
-                    "width": 60,
-                    "height": 60
-                },
-                "position": {
-                    "x": 320,
-                    "y": 20
-                },
-                "z": 0,
-                "embeds": [],
-                "isassociatedwith": [
-                    "a6dd1d5b-cea4-4bc5-9e14-fa1786d23adb"
-                ]
-            },
-            "02a69591-f669-4142-8d0d-a22fc7c8534f": {
-                "size": {
-                    "width": 60,
-                    "height": 60
-                },
-                "position": {
-                    "x": -340,
-                    "y": -30
-                },
-                "z": 0,
-                "embeds": [],
-                "isassociatedwith": [
-                    "a6dd1d5b-cea4-4bc5-9e14-fa1786d23adb",
-                    "4b11cb71-2074-4b81-970a-1efed62a4f18"
-                ]
-            },
-            "4b11cb71-2074-4b81-970a-1efed62a4f18": {
-                "size": {
-                    "width": 60,
-                    "height": 60
-                },
-                "position": {
-                    "x": -180,
-                    "y": -30
-                },
-                "z": 0,
-                "embeds": []
-            },
-            "cfcd7377-0fba-4395-9f3b-5f504f4191b8": {
-                "size": {
-                    "width": 60,
-                    "height": 60
-                },
-                "position": {
-                    "x": -190.0291774791894,
-                    "y": 230.92769299389397
-                },
-                "z": 0,
-                "embeds": [],
-                "isassociatedwith": [
-                    "aadf7068-24e0-4bb0-93ed-95989660b34b"
-                ]
-            }
-        }
-    },
     "Parameters": {
         "KeyRetentionDays": {
             "Default": "2",
-            "Description": "Number of days to store keys in S3 before expiration",
+            "Description": "Number of days to store keys in S3 before automatic removal",
+            "Type": "Number",
+            "MinValue": "1",
+            "ConstraintDescription": "Please enter a number of days (1 or greater)"
+        },
+        "PlayReadyContentKey": {
+            "Default": "",
+            "Description": "Encoded PlayReady content key to use for encryption",
+            "Type": "String"
+        },
+        "PlayReadyHeader": {
+            "Default": "",
+            "Description": "Encoded PlayReady Header that is included in the encrypted content",
+            "Type": "String"
+        },
+        "PlayReadyPSSHBox": {
+            "Default": "",
+            "Description": "Encoded PlayReady Protection System Specific Header box",
+            "Type": "String"
+        },
+        "WidevineHeader": {
+            "Default": "",
+            "Description": "Encoded Widevine Header that is included in the encrypted content",
+            "Type": "String"
+        },
+        "WidevinePSSHBox": {
+            "Default": "",
+            "Description": "Encoded Widevine Protection System Specific Header box",
             "Type": "String"
         }
     },

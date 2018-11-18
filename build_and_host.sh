@@ -17,7 +17,8 @@ rm -f $BUILD/*
 ZIP=speke-reference-lambda.zip
 
 cd $ORIGIN/src
-zip -r $BUILD/$ZIP key_server_common.py key_server.py
+# using zappa for help in packaging
+zappa package --output $BUILD/$ZIP
 
 ZIP=cloudformation-resources.zip
 
@@ -37,3 +38,5 @@ aws s3 sync . s3://rodeolabz-eu-west-3/speke/ --delete
 aws s3 sync . s3://rodeolabz-sa-east-1/speke/ --delete
 aws s3 sync . s3://rodeolabz-us-east-1/speke/ --delete
 aws s3 sync . s3://rodeolabz-us-west-2/speke/ --delete
+
+cd $ORIGIN

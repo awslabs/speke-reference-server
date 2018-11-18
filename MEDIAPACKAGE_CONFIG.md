@@ -38,7 +38,7 @@ You can play the endpoint with Safari, QuickTime Player, or an HLS-compatible br
 
 
 1. Create an HLS endpoint and select Encrypt content.
-1. For Resource ID, enter any valid string.
+1. For Resource ID, enter any valid string. Consider using a UUID or GUID.
 1. For System ID, enter
 ```
 81376844-f976-481e-a84e-cc25d39b0b33

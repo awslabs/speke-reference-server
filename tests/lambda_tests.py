@@ -5,13 +5,10 @@
 # http://www.apache.org/licenses/
 
 import base64
-import boto3
 import json
-import logging
 import unittest
-import time
-from contextlib import closing
-import xml.etree.ElementTree as ET
+import xml.etree.ElementTree as element_tree
+import boto3
 
 # SET THESE THREE CONSTANTS TO MATCH YOUR CONFIGURATION
 
@@ -27,13 +24,16 @@ CLIENT_FUNCTION_NAME = "eke-server-EkeClientLambdaFunction-OK9F7TPIWV3L"
 
 # static server test data -- no changes needed
 SERVER_FUNCTION_PAYLOAD = {
-    "resource": "/copyProtection",
-    "path": "/copyProtection",
-    "httpMethod": "POST",
+    "resource":
+    "/copyProtection",
+    "path":
+    "/copyProtection",
+    "httpMethod":
+    "POST",
     "headers": {
-            "Accept": "*/*",
-            "content-type": "application/xml",
-            "Host": API_HOST
+        "Accept": "*/*",
+        "content-type": "application/xml",
+        "Host": API_HOST
     },
     "requestContext": {
         "path": "/EkeStage/copyProtection",
@@ -41,8 +41,10 @@ SERVER_FUNCTION_PAYLOAD = {
         "resourcePath": "/copyProtection",
         "httpMethod": "POST"
     },
-    "body": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48Y3BpeDpDUElYIGlkPSI1RTk5MTM3QS1CRDZDLTRFQ0MtQTI0RC1BM0VFMDRCNEUwMTEiIHhtbG5zOmNwaXg9InVybjpkYXNoaWY6b3JnOmNwaXgiIHhtbG5zOnBza2M9InVybjppZXRmOnBhcmFtczp4bWw6bnM6a2V5cHJvdjpwc2tjIiB4bWxuczpzcGVrZT0idXJuOmF3czphbWF6b246Y29tOnNwZWtlIj48Y3BpeDpDb250ZW50S2V5TGlzdD48Y3BpeDpDb250ZW50S2V5IGtpZD0iNmM1ZjUyMDYtN2Q5OC00ODA4LTg0ZDgtOTRmMTMyYzFlOWZlIj48L2NwaXg6Q29udGVudEtleT48L2NwaXg6Q29udGVudEtleUxpc3Q+PGNwaXg6RFJNU3lzdGVtTGlzdD48Y3BpeDpEUk1TeXN0ZW0ga2lkPSI2YzVmNTIwNi03ZDk4LTQ4MDgtODRkOC05NGYxMzJjMWU5ZmUiIHN5c3RlbUlkPSI4MTM3Njg0NC1mOTc2LTQ4MWUtYTg0ZS1jYzI1ZDM5YjBiMzMiPiAgICA8Y3BpeDpDb250ZW50UHJvdGVjdGlvbkRhdGEgLz4gICAgPHNwZWtlOktleUZvcm1hdCAvPiAgICA8c3Bla2U6S2V5Rm9ybWF0VmVyc2lvbnMgLz4gICAgPHNwZWtlOlByb3RlY3Rpb25IZWFkZXIgLz4gICAgPGNwaXg6UFNTSCAvPiAgICA8Y3BpeDpVUklFeHRYS2V5IC8+PC9jcGl4OkRSTVN5c3RlbT48L2NwaXg6RFJNU3lzdGVtTGlzdD48Y3BpeDpDb250ZW50S2V5UGVyaW9kTGlzdD48Y3BpeDpDb250ZW50S2V5UGVyaW9kIGlkPSJrZXlQZXJpb2RfZTY0MjQ4ZjYtZjMwNy00Yjk5LWFhNjctYjM1YTc4MjUzNjIyIiBpbmRleD0iMTE0MjUiLz48L2NwaXg6Q29udGVudEtleVBlcmlvZExpc3Q+PGNwaXg6Q29udGVudEtleVVzYWdlUnVsZUxpc3Q+PGNwaXg6Q29udGVudEtleVVzYWdlUnVsZSBraWQ9IjZjNWY1MjA2LTdkOTgtNDgwOC04NGQ4LTk0ZjEzMmMxZTlmZSI+PGNwaXg6S2V5UGVyaW9kRmlsdGVyIHBlcmlvZElkPSJrZXlQZXJpb2RfZTY0MjQ4ZjYtZjMwNy00Yjk5LWFhNjctYjM1YTc4MjUzNjIyIi8+PC9jcGl4OkNvbnRlbnRLZXlVc2FnZVJ1bGU+PC9jcGl4OkNvbnRlbnRLZXlVc2FnZVJ1bGVMaXN0PjwvY3BpeDpDUElYPg==",
-    "isBase64Encoded": True
+    "body":
+    "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48Y3BpeDpDUElYIGlkPSI1RTk5MTM3QS1CRDZDLTRFQ0MtQTI0RC1BM0VFMDRCNEUwMTEiIHhtbG5zOmNwaXg9InVybjpkYXNoaWY6b3JnOmNwaXgiIHhtbG5zOnBza2M9InVybjppZXRmOnBhcmFtczp4bWw6bnM6a2V5cHJvdjpwc2tjIiB4bWxuczpzcGVrZT0idXJuOmF3czphbWF6b246Y29tOnNwZWtlIj48Y3BpeDpDb250ZW50S2V5TGlzdD48Y3BpeDpDb250ZW50S2V5IGtpZD0iNmM1ZjUyMDYtN2Q5OC00ODA4LTg0ZDgtOTRmMTMyYzFlOWZlIj48L2NwaXg6Q29udGVudEtleT48L2NwaXg6Q29udGVudEtleUxpc3Q+PGNwaXg6RFJNU3lzdGVtTGlzdD48Y3BpeDpEUk1TeXN0ZW0ga2lkPSI2YzVmNTIwNi03ZDk4LTQ4MDgtODRkOC05NGYxMzJjMWU5ZmUiIHN5c3RlbUlkPSI4MTM3Njg0NC1mOTc2LTQ4MWUtYTg0ZS1jYzI1ZDM5YjBiMzMiPiAgICA8Y3BpeDpDb250ZW50UHJvdGVjdGlvbkRhdGEgLz4gICAgPHNwZWtlOktleUZvcm1hdCAvPiAgICA8c3Bla2U6S2V5Rm9ybWF0VmVyc2lvbnMgLz4gICAgPHNwZWtlOlByb3RlY3Rpb25IZWFkZXIgLz4gICAgPGNwaXg6UFNTSCAvPiAgICA8Y3BpeDpVUklFeHRYS2V5IC8+PC9jcGl4OkRSTVN5c3RlbT48L2NwaXg6RFJNU3lzdGVtTGlzdD48Y3BpeDpDb250ZW50S2V5UGVyaW9kTGlzdD48Y3BpeDpDb250ZW50S2V5UGVyaW9kIGlkPSJrZXlQZXJpb2RfZTY0MjQ4ZjYtZjMwNy00Yjk5LWFhNjctYjM1YTc4MjUzNjIyIiBpbmRleD0iMTE0MjUiLz48L2NwaXg6Q29udGVudEtleVBlcmlvZExpc3Q+PGNwaXg6Q29udGVudEtleVVzYWdlUnVsZUxpc3Q+PGNwaXg6Q29udGVudEtleVVzYWdlUnVsZSBraWQ9IjZjNWY1MjA2LTdkOTgtNDgwOC04NGQ4LTk0ZjEzMmMxZTlmZSI+PGNwaXg6S2V5UGVyaW9kRmlsdGVyIHBlcmlvZElkPSJrZXlQZXJpb2RfZTY0MjQ4ZjYtZjMwNy00Yjk5LWFhNjctYjM1YTc4MjUzNjIyIi8+PC9jcGl4OkNvbnRlbnRLZXlVc2FnZVJ1bGU+PC9jcGl4OkNvbnRlbnRLZXlVc2FnZVJ1bGVMaXN0PjwvY3BpeDpDUElYPg==",
+    "isBase64Encoded":
+    True
 }
 
 # static client test data -- no changes needed
@@ -77,8 +79,14 @@ EXPECTED_CLIENT_KEY = b':t\x81m\xad5u\x87\xb7\x9c\x97q\xec\x07\xb0S'
 
 
 class TestSPEKELambdas(unittest.TestCase):
+    """
+    This class is responsible for testing the Lambda used for the SPEKE server.
+    """
 
     def test_server(self):
+        """
+        This class tests the server interface of the SPEKE Lambda.
+        """
         client = boto3.client('lambda', region_name=DEPLOYED_REGION)
         response = client.invoke(
             FunctionName=SERVER_FUNCTION_NAME,
@@ -90,14 +98,16 @@ class TestSPEKELambdas(unittest.TestCase):
         decoded = json.loads(stream.read())
         stream.close()
         # get the XML embedded inside
-        root_element = ET.fromstring(decoded["body"])
+        root_element = element_tree.fromstring(decoded["body"])
         # get the key element
-        key = root_element.find(
-            ".//{urn:ietf:params:xml:ns:keyprov:pskc}PlainValue")
+        key = root_element.find(".//{urn:ietf:params:xml:ns:keyprov:pskc}PlainValue")
         # test the key against expected
         self.assertEqual(EXPECTED_SERVER_KEY, base64.b64decode(key.text))
 
     def test_client(self):
+        """
+        This class tests the client interface of the SPEKE Lambda.
+        """
         client = boto3.client('lambda', region_name=DEPLOYED_REGION)
         response = client.invoke(
             FunctionName=CLIENT_FUNCTION_NAME,

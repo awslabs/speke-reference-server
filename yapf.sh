@@ -9,4 +9,5 @@
 # specific language governing permissions and limitations
 # under the License.
 
-autopep8 -i -a -a --max-line-length 200 -r .
+find . -iname '*.py' -print0 | \
+xargs -0 yapf -i --style='{based_on_style: pep8, join_multiple_lines: true, column_limit: 200, indent_width: 4}'

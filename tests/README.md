@@ -136,12 +136,12 @@ Both tests will report **ok** if the server and client APIs are functioning prop
 7. Copy the following exactly into the text area for the event
 ```
 {
-    "resource": "/client/{content_id}/{kid}",
+    "resource": "/client/{resource_id}/{kid}",
     "path": "/client/5E99137A-BD6C-4ECC-A24D-A3EE04B4E011/e2201617-57c2-4d9b-adc5-cd87b7c01944",
     "httpMethod": "GET",
     "headers": { "Accept": "*/*", "Host": "lz9w9a2g89.execute-api.us-east-1.amazonaws.com", "Referer": "https://cf98fa7b2ee4450e.mediapackage.us-east-1.amazonaws.com/out/v1/5b7bf83cb49a4671aa3d6d23ad2fcacf/index.m3u8", "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/603.2.4 (KHTML, like Gecko) Version/10.1.1 Safari/603.2.4" },
-    "pathParameters": { "content_id": "5E99137A-BD6C-4ECC-A24D-A3EE04B4E011", "kid": "e2201617-57c2-4d9b-adc5-cd87b7c01944" },
-    "requestContext": { "path": "/EkeStage/client/5E99137A-BD6C-4ECC-A24D-A3EE04B4E011/e2201617-57c2-4d9b-adc5-cd87b7c01944", "protocol": "HTTP/1.1", "stage": "EkeStage", "resourcePath": "/client/{content_id}/{kid}", "httpMethod": "GET" },
+    "pathParameters": { "resource_id": "5E99137A-BD6C-4ECC-A24D-A3EE04B4E011", "kid": "e2201617-57c2-4d9b-adc5-cd87b7c01944" },
+    "requestContext": { "path": "/EkeStage/client/5E99137A-BD6C-4ECC-A24D-A3EE04B4E011/e2201617-57c2-4d9b-adc5-cd87b7c01944", "protocol": "HTTP/1.1", "stage": "EkeStage", "resourcePath": "/client/{resource_id}/{kid}", "httpMethod": "GET" },
     "body": "",
     "isBase64Encoded": false
 }
@@ -223,9 +223,9 @@ Host:lz9w9a2g89.execute-api.us-east-1.amazonaws.com
 1. Navigate to the AWS API Gateway Console
 2. Select the region deployed with the SPEKE Reference Server
 3. Select the EkeRestAPI
-4. Select the GET method on the /client/{content_id}/{kid} resource
+4. Select the GET method on the /client/{resource_id}/{kid} resource
 5. Click the Test link on the left side of the main compartment
-6. Copy the following into the {content_id} compartment
+6. Copy the following into the {resource_id} compartment
 ```
 5E99137A-BD6C-4ECC-A24D-A3EE04B4E011
 ```

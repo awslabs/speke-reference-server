@@ -9,4 +9,7 @@
 # specific language governing permissions and limitations
 # under the License.
 
-autopep8 -i -a -a --max-line-length 200 -r .
+# ignore line too long problems (C0301)
+
+find . -iname '*.py' -print0 | \
+xargs -0 pylint -d C0301

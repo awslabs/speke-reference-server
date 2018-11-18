@@ -13,7 +13,7 @@ The CloudFormation template creates an API Gateway, Lambda function, S3 bucket a
 
 The following diagram shows the primary components of the serverless SPEKE solution and the connectivity among the components during runtime. The diagram also shows one possible integration between AWS MediaPackage and SPEKE.
 
-![Image of serverless SPEKE](speke-s3-cache.png)
+![Image of serverless SPEKE](images/speke-s3-cache.png)
 
 
 These sections will guide you through installation, testing and configuration of the SPEKE Reference Server.

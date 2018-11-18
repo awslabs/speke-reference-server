@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 """
 http://www.apache.org/licenses/LICENSE-2.0
 
@@ -11,15 +10,12 @@ specific language governing permissions and limitations
 under the License.
 """
 
-
 import boto3
 
 # this is a tool to generate all the s3 sync commands for mediapackage regions
 
 bucket_base = "rodeolabz"
-mediapackage_regions = boto3.session.Session(
-).get_available_regions(service_name='mediapackage')
+mediapackage_regions = boto3.session.Session().get_available_regions(service_name='mediapackage')
 
 for region in mediapackage_regions:
-    print(
-        "aws s3 sync . s3://rodeolabz-{region}/speke/ --delete".format(region=region))
+    print("aws s3 sync . s3://rodeolabz-{region}/speke/ --delete".format(region=region))
