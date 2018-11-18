@@ -1,17 +1,17 @@
 ## SPEKE Reference Server
 
-Secure Packager and Encoder Key Exchange (SPEKE) is part of the AWS Elemental content encryption protection strategy for media services customers. SPEKE defines the standard for communication between AWS Media Services and digital rights management (DRM) system key servers. SPEKE is used to encrypt video on demand (VOD) content through AWS Elemental MediaConvert and for live content through AWS Elemental MediaPackage.
+Secure Packager and Encoder Key Exchange (SPEKE) is part of the AWS Elemental content encryption protection strategy for media services customers. SPEKE defines the standard for communication between AWS Media Services and digital rights management (DRM) system key servers. SPEKE is used to supply keys to encrypt video on demand (VOD) content through AWS Elemental MediaConvert and for live content through AWS Elemental MediaPackage.
 
 [This link](https://docs.aws.amazon.com/speke/latest/documentation/what-is-speke.html) will take you to high-level SPEKE documentation available on the AWS web site.
 
 
 ## Setup
 
-Use the provided CloudFormation template to deploy the reference key server into your AWS account. The reference implementation is intended as an example and starting point to demonstrate how the communication and content encryption works when implementing a DRM solution. The reference server is not intended to act as a complete production key server. 
+Use the provided CloudFormation template to deploy the reference key server into your AWS account. The reference SPEKE implementation provides a key server and key distribution cache for end-to-end segment encyption with HLS and DASH. Use it as an example and starting point when implementing a complete DRM solution with SPEKE.
 
-The CloudFormation template creates an API Gateway, Lambda function, S3 bucket and CloudFront distribution and adds the needed settings for the reference server. Additionally, the template creates IAM policies and roles necessary for API Gateway, Lambda and S3 to interact.
+The CloudFormation template creates an API Gateway, Lambda function, S3 bucket and CloudFront distribution and adds the needed settings for the reference server. Additionally, the template creates IAM policies and roles necessary for API Gateway, Lambda, Secrets Manager, S3 and CloudFront to interact.
 
-The following diagram shows the primary components of the serverless SPEKE solution and the connectivity among the components during runtime. The diagram also shows one possible integration between AWS MediaPackage and SPEKE.
+The following diagram shows the primary components of the serverless SPEKE solution and the connectivity among the components during runtime. The diagram also shows one possible integration between AWS MediaPackage or AWS MediaConvert and SPEKE.
 
 ![Image of serverless SPEKE](images/speke-reference.png)
 
