@@ -13,18 +13,18 @@ The CloudFormation template creates an API Gateway, Lambda function, S3 bucket a
 
 The following diagram shows the primary components of the serverless SPEKE solution and the connectivity among the components during runtime. The diagram also shows one possible integration between AWS MediaPackage and SPEKE.
 
-![Image of serverless SPEKE](images/speke-s3-cache.png)
+![Image of serverless SPEKE](images/speke-reference.png)
 
 
 These sections will guide you through installation, testing and configuration of the SPEKE Reference Server.
 
 1. [**Installation**](INSTALL.md) - This page includes installation instructions for API Gateway, Lambda deployment and AWS Elemental MediaPackage channel integration.
 
-1. [**Test Cases**](tests/README.md) - This page include several unit tests and manual test cases that can be used to verify operation of the SPEKE Reference Server. These test cases do not require integration with additional services.
+2. [**Test Cases**](tests/README.md) - This page include several unit tests and manual test cases that can be used to verify operation of the SPEKE Reference Server. These test cases do not require integration with additional services.
 
-1. [**AWS Elemental MediaPackage**](MEDIAPACKAGE_CONFIG.md) - This page documents steps that can be used to verify operation of the SPEKE Reference Server using AWS Elemental MediaPackage.
+3. [**AWS Elemental MediaPackage**](MEDIAPACKAGE_CONFIG.md) - This page documents steps that can be used to verify operation of the SPEKE Reference Server using AWS Elemental MediaPackage.
 
-1. [**Contributing**](CONTRIBUTING.md) - This page includes the guidelines for contributing your enhancements, fixes and documentation to the project.
+4. [**Contributing**](CONTRIBUTING.md) - This page includes the guidelines for contributing your enhancements, fixes and documentation to the project.
 
-1. [**Code of Conduct**](CODE_OF_CONDUCT.md) - This is what we expect from all people interacting and contributing with the team.
+5. [**Code of Conduct**](CODE_OF_CONDUCT.md) - This is what we expect from all people interacting and contributing with the team.
 
