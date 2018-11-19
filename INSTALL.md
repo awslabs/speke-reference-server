@@ -9,7 +9,7 @@ The following page guides the user through deployment and configuration of the S
 
 ## Setup CloudFormation Template
 
-**These templates are supported in regions: ap-northeast-1 ap-northeast-2 ap-southeast-1 ap-southeast-2 eu-central-1 eu-west-1 eu-west-3 sa-east-1 us-east-1 us-west-2**
+**These templates are supported in regions: ap-northeast-1 ap-northeast-2 ap-south-1 ap-southeast-1 ap-southeast-2 eu-central-1 eu-west-1 eu-west-3 sa-east-1 us-east-1 us-west-1 us-west-2**
 
 1. Sign in to the AWS console.
 1. Choose a region such as us-east-1 or us-west-2 to start.
