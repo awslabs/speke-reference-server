@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
-    "Description": "This template creates an AWS MediaPackage origin endpoint configured for SPEKE HLS encryption.",
+    "Description": "AWS MediaPackage origin endpoint configured for SPEKE HLS encryption (ID: DEV_0_0_0)",
     "Metadata": {
         "AWS::CloudFormation::Designer": {
             "78524ead-765b-48ea-96e7-2ede276045f3": {
@@ -84,7 +84,7 @@
                             ]
                         ]
                     },
-                    "S3Key": "speke/cloudformation-resources.zip"
+                    "S3Key": "speke/cloudformation-resources-DEV_0_0_0.zip"
                 },
                 "Environment": {},
                 "Handler": "mediapackage_speke_endpoint.event_handler",

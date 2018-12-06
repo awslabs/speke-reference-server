@@ -1,5 +1,6 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "SPEKE Reference Server (ID: DEV_0_0_0)",
     "Resources": {
         "KeyBucketOriginAccessIdentity": {
             "Type": "AWS::CloudFront::CloudFrontOriginAccessIdentity",
@@ -58,11 +59,7 @@
                                 "", [{
                                         "Ref": "KeyBucket"
                                     },
-                                    ".s3-",
-                                    {
-                                        "Ref": "AWS::Region"
-                                    },
-                                    ".amazonaws.com"
+                                    ".s3.amazonaws.com"
                                 ]
                             ]
                         },
@@ -180,7 +177,7 @@
                             ]
                         ]
                     },
-                    "S3Key": "speke/speke-reference-lambda.zip"
+                    "S3Key": "speke/speke-reference-lambda-DEV_0_0_0.zip"
                 },
                 "Environment": {
                     "Variables": {
@@ -570,7 +567,6 @@
             }
         }
     },
-    "Description": "SPEKE reference server",
     "Parameters": {
         "KeyRetentionDays": {
             "Default": "2",
