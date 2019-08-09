@@ -90,10 +90,8 @@ class ServerResponseBuilder:
             self.safe_remove(drm_system, "{urn:dashif:org:cpix}PSSH")
         elif system_id.lower() == DASH_CENC_SYSTEM_ID.lower():
             drm_system.find("{urn:dashif:org:cpix}PSSH").text = WIDEVINE_PSSH_BOX
-            drm_system.find("{urn:dashif:org:cpix}ContentProtectionData").text = WIDEVINE_PROTECTION_HEADER
             self.safe_remove(drm_system, "{urn:aws:amazon:com:speke}KeyFormat")
             self.safe_remove(drm_system, "{urn:aws:amazon:com:speke}KeyFormatVersions")
-            self.safe_remove(drm_system, "{urn:dashif:org:cpix}ContentProtectionData")
             self.safe_remove(drm_system, "{urn:aws:amazon:com:speke}ProtectionHeader")
             self.safe_remove(drm_system, "{urn:dashif:org:cpix}URIExtXKey")
         elif system_id.lower() == PLAYREADY_SYSTEM_ID.lower():
