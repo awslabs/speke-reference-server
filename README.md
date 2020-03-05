@@ -30,9 +30,7 @@ These sections will guide you through installation, testing and configuration of
 
 ## Limitations
 
-This solution only supports key creation for the following DRM technologies:
-Widevine
-Playready
+This solution only supports key creation for the following DRM technologies: Widevine, Playready
 
 This solution will send a blank CPIX response if the Apple Fairplay system ID is used.
 
