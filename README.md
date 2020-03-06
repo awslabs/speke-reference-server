@@ -28,3 +28,13 @@ These sections will guide you through installation, testing and configuration of
 
 5. [**Code of Conduct**](CODE_OF_CONDUCT.md) - This is what we expect from all people interacting and contributing with the team.
 
+## Limitations
+
+This solution only supports key creation for the following DRM technologies: Widevine, Playready
+
+This solution will send a blank CPIX response if the Apple Fairplay system ID is used.
+
+This solution only supports the contentProtection method to handle communication between the reference server solution and the Media Services. 
+Users must implement copyProtectionData methods in order to handle client/player request to decrypt content.
+
+
