@@ -13,6 +13,7 @@ import base64
 import os
 import xml.etree.ElementTree as element_tree
 import secrets
+import uuid
 
 from cryptography import x509
 from cryptography.hazmat.backends import default_backend
@@ -23,6 +24,7 @@ from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 # HLS_AES_128_SYSTEM_ID is not an official system ID
 HLS_AES_128_SYSTEM_ID = '81376844-f976-481e-a84e-cc25d39b0b33'
 HLS_SAMPLE_AES_SYSTEM_ID = '94ce86fb-07ff-4f43-adb8-93d2fa968ca2'
+COMMON_PSSH_SYSTEM_ID = '1077efec-c0b2-4d02-ace3-3c1e52e2fb4b'
 DASH_CENC_SYSTEM_ID = 'edef8ba9-79d6-4ace-a3c8-27dcd51d21ed'
 PLAYREADY_SYSTEM_ID = '9a04f079-9840-4286-ab92-e65be0885f95'
 
@@ -88,6 +90,32 @@ class ServerResponseBuilder:
             self.safe_remove(drm_system, "{urn:dashif:org:cpix}ContentProtectionData")
             self.safe_remove(drm_system, "{urn:aws:amazon:com:speke}ProtectionHeader")
             self.safe_remove(drm_system, "{urn:dashif:org:cpix}PSSH")
+        elif system_id.lower() == COMMON_PSSH_SYSTEM_ID.lower():
+            pssh = bytearray([
+                # BMFF box header(52 bytes, 'pssh')
+                0x00, 0x00, 0x00, 0x34, 0x70, 0x73, 0x73, 0x68,
+                0x01, 0x00, 0x00, 0x00,  # Full box header(version=1, flags=0)
+                0x10, 0x77, 0xef, 0xec, 0xc0, 0xb2, 0x4d, 0x02,  # SystemID
+                0xac, 0xe3, 0x3c, 0x1e, 0x52, 0xe2, 0xfb, 0x4b,
+                0x00, 0x00, 0x00, 0x01,  # KID_count(1)
+                # First KID("0123456789012345")
+                0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37,
+                0x38, 0x39, 0x30, 0x31, 0x32, 0x33, 0x34, 0x35,
+                0x00, 0x00, 0x00, 0x00,  # Size of Data(0)
+            ])
+            pssh[32:48] = uuid.UUID(kid).bytes
+            base64pssh = base64.b64encode(pssh).decode('utf-8')
+            drm_system.find(
+                "{urn:dashif:org:cpix}PSSH").text = base64pssh
+            content_protection_data = '<pssh xmlns="urn:mpeg:cenc:2013">' + base64pssh + '</pssh>'
+            drm_system.find(
+                "{urn:dashif:org:cpix}ContentProtectionData").text = base64.b64encode(content_protection_data.encode('utf-8')).decode('utf-8')
+            self.safe_remove(drm_system, "{urn:aws:amazon:com:speke}KeyFormat")
+            self.safe_remove(
+                drm_system, "{urn:aws:amazon:com:speke}KeyFormatVersions")
+            self.safe_remove(
+                drm_system, "{urn:aws:amazon:com:speke}ProtectionHeader")
+            self.safe_remove(drm_system, "{urn:dashif:org:cpix}URIExtXKey")
         elif system_id.lower() == DASH_CENC_SYSTEM_ID.lower():
             drm_system.find("{urn:dashif:org:cpix}PSSH").text = WIDEVINE_PSSH_BOX
             self.safe_remove(drm_system, "{urn:aws:amazon:com:speke}KeyFormat")
