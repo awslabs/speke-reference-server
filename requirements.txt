@@ -36,7 +36,7 @@ python-dateutil==2.6.1
 python-slugify==4.0.0
 PyYAML==5.3.1
 requests==2.23.0
-rsa==3.4.2
+rsa==4.1
 s3transfer==0.3.3
 six==1.14.0
 text-unidecode==1.3
