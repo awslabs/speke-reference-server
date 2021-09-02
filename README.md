@@ -34,6 +34,9 @@ This solution only supports key creation for the following DRM technologies: Wid
 
 This solution will send a blank CPIX response if the Apple Fairplay system ID is used.
 
+For Speke V2.0, this solution works for Widevine, Playready and Fairplay
+Due to limitations on size of environment variables provided for a lambda, users must implement their own solution to create and send PSSH, ContentProtectionData and HLSSignalingData for the different DRM systems.
+
 This solution only supports the contentProtection method to handle communication between the reference server solution and the Media Services. 
 Users must implement copyProtectionData methods in order to handle client/player request to decrypt content.
 

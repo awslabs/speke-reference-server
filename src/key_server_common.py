@@ -33,15 +33,27 @@ HLS_AES_128_KEY_FORMAT = ''  # 'identity'
 HLS_AES_128_KEY_FORMAT_VERSIONS = ''  # '1'
 HLS_SAMPLE_AES_KEY_FORMAT = 'com.apple.streamingkeydelivery'
 HLS_SAMPLE_AES_KEY_FORMAT_VERSIONS = '1'
+# speke v2.0 settings for fairplay drm
+FAIRPLAY_HLS_SIGNALING_DATA_MEDIA = os.environ["FAIRPLAY_HLS_SIGNALING_DATA_MEDIA"]
+FAIRPLAY_HLS_SIGNALING_DATA_MASTER = os.environ["FAIRPLAY_HLS_SIGNALING_DATA_MASTER"]
 
 # settings for widevine drm
 WIDEVINE_PSSH_BOX = os.environ["WIDEVINE_PSSH_BOX"]
 WIDEVINE_PROTECTION_HEADER = os.environ["WIDEVINE_PROTECTION_HEADER"]
+# speke v2.0 settings for widevine drm
+WIDEVINE_CONTENT_PROTECTION_DATA = os.environ["WIDEVINE_CONTENT_PROTECTION_DATA"]
+WIDEVINE_HLS_SIGNALING_DATA_MEDIA = os.environ["WIDEVINE_HLS_SIGNALING_DATA_MEDIA"]
+WIDEVINE_HLS_SIGNALING_DATA_MASTER = os.environ["WIDEVINE_HLS_SIGNALING_DATA_MASTER"]
 
 # settings for playready drm
 PLAYREADY_PSSH_BOX = os.environ["PLAYREADY_PSSH_BOX"]
 PLAYREADY_PROTECTION_HEADER = os.environ["PLAYREADY_PROTECTION_HEADER"]
 PLAYREADY_CONTENT_KEY = os.environ["PLAYREADY_CONTENT_KEY"]
+# speke v2.0 settings for playready drm
+PLAYREADY_CONTENT_PROTECTION_DATA = os.environ["PLAYREADY_CONTENT_PROTECTION_DATA"]
+PLAYREADY_HLS_SIGNALING_DATA_MEDIA = os.environ["PLAYREADY_HLS_SIGNALING_DATA_MEDIA"]
+PLAYREADY_HLS_SIGNALING_DATA_MASTER = os.environ["PLAYREADY_HLS_SIGNALING_DATA_MASTER"]
+
 
 # globals for encrypted document responses
 DOCUMENT_KEY_SIZE = 32
@@ -133,11 +145,14 @@ class ServerResponseBuilder:
         else:
             raise Exception("Invalid system ID {}".format(system_id))
 
+    def get_content_id(self):
+        return self.root.get("id")
+
     def fill_request(self):
         """
         Fill the XML document with data about the requested keys.
         """
-        content_id = self.root.get("id")
+        content_id = self.get_content_id()
         # self.use_playready_content_key = False
         system_ids = {}
         # check whether to perform CPIX 2.0 document encryption
@@ -255,3 +270,74 @@ class ServerResponseBuilder:
         """
         if element.find(match):
             element.remove(match)
+
+class ServerResponseBuilderV2(ServerResponseBuilder):
+    def get_content_id(self):
+        return self.root.get("contentId")
+
+    def fixup_document(self, drm_system, system_id, content_id, kid):
+        """
+        Update the returned XML document based on the specified system ID
+        """
+        # DRMSystem for WIDEVINE_SYSTEM_ID
+        if system_id.lower() == DASH_CENC_SYSTEM_ID.lower():
+            pssh_box = drm_system.find("{urn:dashif:org:cpix}PSSH")
+            if pssh_box is not None:
+                pssh_box.text = WIDEVINE_PSSH_BOX
+            
+            content_protection_data = drm_system.find("{urn:dashif:org:cpix}ContentProtectionData")
+            if content_protection_data is not None:
+                content_protection_data.text = WIDEVINE_CONTENT_PROTECTION_DATA
+
+            hls_signalling_data_elems = drm_system.findall("{urn:dashif:org:cpix}HLSSignalingData")
+            if hls_signalling_data_elems:
+                drm_system.find("{urn:dashif:org:cpix}HLSSignalingData[@playlist='media']").text = WIDEVINE_HLS_SIGNALING_DATA_MEDIA
+                drm_system.find("{urn:dashif:org:cpix}HLSSignalingData[@playlist='master']").text = WIDEVINE_HLS_SIGNALING_DATA_MASTER
+
+        # DRMSystem for PLAYREADY_SYSTEM_ID
+        elif system_id.lower() == PLAYREADY_SYSTEM_ID.lower():
+            pssh_box = drm_system.find("{urn:dashif:org:cpix}PSSH")
+            if pssh_box is not None:
+                pssh_box.text = PLAYREADY_PSSH_BOX
+
+            content_protection_data = drm_system.find("{urn:dashif:org:cpix}ContentProtectionData")
+            if content_protection_data is not None:
+                content_protection_data.text = PLAYREADY_CONTENT_PROTECTION_DATA
+            
+            hls_signalling_data_elems = drm_system.findall("{urn:dashif:org:cpix}HLSSignalingData")
+            if hls_signalling_data_elems:
+                drm_system.find("{urn:dashif:org:cpix}HLSSignalingData[@playlist='media']").text = PLAYREADY_HLS_SIGNALING_DATA_MEDIA
+                drm_system.find("{urn:dashif:org:cpix}HLSSignalingData[@playlist='master']").text = PLAYREADY_HLS_SIGNALING_DATA_MASTER
+            
+            self.safe_remove(drm_system, "{urn:dashif:org:cpix}SmoothStreamingProtectionHeaderData")
+            self.use_playready_content_key = True
+
+        # DRMSystem for FAIRPLAY_SYSTEM_ID
+        elif system_id.lower() == HLS_SAMPLE_AES_SYSTEM_ID.lower():
+            self.safe_remove(drm_system, "{urn:dashif:org:cpix}ContentProtectionData")
+            self.safe_remove(drm_system, "{urn:dashif:org:cpix}PSSH")
+            self.safe_remove(drm_system, "{urn:dashif:org:cpix}SmoothStreamingProtectionHeaderData")
+            hls_signalling_data_elems = drm_system.findall("{urn:dashif:org:cpix}HLSSignalingData")
+            if hls_signalling_data_elems:
+                drm_system.find("{urn:dashif:org:cpix}HLSSignalingData[@playlist='media']").text = FAIRPLAY_HLS_SIGNALING_DATA_MEDIA
+                drm_system.find("{urn:dashif:org:cpix}HLSSignalingData[@playlist='master']").text = FAIRPLAY_HLS_SIGNALING_DATA_MASTER
+        else:
+            raise Exception("Invalid system ID {}".format(system_id))
+
+    def get_response(self):
+        """
+        Get the key request response as an HTTP response.
+        """
+        self.fill_request()
+        if self.error_message:
+            return {"isBase64Encoded": False, "statusCode": 500, "headers": {"Content-Type": "text/plain"}, "body": self.error_message}
+        return {
+            "isBase64Encoded": False,
+            "statusCode": 200,
+            "headers": {
+                "Content-Type": "application/xml",
+                "X-Speke-User-Agent": "SPEKE Reference Server (https://github.com/awslabs/speke-reference-server)",
+                "X-Speke-Version": "2.0"
+            },
+            "body": element_tree.tostring(self.root).decode('utf-8')
+        }

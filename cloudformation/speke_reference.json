@@ -203,6 +203,15 @@
                         "PLAYREADY_PROTECTION_HEADER": {
                             "Ref": "PlayReadyHeader"
                         },
+                        "PLAYREADY_CONTENT_PROTECTION_DATA": {
+                            "Ref": "PlayreadyContentProtectionData"
+                        },
+                        "PLAYREADY_HLS_SIGNALING_DATA_MEDIA": {
+                            "Ref": "PlayreadyHlsSignalingDataMedia"
+                        },
+                        "PLAYREADY_HLS_SIGNALING_DATA_MASTER": {
+                            "Ref": "PlayreadyHlsSignalingDataMaster"
+                        },
                         "PLAYREADY_CONTENT_KEY": {
                             "Ref": "PlayReadyContentKey"
                         },
@@ -211,6 +220,21 @@
                         },
                         "WIDEVINE_PROTECTION_HEADER": {
                             "Ref": "WidevineHeader"
+                        },
+                        "WIDEVINE_CONTENT_PROTECTION_DATA": {
+                            "Ref": "WidevineContentProtectionData"
+                        },
+                        "WIDEVINE_HLS_SIGNALING_DATA_MEDIA": {
+                            "Ref": "WidevineHlsSignalingDataMedia"
+                        },
+                        "WIDEVINE_HLS_SIGNALING_DATA_MASTER": {
+                            "Ref": "WidevineHlsSignalingDataMaster"
+                        },
+                        "FAIRPLAY_HLS_SIGNALING_DATA_MEDIA": {
+                            "Ref": "FairplayHlsSignalingDataMedia"
+                        },
+                        "FAIRPLAY_HLS_SIGNALING_DATA_MASTER": {
+                            "Ref": "FairplayHlsSignalingDataMaster"
                         }
                     }
                 },
@@ -590,6 +614,21 @@
             "Description": "Encoded PlayReady Protection System Specific Header box",
             "Type": "String"
         },
+        "PlayreadyContentProtectionData": {
+            "Default": "",
+            "Description": "Encoded PlayReady ContentProtectionData that is included in the encrypted content and is supported in Speke V2.0 only",
+            "Type": "String"
+        },
+        "PlayreadyHlsSignalingDataMedia": {
+            "Default": "",
+            "Description": "Encoded PlayReady HlsSignalingData for media (ext-x-key) that is included in the encrypted content and is supported in Speke V2.0 only",
+            "Type": "String"
+        },
+        "PlayreadyHlsSignalingDataMaster": {
+            "Default": "",
+            "Description": "Encoded PlayReady HlsSignalingData for master (ext-x-session-key) that is included in the encrypted content and is supported in Speke V2.0 only",
+            "Type": "String"
+        },
         "WidevineHeader": {
             "Default": "",
             "Description": "Encoded Widevine Header that is included in the encrypted content",
@@ -598,6 +637,31 @@
         "WidevinePSSHBox": {
             "Default": "",
             "Description": "Encoded Widevine Protection System Specific Header box",
+            "Type": "String"
+        },
+        "WidevineContentProtectionData": {
+            "Default": "",
+            "Description": "Encoded Widevine ContentProtectionData that is included in the encrypted content and is supported in Speke V2.0 only",
+            "Type": "String"
+        },
+        "WidevineHlsSignalingDataMedia": {
+            "Default": "",
+            "Description": "Encoded Widevine HlsSignalingData for media (ext-x-key) that is included in the encrypted content and is supported in Speke V2.0 only",
+            "Type": "String"
+        },
+        "WidevineHlsSignalingDataMaster": {
+            "Default": "",
+            "Description": "Encoded Widevine HlsSignalingData for master (ext-x-session-key) that is included in the encrypted content and is supported in Speke V2.0 only",
+            "Type": "String"
+        },
+        "FairplayHlsSignalingDataMedia": {
+            "Default": "",
+            "Description": "Encoded Fairplay HlsSignalingData for media (ext-x-key) that is included in the encrypted content and is supported in Speke V2.0 only",
+            "Type": "String"
+        },
+        "FairplayHlsSignalingDataMaster": {
+            "Default": "",
+            "Description": "Encoded Fairplay HlsSignalingData for master (ext-x-session-key) that is included in the encrypted content and is supported in Speke V2.0 only",
             "Type": "String"
         }
     },

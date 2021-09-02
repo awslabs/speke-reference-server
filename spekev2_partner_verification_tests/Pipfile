@@ -1,0 +1,17 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+requests = "*"
+aws-requests-auth = "*"
+pytest = "*"
+boto3 = "*"
+pytest-html = "*"
+m3u8 = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.9"

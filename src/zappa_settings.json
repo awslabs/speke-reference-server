@@ -1,7 +1,7 @@
 {
     "oss": {
         "app_function": "key_server.app",
-        "aws_region": "us-west-2",
+        "aws_region": "us-east-1",
         "profile_name": "default",
         "project_name": "speke",
         "runtime": "python3.6",
