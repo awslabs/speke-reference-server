@@ -164,7 +164,7 @@ Both tests will report **ok** if the server and client APIs are functioning prop
 
 ### API Gateway
 
-#### Server Test
+#### Server Test for SPEKE V1.0
 
 1. Navigate to the AWS API Gateway Console
 2. Select the region deployed with the SPEKE Reference Server
@@ -216,6 +216,67 @@ Host:lz9w9a2g89.execute-api.us-east-1.amazonaws.com
     </cpix:Data>
 </cpix:ContentKey>
 ```
+#### Server Test for SPEKE V2.0
+1. Navigate to the AWS API Gateway Console
+2. Select the region deployed with the SPEKE Reference Server
+3. Select the EkeRestAPI
+4. Select the POST method on the /copyProtection resource
+5. Click the Test link on the left side of the main compartment
+6. Copy the following into the Headers compartment
+```
+Host:lz9w9a2g89.execute-api.us-east-1.amazonaws.com
+x-speke-version:2.0
+```
+7. Copy the following into the Request Body compartment
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<cpix:CPIX contentId="cenc_test_001" version="2.3" xmlns:cpix="urn:dashif:org:cpix" xmlns:pskc="urn:ietf:params:xml:ns:keyprov:pskc" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:enc="http://www.w3.org/2001/04/xmlenc#">
+    <cpix:ContentKeyList>
+        <cpix:ContentKey kid="0f083e4e-b831-4a3d-917e-ce78076e54aa" commonEncryptionScheme="cenc"></cpix:ContentKey>
+        <cpix:ContentKey kid="041fdd3a-7f5e-4848-a7cb-65e97758e9a0" commonEncryptionScheme="cenc"></cpix:ContentKey>
+    </cpix:ContentKeyList>
+    <cpix:DRMSystemList>
+        <cpix:DRMSystem kid="0f083e4e-b831-4a3d-917e-ce78076e54aa" systemId="edef8ba9-79d6-4ace-a3c8-27dcd51d21ed">
+            <cpix:PSSH />
+            <cpix:ContentProtectionData />
+        </cpix:DRMSystem>
+        <cpix:DRMSystem kid="041fdd3a-7f5e-4848-a7cb-65e97758e9a0" systemId="edef8ba9-79d6-4ace-a3c8-27dcd51d21ed">
+            <cpix:PSSH />
+            <cpix:ContentProtectionData />
+        </cpix:DRMSystem>
+        <cpix:DRMSystem kid="0f083e4e-b831-4a3d-917e-ce78076e54aa" systemId="9a04f079-9840-4286-ab92-e65be0885f95">
+            <cpix:PSSH />
+            <cpix:ContentProtectionData />
+            <cpix:HLSSignalingData playlist="media"></cpix:HLSSignalingData>
+            <cpix:HLSSignalingData playlist="master"></cpix:HLSSignalingData>
+        </cpix:DRMSystem>
+        <cpix:DRMSystem kid="041fdd3a-7f5e-4848-a7cb-65e97758e9a0" systemId="9a04f079-9840-4286-ab92-e65be0885f95">
+            <cpix:PSSH />
+            <cpix:ContentProtectionData />
+            <cpix:HLSSignalingData playlist="media"></cpix:HLSSignalingData>
+            <cpix:HLSSignalingData playlist="master"></cpix:HLSSignalingData>
+        </cpix:DRMSystem>
+        <cpix:DRMSystem kid="0f083e4e-b831-4a3d-917e-ce78076e54aa" systemId="94ce86fb-07ff-4f43-adb8-93d2fa968ca2">
+            <cpix:HLSSignalingData playlist="media"></cpix:HLSSignalingData>
+            <cpix:HLSSignalingData playlist="master"></cpix:HLSSignalingData>
+        </cpix:DRMSystem>
+        <cpix:DRMSystem kid="041fdd3a-7f5e-4848-a7cb-65e97758e9a0" systemId="94ce86fb-07ff-4f43-adb8-93d2fa968ca2">
+            <cpix:HLSSignalingData playlist="media"></cpix:HLSSignalingData>
+            <cpix:HLSSignalingData playlist="master"></cpix:HLSSignalingData>
+        </cpix:DRMSystem>
+    </cpix:DRMSystemList>
+    <cpix:ContentKeyUsageRuleList>
+        <cpix:ContentKeyUsageRule kid="0f083e4e-b831-4a3d-917e-ce78076e54aa" intendedTrackType="VIDEO">
+            <cpix:VideoFilter />
+        </cpix:ContentKeyUsageRule>
+        <cpix:ContentKeyUsageRule kid="041fdd3a-7f5e-4848-a7cb-65e97758e9a0" intendedTrackType="AUDIO">
+            <cpix:AudioFilter />
+        </cpix:ContentKeyUsageRule>
+    </cpix:ContentKeyUsageRuleList>
+</cpix:CPIX>
+```
+8. Click the Test button
+9. Review the Response Body for the encoded key value, and other DRMSystem data such as PSSH, ContentProtectionData and HLSSignalingData. Also note the presence of `"X-Speke-Version":"2.0"` in the response headers.
 
 
 #### Client Test
