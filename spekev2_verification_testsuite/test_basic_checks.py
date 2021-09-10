@@ -15,8 +15,14 @@ def test_status_code(basic_response):
     assert basic_response.status_code == 200 
 
 def test_speke_v2_headers(basic_response):
-    assert basic_response.headers.get('Content-Type') == 'application/xml', \
-    "Content-Type must be application/xml"
+    content_type = basic_response.headers.get('Content-Type').lower()
+    assert 'application/xml' in  content_type, \
+    "Content-Type must contain application/xml"
+
+    if 'charset' in content_type:
+        assert 'charset=utf-8' in content_type, \
+        "Charset value, if present, must be 'utf-8'"
+
     assert basic_response.headers.get('X-Speke-Version') == '2.0', \
     "X-Speke-Version must be 2.0"
     assert basic_response.headers.get('X-Speke-User-Agent'), \
