@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cpix:CPIX contentId="abc123" version="2.3" xmlns:cpix="urn:dashif:org:cpix"
+           xmlns:pskc="urn:ietf:params:xml:ns:keyprov:pskc">
+    <cpix:ContentKeyList>
+        <cpix:ContentKey kid="873f3740-2508-4a2d-94bc-9b0f86649251"
+                         commonEncryptionScheme="cenc">
+        </cpix:ContentKey>
+        <cpix:ContentKey kid="0c54f2b0-b433-45a4-ae73-664438bb0b4e"
+                         commonEncryptionScheme="cenc">
+        </cpix:ContentKey>
+        <cpix:ContentKey kid="69f75726-85a7-4a65-9e6c-f10f7eaff7ce"
+                         commonEncryptionScheme="cenc">
+        </cpix:ContentKey>
+        <cpix:ContentKey kid="a3cb0426-1d90-4f87-9f58-95809f4e0e01"
+                         commonEncryptionScheme="cenc">
+        </cpix:ContentKey>
+        <cpix:ContentKey kid="4123faa7-4914-4fba-ba36-a7eb93de5e3d"
+                         commonEncryptionScheme="cenc">
+        </cpix:ContentKey>
+        <cpix:ContentKey kid="f8a6640e-2938-45b1-a1ba-2b203c51530c"
+                         commonEncryptionScheme="cenc">
+        </cpix:ContentKey>
+    </cpix:ContentKeyList>
+    <cpix:DRMSystemList>
+        <cpix:DRMSystem kid="873f3740-2508-4a2d-94bc-9b0f86649251" systemId="edef8ba9-79d6-4ace-a3c8-27dcd51d21ed">
+            <cpix:PSSH/>
+            <cpix:ContentProtectionData/>
+            <cpix:HLSSignalingData playlist="media">
+            </cpix:HLSSignalingData>
+            <cpix:HLSSignalingData playlist="master">
+            </cpix:HLSSignalingData>
+        </cpix:DRMSystem>
+        <cpix:DRMSystem kid="0c54f2b0-b433-45a4-ae73-664438bb0b4e" systemId="edef8ba9-79d6-4ace-a3c8-27dcd51d21ed">
+            <cpix:PSSH/>
+            <cpix:ContentProtectionData/>
+            <cpix:HLSSignalingData playlist="media">
+            </cpix:HLSSignalingData>
+            <cpix:HLSSignalingData playlist="master">
+            </cpix:HLSSignalingData>
+        </cpix:DRMSystem>
+        <cpix:DRMSystem kid="69f75726-85a7-4a65-9e6c-f10f7eaff7ce" systemId="edef8ba9-79d6-4ace-a3c8-27dcd51d21ed">
+            <cpix:PSSH/>
+            <cpix:ContentProtectionData/>
+            <cpix:HLSSignalingData playlist="media">
+            </cpix:HLSSignalingData>
+            <cpix:HLSSignalingData playlist="master">
+            </cpix:HLSSignalingData>
+        </cpix:DRMSystem>
+        <cpix:DRMSystem kid="a3cb0426-1d90-4f87-9f58-95809f4e0e01" systemId="edef8ba9-79d6-4ace-a3c8-27dcd51d21ed">
+            <cpix:PSSH/>
+            <cpix:ContentProtectionData/>
+            <cpix:HLSSignalingData playlist="media">
+            </cpix:HLSSignalingData>
+            <cpix:HLSSignalingData playlist="master">
+            </cpix:HLSSignalingData>
+        </cpix:DRMSystem>
+        <cpix:DRMSystem kid="4123faa7-4914-4fba-ba36-a7eb93de5e3d" systemId="edef8ba9-79d6-4ace-a3c8-27dcd51d21ed">
+            <cpix:PSSH/>
+            <cpix:ContentProtectionData/>
+            <cpix:HLSSignalingData playlist="media">
+            </cpix:HLSSignalingData>
+            <cpix:HLSSignalingData playlist="master">
+            </cpix:HLSSignalingData>
+        </cpix:DRMSystem>
+        <cpix:DRMSystem kid="f8a6640e-2938-45b1-a1ba-2b203c51530c" systemId="edef8ba9-79d6-4ace-a3c8-27dcd51d21ed">
+            <cpix:PSSH/>
+            <cpix:ContentProtectionData/>
+            <cpix:HLSSignalingData playlist="media">
+            </cpix:HLSSignalingData>
+            <cpix:HLSSignalingData playlist="master">
+            </cpix:HLSSignalingData>
+        </cpix:DRMSystem>
+    </cpix:DRMSystemList>
+    <cpix:ContentKeyPeriodList>
+        <cpix:ContentKeyPeriod id="keyPeriod_2e19ac38-22d3-4bb2-b290-95a72f4732ef" index="0"/>
+    </cpix:ContentKeyPeriodList>
+    <cpix:ContentKeyUsageRuleList>
+        <cpix:ContentKeyUsageRule kid="873f3740-2508-4a2d-94bc-9b0f86649251" intendedTrackType="SD+HD1">
+            <cpix:KeyPeriodFilter periodId="keyPeriod_2e19ac38-22d3-4bb2-b290-95a72f4732ef"/>
+            <cpix:VideoFilter maxPixels="921600"/>
+        </cpix:ContentKeyUsageRule>
+        <cpix:ContentKeyUsageRule kid="0c54f2b0-b433-45a4-ae73-664438bb0b4e" intendedTrackType="HD2">
+            <cpix:KeyPeriodFilter periodId="keyPeriod_2e19ac38-22d3-4bb2-b290-95a72f4732ef"/>
+            <cpix:VideoFilter minPixels="921601" maxPixels="2073600"/>
+        </cpix:ContentKeyUsageRule>
+        <cpix:ContentKeyUsageRule kid="69f75726-85a7-4a65-9e6c-f10f7eaff7ce" intendedTrackType="UHD1">
+            <cpix:KeyPeriodFilter periodId="keyPeriod_2e19ac38-22d3-4bb2-b290-95a72f4732ef"/>
+            <cpix:VideoFilter minPixels="2073601" maxPixels="8847360"/>
+        </cpix:ContentKeyUsageRule>
+        <cpix:ContentKeyUsageRule kid="a3cb0426-1d90-4f87-9f58-95809f4e0e01" intendedTrackType="UHD2">
+            <cpix:KeyPeriodFilter periodId="keyPeriod_2e19ac38-22d3-4bb2-b290-95a72f4732ef"/>
+            <cpix:VideoFilter minPixels="8847361"/>
+        </cpix:ContentKeyUsageRule>
+        <cpix:ContentKeyUsageRule kid="4123faa7-4914-4fba-ba36-a7eb93de5e3d" intendedTrackType="STEREO_AUDIO">
+            <cpix:KeyPeriodFilter periodId="keyPeriod_2e19ac38-22d3-4bb2-b290-95a72f4732ef"/>
+            <cpix:AudioFilter maxChannels="2"/>
+        </cpix:ContentKeyUsageRule>
+        <cpix:ContentKeyUsageRule kid="f8a6640e-2938-45b1-a1ba-2b203c51530c" intendedTrackType="MULTICHANNEL_AUDIO">
+            <cpix:KeyPeriodFilter periodId="keyPeriod_2e19ac38-22d3-4bb2-b290-95a72f4732ef"/>
+            <cpix:AudioFilter minChannels="3"/>
+        </cpix:ContentKeyUsageRule>
+    </cpix:ContentKeyUsageRuleList>
+</cpix:CPIX>
