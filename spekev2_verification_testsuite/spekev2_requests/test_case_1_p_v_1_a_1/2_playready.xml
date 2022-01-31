@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cpix:CPIX contentId="abc123" version="2.3" xmlns:cpix="urn:dashif:org:cpix" xmlns:pskc="urn:ietf:params:xml:ns:keyprov:pskc">
+    <cpix:ContentKeyList>
+        <cpix:ContentKey kid="873f3740-2508-4a2d-94bc-9b0f86649251"
+                         commonEncryptionScheme="cenc">
+        </cpix:ContentKey>
+        <cpix:ContentKey kid="0c54f2b0-b433-45a4-ae73-664438bb0b4e"
+                         commonEncryptionScheme="cenc">
+        </cpix:ContentKey>
+    </cpix:ContentKeyList>
+    <cpix:DRMSystemList>
+        <cpix:DRMSystem kid="873f3740-2508-4a2d-94bc-9b0f86649251" systemId="9a04f079-9840-4286-ab92-e65be0885f95">
+            <cpix:PSSH />
+            <cpix:ContentProtectionData />
+            <cpix:HLSSignalingData playlist="media">
+            </cpix:HLSSignalingData>
+            <cpix:HLSSignalingData playlist="master">
+            </cpix:HLSSignalingData>
+        </cpix:DRMSystem>
+        <cpix:DRMSystem kid="0c54f2b0-b433-45a4-ae73-664438bb0b4e" systemId="9a04f079-9840-4286-ab92-e65be0885f95">
+            <cpix:PSSH />
+            <cpix:ContentProtectionData />
+            <cpix:HLSSignalingData playlist="media">
+            </cpix:HLSSignalingData>
+            <cpix:HLSSignalingData playlist="master">
+            </cpix:HLSSignalingData>
+        </cpix:DRMSystem>
+    </cpix:DRMSystemList>
+    <cpix:ContentKeyPeriodList>
+        <cpix:ContentKeyPeriod id="keyPeriod_2e19ac38-22d3-4bb2-b290-95a72f4732ef" index="0"/>
+    </cpix:ContentKeyPeriodList>
+    <cpix:ContentKeyUsageRuleList>
+        <cpix:ContentKeyUsageRule kid="873f3740-2508-4a2d-94bc-9b0f86649251" intendedTrackType="VIDEO">
+            <cpix:KeyPeriodFilter periodId="keyPeriod_2e19ac38-22d3-4bb2-b290-95a72f4732ef"/>
+            <cpix:VideoFilter />
+        </cpix:ContentKeyUsageRule>
+        <cpix:ContentKeyUsageRule kid="0c54f2b0-b433-45a4-ae73-664438bb0b4e" intendedTrackType="AUDIO">
+            <cpix:KeyPeriodFilter periodId="keyPeriod_2e19ac38-22d3-4bb2-b290-95a72f4732ef"/>
+            <cpix:AudioFilter />
+        </cpix:ContentKeyUsageRule>
+    </cpix:ContentKeyUsageRuleList>
+</cpix:CPIX>
