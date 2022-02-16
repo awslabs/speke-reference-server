@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<cpix:CPIX contentId="abc123" version="2.3" xmlns:cpix="urn:dashif:org:cpix" xmlns:pskc="urn:ietf:params:xml:ns:keyprov:pskc">
+<cpix:CPIX contentId="test_case_2" version="2.3" xmlns:cpix="urn:dashif:org:cpix" xmlns:pskc="urn:ietf:params:xml:ns:keyprov:pskc">
     <cpix:ContentKeyList>
         <cpix:ContentKey kid="873f3740-2508-4a2d-94bc-9b0f86649251"
-                         commonEncryptionScheme="cenc">
+                         commonEncryptionScheme="cbcs">
         </cpix:ContentKey>
         <cpix:ContentKey kid="0c54f2b0-b433-45a4-ae73-664438bb0b4e"
-                         commonEncryptionScheme="cenc">
+                         commonEncryptionScheme="cbcs">
         </cpix:ContentKey>
         <cpix:ContentKey kid="69f75726-85a7-4a65-9e6c-f10f7eaff7ce"
-                         commonEncryptionScheme="cenc">
+                         commonEncryptionScheme="cbcs">
         </cpix:ContentKey>
         <cpix:ContentKey kid="f8a6640e-2938-45b1-a1ba-2b203c51530c"
-                         commonEncryptionScheme="cenc">
+                         commonEncryptionScheme="cbcs">
         </cpix:ContentKey>
         <cpix:ContentKey kid="80969196-fe0d-4c1b-aec3-522bebcbd61c"
-                         commonEncryptionScheme="cenc">
+                         commonEncryptionScheme="cbcs">
         </cpix:ContentKey>
     </cpix:ContentKeyList>
     <cpix:DRMSystemList>

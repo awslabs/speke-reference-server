@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<cpix:CPIX contentId="abc123" version="2.3" xmlns:cpix="urn:dashif:org:cpix"
+<cpix:CPIX contentId="test_case_3" version="2.3" xmlns:cpix="urn:dashif:org:cpix"
            xmlns:pskc="urn:ietf:params:xml:ns:keyprov:pskc">
     <cpix:ContentKeyList>
         <cpix:ContentKey kid="873f3740-2508-4a2d-94bc-9b0f86649251"
-                         commonEncryptionScheme="cenc">
+                         commonEncryptionScheme="cbcs">
         </cpix:ContentKey>
         <cpix:ContentKey kid="0c54f2b0-b433-45a4-ae73-664438bb0b4e"
-                         commonEncryptionScheme="cenc">
+                         commonEncryptionScheme="cbcs">
         </cpix:ContentKey>
         <cpix:ContentKey kid="69f75726-85a7-4a65-9e6c-f10f7eaff7ce"
-                         commonEncryptionScheme="cenc">
+                         commonEncryptionScheme="cbcs">
         </cpix:ContentKey>
         <cpix:ContentKey kid="a3cb0426-1d90-4f87-9f58-95809f4e0e01"
-                         commonEncryptionScheme="cenc">
+                         commonEncryptionScheme="cbcs">
         </cpix:ContentKey>
         <cpix:ContentKey kid="4123faa7-4914-4fba-ba36-a7eb93de5e3d"
-                         commonEncryptionScheme="cenc">
+                         commonEncryptionScheme="cbcs">
         </cpix:ContentKey>
         <cpix:ContentKey kid="f8a6640e-2938-45b1-a1ba-2b203c51530c"
-                         commonEncryptionScheme="cenc">
+                         commonEncryptionScheme="cbcs">
         </cpix:ContentKey>
         <cpix:ContentKey kid="80969196-fe0d-4c1b-aec3-522bebcbd61c"
-                         commonEncryptionScheme="cenc">
+                         commonEncryptionScheme="cbcs">
         </cpix:ContentKey>
         <cpix:ContentKey kid="da81cfc8-130a-43a8-ad35-6b432af5f6e0"
-                         commonEncryptionScheme="cenc">
+                         commonEncryptionScheme="cbcs">
         </cpix:ContentKey>
     </cpix:ContentKeyList>
     <cpix:DRMSystemList>

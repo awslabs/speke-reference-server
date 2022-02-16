@@ -101,7 +101,7 @@ def test_case_3_playready_fairplay(playready_fairplay_response):
     speke_element_assertions.validate_mandatory_cpix_child_elements(root_cpix)
     speke_element_assertions.validate_content_key_list_element(root_cpix, 8, "cbcs")
     speke_element_assertions.validate_drm_system_list_element(root_cpix, 16, 8, 0, 8, 8)
-    speke_element_assertions.validate_content_key_usage_rule_list_element(root_cpix, 5)
+    speke_element_assertions.validate_content_key_usage_rule_list_element(root_cpix, 8)
 
 
 def test_case_3_widevine_playready_fairplay(widevine_playready_fairplay_response):

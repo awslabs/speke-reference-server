@@ -125,8 +125,11 @@ def test_playready_pssh_hlssignalingdata_no_rotation(playready_pssh_hlssignaling
             "KEYFORMAT for #EXT-X-KEY and EXT-X-SESSION-KEY must match for this request"
         assert str_ext_x_key.keys[0].keyformatversions == str_ext_x_session_key.keys[0].keyformatversions, \
             "KEYFORMATVERSIONS for #EXT-X-KEY and EXT-X-SESSION-KEY must match for this request"
-        assert str_ext_x_key.keys[0].uri == str_ext_x_session_key.keys[0].uri, \
-            "URI for #EXT-X-KEY and EXT-X-SESSION-KEY must match for this request"
+
+        # Relaxing this requirement, this was originally added as we do not currently support different values
+        # for the two signaling levels.
+        # assert str_ext_x_key.keys[0].uri == str_ext_x_session_key.keys[0].uri, \
+        #     "URI for #EXT-X-KEY and EXT-X-SESSION-KEY must match for this request"
 
         assert str_ext_x_key.keys[0].keyformat == str_ext_x_session_key.keys[
             0].keyformat == utils.HLS_SIGNALING_DATA_KEYFORMAT.get("playready"), \
