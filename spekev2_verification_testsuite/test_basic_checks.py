@@ -82,11 +82,17 @@ def test_speke_v2_elements_have_not_changed(basic_response):
         assert content_key_usage_rule_element.get('intendedTrackType') in utils.SPEKE_V2_SUPPORTED_INTENDED_TRACK_TYPES, \
             f"intendedTrackType value must be one of {utils.SPEKE_V2_SUPPORTED_INTENDED_TRACK_TYPES}"
 
+
 def test_sending_same_request_sent_twice_to_keyserver_without_key_rotation(duplicate_responses):
+    test_responses = [response.replace("\n", "").replace("\r", "") for response in duplicate_responses]
     regex_pattern = "<pskc:PlainValue>(.*)</pskc:PlainValue>(.*)<pskc:PlainValue>(.*)</pskc:PlainValue>"
     results = []
-    for response in duplicate_responses:
+    for response in test_responses:
         results.append(re.search(regex_pattern, response))
 
-    assert results[0].group(1) == results[1].group(1) and results[0].group(3) == results[1].group(3), \
-        "Keys returned for duplicate responses must be the same with key rotation turned off"
+    if results[0] is not None:
+        assert results[0].group(1) == results[1].group(1) and results[0].group(3) == results[1].group(3), \
+            "Keys returned for duplicate responses must be the same with key rotation turned off"
+    else:
+        assert False, \
+            "Pattern matching failed"

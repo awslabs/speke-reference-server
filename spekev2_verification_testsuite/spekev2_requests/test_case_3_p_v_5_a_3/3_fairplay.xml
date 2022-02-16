@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<cpix:CPIX contentId="abc123" version="2.3" xmlns:cpix="urn:dashif:org:cpix" xmlns:pskc="urn:ietf:params:xml:ns:keyprov:pskc">
+<cpix:CPIX contentId="test_case_3" version="2.3" xmlns:cpix="urn:dashif:org:cpix" xmlns:pskc="urn:ietf:params:xml:ns:keyprov:pskc">
     <cpix:ContentKeyList>
         <cpix:ContentKey kid="873f3740-2508-4a2d-94bc-9b0f86649251"
                          commonEncryptionScheme="cbcs">
