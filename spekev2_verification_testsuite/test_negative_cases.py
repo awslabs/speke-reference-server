@@ -50,7 +50,6 @@ def test_mandatory_elements_missing_in_request(spekev2_url, generic_request, man
         f"Mandatory element: {mandatory_element} not present in request but response was a 200 OK"
 
 
-@pytest.mark.skip(reason="We don't use these 2 filters currently even if they're present in request")
 def test_both_mandatory_filter_elements_missing_in_request(spekev2_url, generic_request):
     request_cpix = ET.fromstring(generic_request)
     for node in request_cpix.iter():
