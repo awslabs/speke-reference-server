@@ -6,3 +6,6 @@ __pycache__/
 .vscode/
 build/
 env/
+.idea/
+Pipfile
+reports/

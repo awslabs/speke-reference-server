@@ -19,12 +19,14 @@ WIDEVINE_PSSH_CPD_TEST_FILE = "7_spekev2_dash_widevine_preset_video_1_audio_1_no
 PLAYREADY_PSSH_CPD_TEST_FILE = "8_spekev2_dash_playready_preset_video_1_audio_1_no_rotation_pssh_cpd.xml"
 PLAYREADY_PSSH_HLSSIGNALINGDATA_TEST_FILE = "9_spekev2_dash_playready_preset_video_1_audio_1_no_rotation_pssh_signallingdata.xml"
 WRONG_VERSION_TEST_FILE = "4_negative_wrong_version_spekev2_dash_widevine.xml"  # Wrong CPIX version in request
+SPEKEV1_STYLE_REQUEST_WITH_SPEKEV2_HEADERS = "5_speke_v1_style_implementation.xml"
 
 # TEST CASES
 TEST_CASE_1_P_V_1_A_1 = "test_case_1_p_v_1_a_1"
 TEST_CASE_2_P_V_3_A_2 = "test_case_2_p_v_3_a_2"
 TEST_CASE_3_P_V_5_A_3 = "test_case_3_p_v_5_a_3"
 TEST_CASE_4_P_V_8_A_2 = "test_case_4_p_v_8_a_2"
+TEST_CASE_5_6_P_V_2_A_2 = "test_case_5_and_6_p_v_2_a_2"
 
 # PRESET TEST CASES FILE NAMES
 PRESETS_WIDEVINE = "1_widevine.xml"
@@ -134,6 +136,40 @@ def send_speke_request(test_xml_folder, test_xml_file, spekev2_url):
     test_request_data = read_xml_file_contents(test_xml_folder, test_xml_file)
     response = speke_v2_request(spekev2_url, test_request_data)
     return response.text
+
+
+def remove_element(xml_request, element_to_remove, kid_value = ""):
+    for node in xml_request.iter():
+        if not kid_value:
+            for child in node.findall(element_to_remove):
+                node.remove(child)
+        else:
+            for child in node.findall(element_to_remove):
+                if child.attrib.get("kid") == kid_value:
+                    node.remove(child)
+
+    return xml_request
+
+
+def send_modified_speke_request_with_element_removed(spekev2_url, xml_request_str, element_to_remove):
+    request_cpix = ET.fromstring(xml_request_str)
+    modified_cpix_request = remove_element(request_cpix, element_to_remove)
+    modified_cpix_request_str = ET.tostring(modified_cpix_request, method="xml")
+    response = speke_v2_request(spekev2_url, modified_cpix_request_str)
+    return response
+
+
+def send_modified_speke_request_with_matching_elements_kid_values_removed(spekev2_url, xml_request_str, elements_to_remove, kid_values):
+    request_cpix = ET.fromstring(xml_request_str)
+
+    for elem in elements_to_remove:
+        for kid in kid_values:
+            remove_element(request_cpix, elem, kid)
+
+    modified_cpix_request_str = ET.tostring(request_cpix, method="xml")
+
+    response = speke_v2_request(spekev2_url, modified_cpix_request_str)
+    return response
 
 
 def count_tags(xml_content):

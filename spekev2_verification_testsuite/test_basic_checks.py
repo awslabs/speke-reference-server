@@ -22,6 +22,13 @@ def duplicate_responses(spekev2_url, request_count=2):
     return responses[0] if request_count == 1 else responses
 
 
+@pytest.fixture(scope="session")
+def spekev1_style_request(spekev2_url):
+    test_request_data = utils.read_xml_file_contents("general", utils.SPEKEV1_STYLE_REQUEST_WITH_SPEKEV2_HEADERS)
+    response = utils.speke_v2_request(spekev2_url, test_request_data)
+    return response
+
+
 def test_status_code(basic_response):
     assert basic_response.status_code == 200
 
@@ -35,10 +42,7 @@ def test_speke_v2_headers(basic_response):
         assert 'charset=utf-8' in content_type, \
             "Charset value, if present, must be 'utf-8'"
 
-    assert basic_response.headers.get('X-Speke-Version') == '2.0', \
-        "X-Speke-Version must be 2.0"
-    assert basic_response.headers.get('X-Speke-User-Agent'), \
-        "X-Speke-User-Agent must be present in the response"
+    speke_element_assertions.validate_spekev2_response_headers(basic_response)
 
 
 def test_speke_v2_elements_have_not_changed(basic_response):
@@ -96,3 +100,16 @@ def test_sending_same_request_sent_twice_to_keyserver_without_key_rotation(dupli
     else:
         assert False, \
             "Pattern matching failed"
+
+
+# Check if this is to be included or we invalidate this request as incorrect in the API
+def test_speke_v1_style_request_with_proper_response_received(spekev1_style_request):
+    speke_element_assertions.validate_spekev2_response_headers(spekev1_style_request)
+    root_cpix = ET.fromstring(spekev1_style_request.text)
+
+    speke_element_assertions.check_cpix_version(root_cpix)
+    speke_element_assertions.validate_root_element(root_cpix)
+    speke_element_assertions.validate_mandatory_cpix_child_elements(root_cpix)
+    speke_element_assertions.validate_content_key_list_element(root_cpix, 1, "cenc")
+    speke_element_assertions.validate_drm_system_list_element(root_cpix, 1, 1, 1, 0, 0)
+    speke_element_assertions.validate_content_key_usage_rule_list_element(root_cpix, 1)
