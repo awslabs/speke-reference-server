@@ -137,7 +137,6 @@ def test_playready_pssh_hlssignalingdata_no_rotation(playready_pssh_hlssignaling
 
 
 def test_fairplay_hlssignalingdata_no_rotation(fairplay_hls_signalingdata_response):
-    print(fairplay_hls_signalingdata_response)
     root_cpix = ET.fromstring(fairplay_hls_signalingdata_response)
     drm_system_list_element = root_cpix.find('./{urn:dashif:org:cpix}DRMSystemList')
     drm_system_elements = drm_system_list_element.findall('./{urn:dashif:org:cpix}DRMSystem')

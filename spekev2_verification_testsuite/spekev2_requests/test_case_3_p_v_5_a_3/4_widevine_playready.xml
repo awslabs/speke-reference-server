@@ -189,7 +189,7 @@
             <cpix:KeyPeriodFilter periodId="keyPeriod_2e19ac38-22d3-4bb2-b290-95a72f4732ef"/>
             <cpix:AudioFilter minChannels="3" maxChannels="6"/>
         </cpix:ContentKeyUsageRule>
-        <cpix:ContentKeyUsageRule kid="da81cfc8-130a-43a8-ad35-6b432af5f6e0" intendedTrackType="MULTICHANNEL_AUDIO_7+">
+        <cpix:ContentKeyUsageRule kid="da81cfc8-130a-43a8-ad35-6b432af5f6e0" intendedTrackType="MULTICHANNEL_AUDIO_7">
             <cpix:KeyPeriodFilter periodId="keyPeriod_2e19ac38-22d3-4bb2-b290-95a72f4732ef"/>
             <cpix:AudioFilter minChannels="7"/>
         </cpix:ContentKeyUsageRule>

@@ -9,6 +9,17 @@ def check_cpix_version(root):
         "Attribute: version value for CPIX element is expected to be 2.3"
 
 
+def validate_spekev2_response_headers(root):
+    """
+        Check X-Speke-Version and X-Speke-User-Agent in the headers
+    """
+
+    assert root.headers.get('X-Speke-Version') == '2.0', \
+        "X-Speke-Version must be 2.0"
+    assert root.headers.get('X-Speke-User-Agent'), \
+        "X-Speke-User-Agent must be present in the response"
+
+
 def validate_root_element(root_cpix):
     """
         1. Check CPIX tag exists

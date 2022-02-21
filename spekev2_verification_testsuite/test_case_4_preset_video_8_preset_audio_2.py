@@ -38,7 +38,7 @@ def widevine_playready_fairplay_response(spekev2_url):
     return utils.send_speke_request(utils.TEST_CASE_4_P_V_8_A_2, utils.PRESETS_WIDEVINE_PLAYREADY_FAIRPLAY, spekev2_url)
 
 
-def test_case_2_widevine(widevine_response):
+def test_case_4_widevine(widevine_response):
     root_cpix = ET.fromstring(widevine_response)
 
     speke_element_assertions.check_cpix_version(root_cpix)
@@ -49,7 +49,7 @@ def test_case_2_widevine(widevine_response):
     speke_element_assertions.validate_content_key_usage_rule_list_element(root_cpix, 6)
 
 
-def test_case_2_playready(playready_response):
+def test_case_4_playready(playready_response):
     root_cpix = ET.fromstring(playready_response)
 
     speke_element_assertions.check_cpix_version(root_cpix)
@@ -60,7 +60,7 @@ def test_case_2_playready(playready_response):
     speke_element_assertions.validate_content_key_usage_rule_list_element(root_cpix, 6)
 
 
-def test_case_2_fairplay(fairplay_response):
+def test_case_4_fairplay(fairplay_response):
     root_cpix = ET.fromstring(fairplay_response)
 
     speke_element_assertions.check_cpix_version(root_cpix)
@@ -71,7 +71,7 @@ def test_case_2_fairplay(fairplay_response):
     speke_element_assertions.validate_content_key_usage_rule_list_element(root_cpix, 6)
 
 
-def test_case_2_widevine_playready(widevine_playready_response):
+def test_case_4_widevine_playready(widevine_playready_response):
     root_cpix = ET.fromstring(widevine_playready_response)
 
     speke_element_assertions.check_cpix_version(root_cpix)
@@ -82,7 +82,7 @@ def test_case_2_widevine_playready(widevine_playready_response):
     speke_element_assertions.validate_content_key_usage_rule_list_element(root_cpix, 6)
 
 
-def test_case_2_widevine_fairplay(widevine_fairplay_response):
+def test_case_4_widevine_fairplay(widevine_fairplay_response):
     root_cpix = ET.fromstring(widevine_fairplay_response)
 
     speke_element_assertions.check_cpix_version(root_cpix)
@@ -93,7 +93,7 @@ def test_case_2_widevine_fairplay(widevine_fairplay_response):
     speke_element_assertions.validate_content_key_usage_rule_list_element(root_cpix, 6)
 
 
-def test_case_2_playready_fairplay(playready_fairplay_response):
+def test_case_4_playready_fairplay(playready_fairplay_response):
     root_cpix = ET.fromstring(playready_fairplay_response)
 
     speke_element_assertions.check_cpix_version(root_cpix)
@@ -104,7 +104,7 @@ def test_case_2_playready_fairplay(playready_fairplay_response):
     speke_element_assertions.validate_content_key_usage_rule_list_element(root_cpix, 6)
 
 
-def test_case_2_widevine_playready_fairplay(widevine_playready_fairplay_response):
+def test_case_4_widevine_playready_fairplay(widevine_playready_fairplay_response):
     root_cpix = ET.fromstring(widevine_playready_fairplay_response)
 
     speke_element_assertions.check_cpix_version(root_cpix)
