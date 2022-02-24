@@ -26,12 +26,14 @@
             </cpix:HLSSignalingData>
         </cpix:DRMSystem>
         <cpix:DRMSystem kid="873f3740-2508-4a2d-94bc-9b0f86649251" systemId="94ce86fb-07ff-4f43-adb8-93d2fa968ca2">
+            <cpix:PSSH />
             <cpix:HLSSignalingData playlist="media">
             </cpix:HLSSignalingData>
             <cpix:HLSSignalingData playlist="master">
             </cpix:HLSSignalingData>
         </cpix:DRMSystem>
         <cpix:DRMSystem kid="0c54f2b0-b433-45a4-ae73-664438bb0b4e" systemId="94ce86fb-07ff-4f43-adb8-93d2fa968ca2">
+            <cpix:PSSH />
             <cpix:HLSSignalingData playlist="media">
             </cpix:HLSSignalingData>
             <cpix:HLSSignalingData playlist="master">
