@@ -207,8 +207,8 @@ def validate_drm_system_element_playready(drm_system_element):
 def validate_drm_system_element_fairplay(drm_system_element):
     pssh_data = drm_system_element.findall(
         './{urn:dashif:org:cpix}PSSH')
-    assert not pssh_data, \
-        "PSSH is not expected in this response"
+    assert pssh_data, \
+        "PSSH is expected in this response"
 
     content_protection_data = drm_system_element.findall(
         './{urn:dashif:org:cpix}ContentProtectionData')
