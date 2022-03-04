@@ -9,13 +9,13 @@ elements_to_remove = [
 ]
 
 video_kid = [
-    "873f3740-2508-4a2d-94bc-9b0f86649251",
-    "0c54f2b0-b433-45a4-ae73-664438bb0b4e"
+    "cff143cc-f7ba-4f45-b7dc-11e789c70c1c",
+    "acd5dbee-1b29-451c-9125-4dbb7fd3f4b2"
 ]
 
 audio_kid = [
-    "f8a6640e-2938-45b1-a1ba-2b203c51530c",
-    "80969196-fe0d-4c1b-aec3-522bebcbd61c"
+    "faa20e04-b929-4959-85f7-3c2788cce887",
+    "3aa729cd-b693-4377-960d-bd0c3c217897"
 ]
 
 
@@ -55,8 +55,7 @@ def widevine_playready_fairplay_response(spekev2_url):
 
 
 def test_case_5_widevine_preset_video_2_audio_unencrypted(widevine_response, spekev2_url):
-    xml_request = widevine_response.decode('UTF-8') \
-                    .replace("test_case_5_6", "test_case_5")
+    xml_request = widevine_response.decode('UTF-8')
     response = utils.send_modified_speke_request_with_matching_elements_kid_values_removed(spekev2_url,
                                                                                            xml_request.encode("UTF-8"),
                                                                                            elements_to_remove,
@@ -77,8 +76,7 @@ def test_case_5_widevine_preset_video_2_audio_unencrypted(widevine_response, spe
 
 
 def test_case_5_widevine_playready_preset_video_2_audio_unencrypted(widevine_playready_response, spekev2_url):
-    xml_request = widevine_playready_response.decode('UTF-8') \
-                    .replace("test_case_5_6", "test_case_5")
+    xml_request = widevine_playready_response.decode('UTF-8')
     response = utils.send_modified_speke_request_with_matching_elements_kid_values_removed(spekev2_url,
                                                                                            xml_request.encode("UTF-8"),
                                                                                            elements_to_remove,
@@ -97,8 +95,7 @@ def test_case_5_widevine_playready_preset_video_2_audio_unencrypted(widevine_pla
 
 
 def test_case_5_widevine_playready_fairplay_preset_video_2_audio_unencrypted(widevine_playready_fairplay_response, spekev2_url):
-    xml_request = widevine_playready_fairplay_response.decode('UTF-8') \
-        .replace("test_case_5_6", "test_case_5")
+    xml_request = widevine_playready_fairplay_response.decode('UTF-8')
     response = utils.send_modified_speke_request_with_matching_elements_kid_values_removed(spekev2_url,
                                                                                            xml_request.encode("UTF-8"),
                                                                                            elements_to_remove,
@@ -117,8 +114,7 @@ def test_case_5_widevine_playready_fairplay_preset_video_2_audio_unencrypted(wid
 
 
 def test_case_6_widevine_video_unencrypted_preset_audio_2(widevine_response, spekev2_url):
-    xml_request = widevine_response.decode('UTF-8') \
-                    .replace("test_case_5_6", "test_case_6")
+    xml_request = widevine_response.decode('UTF-8')
     response = utils.send_modified_speke_request_with_matching_elements_kid_values_removed(spekev2_url,
                                                                                            xml_request.encode("UTF-8"),
                                                                                            elements_to_remove,
@@ -137,8 +133,7 @@ def test_case_6_widevine_video_unencrypted_preset_audio_2(widevine_response, spe
 
 
 def test_case_6_widevine_playready_video_unencrypted_preset_audio_2(widevine_playready_response, spekev2_url):
-    xml_request = widevine_playready_response.decode('UTF-8') \
-                    .replace("test_case_5_6", "test_case_6")
+    xml_request = widevine_playready_response.decode('UTF-8')
     response = utils.send_modified_speke_request_with_matching_elements_kid_values_removed(spekev2_url,
                                                                                            xml_request.encode("UTF-8"),
                                                                                            elements_to_remove,
@@ -157,8 +152,7 @@ def test_case_6_widevine_playready_video_unencrypted_preset_audio_2(widevine_pla
 
 
 def test_case_6_widevine_playready_fairplay_video_unencrypted_preset_audio_2(widevine_playready_fairplay_response, spekev2_url):
-    xml_request = widevine_playready_fairplay_response.decode('UTF-8') \
-                    .replace("test_case_5_6", "test_case_6")
+    xml_request = widevine_playready_fairplay_response.decode('UTF-8')
     response = utils.send_modified_speke_request_with_matching_elements_kid_values_removed(spekev2_url,
                                                                                            xml_request.encode("UTF-8"),
                                                                                            elements_to_remove,

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cpix:CPIX contentId="cenc_test_001" version="2.3" xmlns:cpix="urn:dashif:org:cpix" xmlns:pskc="urn:ietf:params:xml:ns:keyprov:pskc" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:enc="http://www.w3.org/2001/04/xmlenc#">
     <cpix:ContentKeyList>
-        <cpix:ContentKey kid="0f083e4e-b831-4a3d-917e-ce78076e54aa" commonEncryptionScheme="cenc"></cpix:ContentKey>
+        <cpix:ContentKey kid="90d343b4-361f-444f-893e-9e0ae74e958f" commonEncryptionScheme="cenc"></cpix:ContentKey>
     </cpix:ContentKeyList>
     <cpix:DRMSystemList>
-        <cpix:DRMSystem kid="0f083e4e-b831-4a3d-917e-ce78076e54aa" systemId="edef8ba9-79d6-4ace-a3c8-27dcd51d21ed">
+        <cpix:DRMSystem kid="90d343b4-361f-444f-893e-9e0ae74e958f" systemId="edef8ba9-79d6-4ace-a3c8-27dcd51d21ed">
             <cpix:PSSH />
             <cpix:ContentProtectionData />
             <cpix:HLSSignalingData playlist="media">
@@ -14,7 +14,7 @@
         </cpix:DRMSystem>
     </cpix:DRMSystemList>
     <cpix:ContentKeyUsageRuleList>
-        <cpix:ContentKeyUsageRule kid="0f083e4e-b831-4a3d-917e-ce78076e54aa" intendedTrackType="ALL">
+        <cpix:ContentKeyUsageRule kid="90d343b4-361f-444f-893e-9e0ae74e958f" intendedTrackType="ALL">
             <cpix:VideoFilter />
             <cpix:AudioFilter />
         </cpix:ContentKeyUsageRule>
