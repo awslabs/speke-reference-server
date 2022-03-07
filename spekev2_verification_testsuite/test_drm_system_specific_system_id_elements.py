@@ -5,21 +5,14 @@ from .helpers import utils
 
 @pytest.fixture(scope="session")
 def playready_pssh_cpd_response(spekev2_url):
-    test_request_data = utils.read_xml_file_contents("general", utils.PLAYREADY_PSSH_CPD_TEST_FILE)
+    test_request_data = utils.read_xml_file_contents("test_case_1_p_v_1_a_1", utils.PRESETS_PLAYREADY)
     response = utils.speke_v2_request(spekev2_url, test_request_data)
     return response.text
 
 
 @pytest.fixture(scope="session")
 def widevine_pssh_cpd_response(spekev2_url):
-    test_request_data = utils.read_xml_file_contents("general", utils.WIDEVINE_PSSH_CPD_TEST_FILE)
-    response = utils.speke_v2_request(spekev2_url, test_request_data)
-    return response.text
-
-
-@pytest.fixture(scope="session")
-def playready_pssh_hlssignalingdata_response(spekev2_url):
-    test_request_data = utils.read_xml_file_contents("general", utils.PLAYREADY_PSSH_HLSSIGNALINGDATA_TEST_FILE)
+    test_request_data = utils.read_xml_file_contents("test_case_1_p_v_1_a_1", utils.PRESETS_WIDEVINE)
     response = utils.speke_v2_request(spekev2_url, test_request_data)
     return response.text
 
@@ -70,8 +63,8 @@ def test_dash_playready_pssh_cpd_no_rotation(playready_pssh_cpd_response):
 
 
 # Validate presence of HLSSignalingData and PSSH when those elements are present in the request
-def test_playready_pssh_hlssignalingdata_no_rotation(playready_pssh_hlssignalingdata_response):
-    root_cpix = ET.fromstring(playready_pssh_hlssignalingdata_response)
+def test_playready_pssh_hlssignalingdata_no_rotation(playready_pssh_cpd_response):
+    root_cpix = ET.fromstring(playready_pssh_cpd_response)
     drm_system_list_element = root_cpix.find('./{urn:dashif:org:cpix}DRMSystemList')
     drm_system_elements = drm_system_list_element.findall('./{urn:dashif:org:cpix}DRMSystem')
 

@@ -1,3 +1,4 @@
 .pytest_cache
 reports
 .idea
+spekev2_requests/test_case_*

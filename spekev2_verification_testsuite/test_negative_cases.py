@@ -14,8 +14,13 @@ def fairplay_request(spekev2_url):
 
 
 @pytest.fixture
-def preset_2_widevine_request(spekev2_url):
-    return utils.read_xml_file_contents(utils.TEST_CASE_5_6_P_V_2_A_2, utils.PRESETS_WIDEVINE)
+def preset_negative_preset_shared_video(spekev2_url):
+    return utils.read_xml_file_contents("general", utils.NEGATIVE_PRESET_SHARED_VIDEO)
+
+
+@pytest.fixture
+def preset_negative_preset_shared_audio(spekev2_url):
+    return utils.read_xml_file_contents("general", utils.NEGATIVE_PRESET_SHARED_AUDIO)
 
 
 @pytest.fixture
@@ -87,16 +92,13 @@ def test_common_encryption_scheme_for_fairplay_should_not_be_cenc(spekev2_url, f
         f"Requests for Fairplay DRM system ID should not include cenc as common encryption. Status code returned was {response.status_code}"
 
 
-def test_video_preset_2_and_shared_audio_preset_request_expect_4xx(spekev2_url, preset_2_widevine_request):
+def test_video_preset_2_and_shared_audio_preset_request_expect_4xx(spekev2_url, preset_negative_preset_shared_audio):
     """
     Intended track type(s) used in this test are SD, ALL, STEREO_AUDIO, MULTICHANNEL_AUDIO
     Expected to return HTTP 4xx error
     """
 
-    xml_request = preset_2_widevine_request.decode('UTF-8')\
-        .replace("test_case_5_6", "test_case_negative_v_2_a_shared")\
-        .replace("intendedTrackType=\"HD\"", "intendedTrackType=\"ALL\"")
-
+    xml_request = preset_negative_preset_shared_audio.decode('UTF-8')
     response = utils.speke_v2_request(spekev2_url, xml_request.encode('UTF-8'))
 
     assert response.status_code != 200 and (400 <= response.status_code < 600), \
@@ -104,15 +106,13 @@ def test_video_preset_2_and_shared_audio_preset_request_expect_4xx(spekev2_url, 
         f"different intendedTrackType values "
 
 
-def test_shared_video_preset_and_audio_preset_2_request_expect_4xx(spekev2_url, preset_2_widevine_request):
+def test_shared_video_preset_and_audio_preset_2_request_expect_4xx(spekev2_url, preset_negative_preset_shared_video):
     """
     Intended track type(s) used in this test are SD, HD, ALL, MULTICHANNEL_AUDIO
     :returns: HTTP 4xx error
     """
 
-    xml_request = preset_2_widevine_request.decode('UTF-8')\
-        .replace("test_case_5_6", "test_case_negative_v_shared_a_2") \
-        .replace("intendedTrackType=\"STEREO_AUDIO\"", "intendedTrackType=\"ALL\"")
+    xml_request = preset_negative_preset_shared_video.decode('UTF-8')
     response = utils.speke_v2_request(spekev2_url, xml_request.encode('UTF-8'))
 
     assert response.status_code != 200 and (400 <= response.status_code < 600), \

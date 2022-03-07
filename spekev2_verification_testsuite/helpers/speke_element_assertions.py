@@ -269,3 +269,16 @@ def validate_content_key_usage_rule_list_element(root_cpix, expected_count):
             assert content_key_usage_rule_elements[0].get('intendedTrackType') != content_key_usage_rule_elements[1].get(
                 'intendedTrackType'), \
                 "intendedTrackType attribute values for the different ContentKeyUsageRule are expected to be different"
+
+
+def validate_content_key_usage_rule_list_for_unencrypted_presets(root_cpix, unencrypted_track):
+    content_key_usage_rule_list_element = root_cpix.find('./{urn:dashif:org:cpix}ContentKeyUsageRuleList')
+    content_key_usage_rule_elements = content_key_usage_rule_list_element.findall(
+        './{urn:dashif:org:cpix}ContentKeyUsageRule')
+
+    intended_tracks_not_present = utils.SPEKE_V2_SUPPORTED_INTENDED_TRACK_TYPES_VIDEO
+    if unencrypted_track == "audio":
+        intended_tracks_not_present = utils.SPEKE_V2_SUPPORTED_INTENDED_TRACK_TYPES_AUDIO
+
+    for content_key in content_key_usage_rule_elements:
+        assert content_key.get("intendedTrackType") not in intended_tracks_not_present

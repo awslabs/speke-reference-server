@@ -13,20 +13,18 @@ from aws_requests_auth import boto_utils
 # FILES USED FOR TESTS
 # SpekeV2 test requests for Preset Video 1 and Preset Audio 1 with no Key rotation
 GENERIC_WIDEVINE_TEST_FILE = "1_generic_spekev2_dash_widevine_preset_video_1_audio_1_no_rotation.xml"
-GENERIC_PLAYREADY_TEST_FILE = "2_spekev2_dash_playready_preset_video_1_audio_1_no_rotation.xml"
-WIDEVINE_PLAYREADY_TEST_FILE = "3_spekev2_dash_widevine_playready_preset_video_1_audio_1_no_rotation.xml"
-WIDEVINE_PSSH_CPD_TEST_FILE = "7_spekev2_dash_widevine_preset_video_1_audio_1_no_rotation_pssh_cpd.xml"
-PLAYREADY_PSSH_CPD_TEST_FILE = "8_spekev2_dash_playready_preset_video_1_audio_1_no_rotation_pssh_cpd.xml"
-PLAYREADY_PSSH_HLSSIGNALINGDATA_TEST_FILE = "9_spekev2_dash_playready_preset_video_1_audio_1_no_rotation_pssh_signallingdata.xml"
-WRONG_VERSION_TEST_FILE = "4_negative_wrong_version_spekev2_dash_widevine.xml"  # Wrong CPIX version in request
-SPEKEV1_STYLE_REQUEST_WITH_SPEKEV2_HEADERS = "5_speke_v1_style_implementation.xml"
+SPEKEV1_STYLE_REQUEST_WITH_SPEKEV2_HEADERS = "2_speke_v1_style_implementation.xml"
+WRONG_VERSION_TEST_FILE = "3_negative_wrong_version_spekev2_dash_widevine.xml"  # Wrong CPIX version in request
+NEGATIVE_PRESET_SHARED_VIDEO = "4_spekev2_negative_preset_shared_video.xml"
+NEGATIVE_PRESET_SHARED_AUDIO = "5_spekev2_negative_preset_shared_audio.xml"
 
 # TEST CASES
 TEST_CASE_1_P_V_1_A_1 = "test_case_1_p_v_1_a_1"
 TEST_CASE_2_P_V_3_A_2 = "test_case_2_p_v_3_a_2"
 TEST_CASE_3_P_V_5_A_3 = "test_case_3_p_v_5_a_3"
 TEST_CASE_4_P_V_8_A_2 = "test_case_4_p_v_8_a_2"
-TEST_CASE_5_6_P_V_2_A_2 = "test_case_5_and_6_p_v_2_a_2"
+TEST_CASE_5_P_V_2_A_UNENC = "test_case_5_p_v_2_a_unencrypted"
+TEST_CASE_6_P_V_UNENC_A_2 = "test_case_6_p_v_unencrypted_a_2"
 
 # PRESET TEST CASES FILE NAMES
 PRESETS_WIDEVINE = "1_widevine.xml"
@@ -46,6 +44,24 @@ SPEKE_V2_MANDATORY_NAMESPACES = {
 SPEKE_V2_CONTENTKEY_COMMONENCRYPTIONSCHEME_ALLOWED_VALUES = ["cenc", "cbc1", "cens", "cbcs"]
 
 SPEKE_V2_SUPPORTED_INTENDED_TRACK_TYPES = ['VIDEO', 'AUDIO']
+SPEKE_V2_SUPPORTED_INTENDED_TRACK_TYPES_VIDEO = [
+    "VIDEO",
+    "SD",
+    "HD",
+    "UHD",
+    "SD+HD1",
+    "HD1",
+    "HD2",
+    "UHD1",
+    "UHD2"
+]
+SPEKE_V2_SUPPORTED_INTENDED_TRACK_TYPES_AUDIO = [
+    "AUDIO",
+    "STEREO_AUDIO",
+    "MULTICHANNEL_AUDIO",
+    "MULTICHANNEL_AUDIO_3_6",
+    "MULTICHANNEL_AUDIO_7"
+]
 
 SPEKE_V2_MANDATORY_ELEMENTS_LIST = [
     './{urn:dashif:org:cpix}ContentKeyList',
