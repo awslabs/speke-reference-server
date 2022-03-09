@@ -137,7 +137,7 @@ class TestFileGenerator:
         if file_name == utils.PRESETS_WIDEVINE:
             system_ids.append(utils.WIDEVINE_SYSTEM_ID)
 
-            # playready
+        # playready
         elif file_name == utils.PRESETS_PLAYREADY:
             system_ids.append(utils.PLAYREADY_SYSTEM_ID)
 
