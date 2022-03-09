@@ -54,7 +54,6 @@ class TestFileGenerator:
     num_keys = 1
     intended_track_types = []
     common_encryption_scheme = "cbcs"
-    content_id = "Content_Id"
     key_period_id = "Key_Period_1"
     cpix_root = None
 
@@ -76,7 +75,6 @@ class TestFileGenerator:
 
     def create_files(self):
         for folder in self.test_case_folders:
-            self.content_id = generate_random_content_id()
             self.key_period_id = generate_random_key_period_id()
             if folder == utils.TEST_CASE_1_P_V_1_A_1:
                 self.num_keys = 2
@@ -177,7 +175,7 @@ class TestFileGenerator:
         self.generate_content_key_usage_rule_list(key_ids)
 
     def generate_root(self):
-        root_attribs = {"contentId": self.content_id, "version": "2.3"}
+        root_attribs = {"contentId": generate_random_content_id(), "version": "2.3"}
         self.cpix_root = ET.Element(ET.QName(ns["cpix"], "CPIX"), root_attribs)
         add_xmlns_attrib_to_root(self.cpix_root, ns)
 
