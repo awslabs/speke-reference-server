@@ -13,8 +13,12 @@
             </cpix:HLSSignalingData>
         </cpix:DRMSystem>
     </cpix:DRMSystemList>
+    <cpix:ContentKeyPeriodList>
+        <cpix:ContentKeyPeriod id="keyPeriod_2a50937e-4f6d-4794-9e77-f9ed86d4443c" index="0" />
+    </cpix:ContentKeyPeriodList>
     <cpix:ContentKeyUsageRuleList>
         <cpix:ContentKeyUsageRule kid="0f083e4e-b831-4a3d-917e-ce78076e1234" intendedTrackType="ALL">
+            <cpix:KeyPeriodFilter periodId="keyPeriod_2a50937e-4f6d-4794-9e77-f9ed86d4443c" />
             <cpix:VideoFilter />
             <cpix:AudioFilter />
         </cpix:ContentKeyUsageRule>
