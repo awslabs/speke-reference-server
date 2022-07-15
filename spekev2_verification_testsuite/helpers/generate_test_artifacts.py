@@ -56,6 +56,7 @@ class TestFileGenerator:
     common_encryption_scheme = "cbcs"
     key_period_id = "Key_Period_1"
     cpix_root = None
+    isLive = False
 
     def generate_artifacts(self):
         self.cleanup_before_run()
@@ -171,7 +172,9 @@ class TestFileGenerator:
         self.generate_root()
         self.generate_content_key_list(key_ids)
         self.generate_drm_system_list(system_ids, key_ids)
-        self.generate_content_key_period_list()
+        # See https://docs.aws.amazon.com/speke/latest/documentation/vod-workflow-method-v2.html for more details
+        if self.isLive:
+            self.generate_content_key_period_list()
         self.generate_content_key_usage_rule_list(key_ids)
 
     def generate_root(self):

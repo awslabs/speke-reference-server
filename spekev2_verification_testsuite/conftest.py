@@ -7,6 +7,7 @@ from .helpers.generate_test_artifacts import TestFileGenerator
 def pytest_addoption(parser):
     parser.addoption("--speke-url", help="Speke Key provider URL")
     parser.addoption("--skip-artifact-generation", help="Skip generation of test artifacts", action='store_true')
+    parser.addoption("--vod", help="Generated request won't contain ContentKeyPeriodList", action='store_true')
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -28,6 +29,8 @@ def pytest_configure(config):
     else:
         TestFileGenerator().generate_artifacts()
 
+    if config.getoption("--vod"):
+        TestFileGenerator().isLive = False
 
 def configure_report_options(config):
     date_now = datetime.datetime.now().strftime("%d-%m-%Y %H-%M-%S").replace(" ", "_")
