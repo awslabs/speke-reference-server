@@ -30,7 +30,7 @@ def pytest_configure(config):
         TestFileGenerator().generate_artifacts()
 
     if config.getoption("--vod"):
-        TestFileGenerator().isLiveSuite = False
+        TestFileGenerator().is_live_suite = False
 
 def configure_report_options(config):
     date_now = datetime.datetime.now().strftime("%d-%m-%Y %H-%M-%S").replace(" ", "_")

@@ -56,7 +56,7 @@ class TestFileGenerator:
     common_encryption_scheme = "cbcs"
     key_period_id = "Key_Period_1"
     cpix_root = None
-    isLiveSuite = True
+    is_live_suite = True
 
     def generate_artifacts(self):
         self.cleanup_before_run()
