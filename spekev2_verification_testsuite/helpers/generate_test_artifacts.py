@@ -173,7 +173,7 @@ class TestFileGenerator:
         self.generate_content_key_list(key_ids)
         self.generate_drm_system_list(system_ids, key_ids)
         # See https://docs.aws.amazon.com/speke/latest/documentation/vod-workflow-method-v2.html for more details
-        if self.isLiveSuite:
+        if self.is_live_suite:
             self.generate_content_key_period_list()
         self.generate_content_key_usage_rule_list(key_ids)
 
