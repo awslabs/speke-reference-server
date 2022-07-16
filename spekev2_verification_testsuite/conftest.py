@@ -32,8 +32,10 @@ def pytest_configure(config):
     # Create artifacts used in the test suite
     if config.getoption("--skip-artifact-generation"):
         print("Skipping test artifact generation")
+    elif config.getoption("--test-vod"):
+        TestFileGenerator().generate_artifacts(is_vod_suite=True)
     else:
-        TestFileGenerator().generate_artifacts(test_suite_dir)
+        TestFileGenerator().generate_artifacts()
 
 def configure_report_options(config):
     date_now = datetime.datetime.now().strftime("%d-%m-%Y %H-%M-%S").replace(" ", "_")
