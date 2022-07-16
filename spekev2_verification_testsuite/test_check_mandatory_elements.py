@@ -6,8 +6,8 @@ from .helpers import utils, speke_element_assertions
 
 
 @pytest.fixture(scope="session")
-def basic_response(spekev2_url):
-    test_request_data = utils.read_xml_file_contents("general", utils.GENERIC_WIDEVINE_TEST_FILE)
+def basic_response(spekev2_url, test_suite_dir):
+    test_request_data = utils.read_xml_file_contents(test_suite_dir, utils.GENERIC_WIDEVINE_TEST_FILE)
     response = utils.speke_v2_request(spekev2_url, test_request_data)
     return response.text
 
