@@ -4,7 +4,7 @@
         "aws_region": "us-east-1",
         "profile_name": "default",
         "project_name": "speke",
-        "runtime": "python3.6",
+        "runtime": "python3.9",
         "s3_bucket": "zappa-jisselw2p"
     }
 }
