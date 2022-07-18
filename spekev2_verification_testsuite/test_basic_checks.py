@@ -6,25 +6,25 @@ from .helpers import utils, speke_element_assertions
 
 
 @pytest.fixture(scope="session")
-def basic_response(spekev2_url):
-    test_request_data = utils.read_xml_file_contents("general", utils.GENERIC_WIDEVINE_TEST_FILE)
+def basic_response(spekev2_url, test_suite_dir):
+    test_request_data = utils.read_xml_file_contents(test_suite_dir, utils.GENERIC_WIDEVINE_TEST_FILE)
     response = utils.speke_v2_request(spekev2_url, test_request_data)
     return response
 
 
 @pytest.fixture(scope="session")
-def duplicate_responses(spekev2_url, request_count=2):
+def duplicate_responses(spekev2_url, test_suite_dir, request_count=2):
     responses = []
     for request in range(0, request_count):
-        test_request_data = utils.read_xml_file_contents("general", utils.GENERIC_WIDEVINE_TEST_FILE)
+        test_request_data = utils.read_xml_file_contents(test_suite_dir, utils.GENERIC_WIDEVINE_TEST_FILE)
         responses.append(utils.speke_v2_request(spekev2_url, test_request_data).text)
         time.sleep(5)
     return responses[0] if request_count == 1 else responses
 
 
 @pytest.fixture(scope="session")
-def spekev1_style_request(spekev2_url):
-    test_request_data = utils.read_xml_file_contents("general", utils.SPEKEV1_STYLE_REQUEST_WITH_SPEKEV2_HEADERS)
+def spekev1_style_request(spekev2_url, test_suite_dir):
+    test_request_data = utils.read_xml_file_contents(test_suite_dir, utils.SPEKEV1_STYLE_REQUEST_WITH_SPEKEV2_HEADERS)
     response = utils.speke_v2_request(spekev2_url, test_request_data)
     return response
 

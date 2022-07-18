@@ -5,8 +5,8 @@ from .helpers import utils, speke_element_assertions
 
 
 @pytest.fixture
-def generic_request(spekev2_url):
-    return utils.read_xml_file_contents("general", utils.GENERIC_WIDEVINE_TEST_FILE)
+def generic_request(spekev2_url, test_suite_dir):
+    return utils.read_xml_file_contents(test_suite_dir, utils.GENERIC_WIDEVINE_TEST_FILE)
 
 @pytest.fixture
 def fairplay_request(spekev2_url):
@@ -14,13 +14,13 @@ def fairplay_request(spekev2_url):
 
 
 @pytest.fixture
-def preset_negative_preset_shared_video(spekev2_url):
-    return utils.read_xml_file_contents("general", utils.NEGATIVE_PRESET_SHARED_VIDEO)
+def preset_negative_preset_shared_video(spekev2_url, test_suite_dir):
+    return utils.read_xml_file_contents(test_suite_dir, utils.NEGATIVE_PRESET_SHARED_VIDEO)
 
 
 @pytest.fixture
-def preset_negative_preset_shared_audio(spekev2_url):
-    return utils.read_xml_file_contents("general", utils.NEGATIVE_PRESET_SHARED_AUDIO)
+def preset_negative_preset_shared_audio(spekev2_url, test_suite_dir):
+    return utils.read_xml_file_contents(test_suite_dir, utils.NEGATIVE_PRESET_SHARED_AUDIO)
 
 
 @pytest.fixture
@@ -30,8 +30,8 @@ def empty_xml_response(spekev2_url):
 
 
 @pytest.fixture
-def wrong_version_response(spekev2_url):
-    test_request_data = utils.read_xml_file_contents("general", utils.WRONG_VERSION_TEST_FILE)
+def wrong_version_response(spekev2_url, test_suite_dir):
+    test_request_data = utils.read_xml_file_contents(test_suite_dir, utils.WRONG_VERSION_TEST_FILE)
     response = utils.speke_v2_request(spekev2_url, test_request_data)
     return response
 

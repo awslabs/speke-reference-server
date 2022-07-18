@@ -11,4 +11,5 @@
 - The test suite generates xml request files under `spekev2_requests`. This step is run every time the test suite is invoked.
 - Existing folders and files are deleted if present and new ones are generated.
 - To skip this step (when re-running the test suite, for example), use `--skip-artifact-generation`.
+- To test on VOD suite, use `--test-vod`.
 - Usage: `pipenv run pytest --speke-url <<SPEKE-API-GATEWAY-URL>> --skip-artifact-generation`
