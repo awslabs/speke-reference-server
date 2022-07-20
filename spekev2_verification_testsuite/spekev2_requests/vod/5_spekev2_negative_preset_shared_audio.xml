@@ -34,19 +34,15 @@
 	</cpix:DRMSystemList>
 	<cpix:ContentKeyUsageRuleList>
 		<cpix:ContentKeyUsageRule kid="5e6a0382-0f15-4cf7-a8d5-6af1e8a96556" intendedTrackType="SD">
-			<cpix:KeyPeriodFilter periodId="keyPeriod_0250ba89-a7a8-4d90-b69d-3c9b550b1f2c" />
 			<cpix:VideoFilter maxPixels="589824" />
 		</cpix:ContentKeyUsageRule>
 		<cpix:ContentKeyUsageRule kid="1bee0e1f-04fe-4379-be8c-8211603b3a67" intendedTrackType="HD">
-			<cpix:KeyPeriodFilter periodId="keyPeriod_0250ba89-a7a8-4d90-b69d-3c9b550b1f2c" />
 			<cpix:VideoFilter minPixels="589825" />
 		</cpix:ContentKeyUsageRule>
 		<cpix:ContentKeyUsageRule kid="5e6a0382-0f15-4cf7-a8d5-6af1e8a96578" intendedTrackType="ALL">
-			<cpix:KeyPeriodFilter periodId="keyPeriod_0250ba89-a7a8-4d90-b69d-3c9b550b1f2c" />
 			<cpix:AudioFilter maxChannels="2" />
 		</cpix:ContentKeyUsageRule>
 		<cpix:ContentKeyUsageRule kid="1bee0e1f-04fe-4379-be8c-8211603b3a89" intendedTrackType="ALL">
-			<cpix:KeyPeriodFilter periodId="keyPeriod_0250ba89-a7a8-4d90-b69d-3c9b550b1f2c" />
 			<cpix:AudioFilter minChannels="3" />
 		</cpix:ContentKeyUsageRule>
 	</cpix:ContentKeyUsageRuleList>
