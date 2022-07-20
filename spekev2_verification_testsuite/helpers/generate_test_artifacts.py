@@ -174,7 +174,7 @@ class TestFileGenerator:
         # See https://docs.aws.amazon.com/speke/latest/documentation/vod-workflow-method-v2.html for more details about VOD requests
         if not is_vod_suite:
             self.generate_content_key_period_list()
-        self.generate_content_key_usage_rule_list(key_ids)
+        self.generate_content_key_usage_rule_list(key_ids, is_vod_suite)
 
     def generate_root(self):
         root_attribs = {"contentId": generate_random_content_id(), "version": "2.3"}
@@ -211,17 +211,17 @@ class TestFileGenerator:
         content_key_period_attribs = {"id": self.key_period_id, "index": "0"}
         ET.SubElement(content_key_period_list, ET.QName(ns["cpix"], "ContentKeyPeriod"), content_key_period_attribs)
 
-    def generate_content_key_usage_rule_list(self, key_ids):
+    def generate_content_key_usage_rule_list(self, key_ids, is_vod_suite):
         content_key_usage_rule_list = ET.SubElement(self.cpix_root, ET.QName(ns["cpix"], "ContentKeyUsageRuleList"))
         for num, k_id in enumerate(key_ids):
             content_key_usage_rule_attribs = {"kid": k_id, "intendedTrackType": self.intended_track_types[num]}
             content_key_usage_rule = ET.SubElement(content_key_usage_rule_list,
                                                    ET.QName(ns["cpix"], "ContentKeyUsageRule"),
                                                    content_key_usage_rule_attribs)
-
-            key_period_filter_attribs = {"periodId": self.key_period_id}
-            ET.SubElement(content_key_usage_rule, ET.QName(ns["cpix"], "KeyPeriodFilter"),
-                          key_period_filter_attribs)
+            if not is_vod_suite:
+                key_period_filter_attribs = {"periodId": self.key_period_id}
+                ET.SubElement(content_key_usage_rule, ET.QName(ns["cpix"], "KeyPeriodFilter"),
+                              key_period_filter_attribs)
 
             filter_name = "VideoFilter"
             if "AUDIO" in self.intended_track_types[num]:
