@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<cpix:CPIX contentId="test_case_speke_v1_style_request" version="2.3" xmlns:cpix="urn:dashif:org:cpix" xmlns:pskc="urn:ietf:params:xml:ns:keyprov:pskc" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:enc="http://www.w3.org/2001/04/xmlenc#">
+<cpix:CPIX contentId="test_case_speke_v1_style_request_general" version="2.3" xmlns:cpix="urn:dashif:org:cpix" xmlns:pskc="urn:ietf:params:xml:ns:keyprov:pskc" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:enc="http://www.w3.org/2001/04/xmlenc#">
     <cpix:ContentKeyList>
-        <cpix:ContentKey kid="0f083e4e-b831-4a3d-917e-ce78076e1234" commonEncryptionScheme="cenc"></cpix:ContentKey>
+        <cpix:ContentKey kid="d4ab38f0-530e-4baa-85a0-d54e075bde74" commonEncryptionScheme="cenc"></cpix:ContentKey>
     </cpix:ContentKeyList>
     <cpix:DRMSystemList>
-        <cpix:DRMSystem kid="0f083e4e-b831-4a3d-917e-ce78076e1234" systemId="edef8ba9-79d6-4ace-a3c8-27dcd51d21ed">
+        <cpix:DRMSystem kid="d4ab38f0-530e-4baa-85a0-d54e075bde74" systemId="edef8ba9-79d6-4ace-a3c8-27dcd51d21ed">
             <cpix:PSSH />
             <cpix:ContentProtectionData />
             <cpix:HLSSignalingData playlist="media">
@@ -17,7 +17,7 @@
         <cpix:ContentKeyPeriod id="keyPeriod_2a50937e-4f6d-4794-9e77-f9ed86d4443c" index="0" />
     </cpix:ContentKeyPeriodList>
     <cpix:ContentKeyUsageRuleList>
-        <cpix:ContentKeyUsageRule kid="0f083e4e-b831-4a3d-917e-ce78076e1234" intendedTrackType="ALL">
+        <cpix:ContentKeyUsageRule kid="d4ab38f0-530e-4baa-85a0-d54e075bde74" intendedTrackType="ALL">
             <cpix:KeyPeriodFilter periodId="keyPeriod_2a50937e-4f6d-4794-9e77-f9ed86d4443c" />
             <cpix:VideoFilter />
             <cpix:AudioFilter />
