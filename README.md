@@ -62,7 +62,10 @@ AWS Lambda environment is similar to Amazon Linux (AL2) and so a dependency that
 1. On the `Select Template` page, select `Upload a template file` and choose the generated `speke_reference.json` file prepared in the above section.
 1. At the `Specify Details` pages, provide a stack name, like `SPEKE`.
 1. Provide a value for the `KeyRetentionDays` parameter. This is the amount of time to retain a key in the S3 bucket for client playback. Keys older than this amount will be automatically removed by S3. The default is 2 days, which is usually enough for live content across multiple time zones.
+<<<<<<< HEAD
 1. There are some Parameters which contain default values, this is for reference only and it is recommended that users modify this section of the reference server to return values such as playready header and pssh boxes according to their requirements.
+=======
+>>>>>>> 7258396bdd938623de80f99891ffed9594b104de
 1. The `Options` page does not require any input, although you can choose to be notified after the template completes.
 
 
