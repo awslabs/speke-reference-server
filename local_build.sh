@@ -16,6 +16,9 @@ BUILD=$ORIGIN/build
 STAMP=`date +%s`
 echo build stamp is $STAMP
 
+# create a build folder
+mkdir $BUILD
+
 # clear the build folder
 rm -f $BUILD/*
 
