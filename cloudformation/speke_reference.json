@@ -163,6 +163,25 @@
                 }
             }
         },
+        "SPEKEServerLambdaLayer": {
+            "Type": "AWS::Lambda::LayerVersion",
+            "Condition": "RequiresSPEKEServerLambdaLayer",
+            "Properties": {
+                "Content": {
+                    "S3Bucket" : {
+                        "Fn::Join": [
+                            "-", [
+                                "rodeolabz",
+                                {
+                                    "Ref": "AWS::Region"
+                                }
+                            ]
+                        ]
+                    },
+                    "S3Key": "speke/speke-libs-DEV_0_0_0.zip"
+                }
+            }
+        },
         "SPEKEServerLambda": {
             "Type": "AWS::Lambda::Function",
             "Properties": {
@@ -178,6 +197,17 @@
                         ]
                     },
                     "S3Key": "speke/speke-reference-lambda-DEV_0_0_0.zip"
+                },
+                "Layers": {
+                    "Fn::If": [
+                        "RequiresSPEKEServerLambdaLayer",
+                        [
+                            {
+                                "Ref": "SPEKEServerLambdaLayer"
+                            }
+                        ],
+                        []
+                    ]
                 },
                 "Environment": {
                     "Variables": {
@@ -599,6 +629,15 @@
             "MinValue": "1",
             "ConstraintDescription": "Please enter a number of days (1 or greater)"
         },
+        "RequiresSPEKEServerLambdaLayer": {
+            "Default": "false",
+            "Description": "true if a lambda layer is required to avoid runtime error on SPEKE server lambda, or false otherwise",
+            "Type": "String",
+            "AllowedValues": [
+                "true",
+                "false"
+            ]
+        },
         "PlayReadyContentKey": {
             "Default": "",
             "Description": "Encoded PlayReady content key to use for encryption",
@@ -663,6 +702,16 @@
             "Default": "",
             "Description": "Encoded Fairplay HlsSignalingData for master (ext-x-session-key) that is included in the encrypted content and is supported in Speke V2.0 only",
             "Type": "String"
+        }
+    },
+    "Conditions": {
+        "RequiresSPEKEServerLambdaLayer": {
+            "Fn::Equals": [
+                {
+                    "Ref": "RequiresSPEKEServerLambdaLayer"
+                },
+                "true"
+             ]
         }
     },
     "Outputs": {
