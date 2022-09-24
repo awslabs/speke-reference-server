@@ -44,14 +44,14 @@ The following page guides the user through deployment and configuration of the S
 1. Create a virtual environment for this project using python3 using steps outlined [here](https://docs.python.org/3/tutorial/venv.html).
 1. Install dependencies within the virtual environment using `pip3 install -r requirements.txt`.
 1. In `zappa_settings.json` under `src`, replace `aws_region` with the region this lambda will be deployed.
-1. Run `local_build.sh`.
+1. Run `local_build.sh`. If you are working on Mac/Windows, run the script with `REQUIRES_SPEKE_SERVER_LAMBDA_LAYER=true` to generate `speke-libs` lambda layer zip file. Note that Docker is required to build the zip file. See the [sidenote](#sidenote-building-the-lambda-on-macwindows) below for more details about the lambda layer.
 1. The script will generate required artifacts under `build` folder.
-1. Create a new bucket in S3 (For example: `speke-us-east-1`). Create a folder called `speke` and upload the generated `speke-reference` lambda zip file.
+1. Create a new bucket in S3 (For example: `speke-us-east-1`). Create a folder called `speke` and upload the generated `speke-reference` lambda zip file. If you build with `REQUIRES_SPEKE_SERVER_LAMBDA_LAYER=true`, upload the generated `speke-libs` lambda layer zip file to the same folder too. 
 1. In the generated `speke_reference.json`, replace `rodeolabz` with the name of your created bucket (`speke` is used in this example).
 1. Use the `speke_reference.json` template in CloudFormation to deploy the speke reference server following the instructions below.
 
 #### **Sidenote:** Building the lambda on Mac/Windows
-AWS Lambda environment is similar to Amazon Linux (AL2) and so a dependency that this reference server needs: `cffi` does not match the lambda runtime when built on a Windows/ macOS machine. When the reference server is run, it might result in an error: `No module named '_cffi_backend'`. To resolve this, create a `requirements.txt` file with `cffi==<version>`, replacing version with the desired version number (The requirements.txt file can be used for a compatible version) and create a lambda layer following the steps outlined [here](https://aws.amazon.com/premiumsupport/knowledge-center/lambda-layer-simulated-docker/) and then update the speke reference lambda function to reference this layer.
+AWS Lambda environment is similar to Amazon Linux (AL2) and so a dependency that this reference server needs: `cffi` does not match the lambda runtime when built on a Windows/ macOS machine. When the reference server is run, it might result in an error: `No module named '_cffi_backend'`. To resolve this, it is required to create a lambda layer following the steps outlined [here](https://aws.amazon.com/premiumsupport/knowledge-center/lambda-layer-simulated-docker/) and then update the speke reference lambda function to reference this layer. The `local_build.sh` and `speke_reference.json` can help you to apply this solution.
 
 ### Deploy using CloudFormation template
 
@@ -62,6 +62,7 @@ AWS Lambda environment is similar to Amazon Linux (AL2) and so a dependency that
 1. On the `Select Template` page, select `Upload a template file` and choose the generated `speke_reference.json` file prepared in the above section.
 1. At the `Specify Details` pages, provide a stack name, like `SPEKE`.
 1. Provide a value for the `KeyRetentionDays` parameter. This is the amount of time to retain a key in the S3 bucket for client playback. Keys older than this amount will be automatically removed by S3. The default is 2 days, which is usually enough for live content across multiple time zones.
+1. Provide a value for the `RequiresSPEKEServerLambdaLayer` parameter. If you build and upload the `speke-libs` lambda layer zip file, set `true` to this parameter to create a lambda layer and associate it with the speke reference lambda function. Otherwise no lambda layer is created by default.
 1. There are some Parameters which contain default values, this is for reference only and it is recommended that users modify this section of the reference server to return values such as playready header and pssh boxes according to their requirements.
 1. The `Options` page does not require any input, although you can choose to be notified after the template completes.
 

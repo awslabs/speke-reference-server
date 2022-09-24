@@ -28,6 +28,18 @@ cd $ORIGIN/src
 # using zappa for help in packaging
 zappa package --output $BUILD/$SERVZIP
 
+# create a lambda layer zip with a unique name if required
+# - https://github.com/awslabs/speke-reference-server#sidenote-building-the-lambda-on-macwindows
+# - https://aws.amazon.com/premiumsupport/knowledge-center/lambda-layer-simulated-docker/
+if [ "${REQUIRES_SPEKE_SERVER_LAMBDA_LAYER}" = "true" ]; then
+    cd $ORIGIN/lambda/speke_libs
+    docker run \
+        -v "$PWD":/var/task \
+        "public.ecr.aws/sam/build-python3.9" \
+        /bin/sh -c "pip install -qq -r requirements.txt -t python/lib/python3.9/site-packages/ -U; exit"
+    zip -r $BUILD/speke-libs-$STAMP.zip python > /dev/null
+fi
+
 # create the custom resource zip with a unique name
 RESZIP=cloudformation-resources-$STAMP.zip
 cd $ORIGIN/cloudformation
