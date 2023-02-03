@@ -27,10 +27,11 @@ HLS_SAMPLE_AES_SYSTEM_ID = '94ce86fb-07ff-4f43-adb8-93d2fa968ca2'
 COMMON_PSSH_SYSTEM_ID = '1077efec-c0b2-4d02-ace3-3c1e52e2fb4b'
 DASH_CENC_SYSTEM_ID = 'edef8ba9-79d6-4ace-a3c8-27dcd51d21ed'
 PLAYREADY_SYSTEM_ID = '9a04f079-9840-4286-ab92-e65be0885f95'
+CLEAR_KEY_AES_128_SYSTEM_ID = '3ea8778f-7742-4bf9-b18b-e834b2acbd47'
 
 # settings for HLS
 HLS_AES_128_KEY_FORMAT = ''  # 'identity'
-HLS_AES_128_KEY_FORMAT_VERSIONS = ''  # '1'
+HLS_AES_128_KEY_FORMAT_VERSIONS = '1'  # '1'
 HLS_SAMPLE_AES_KEY_FORMAT = 'com.apple.streamingkeydelivery'
 HLS_SAMPLE_AES_KEY_FORMAT_VERSIONS = '1'
 # speke v2.0 settings for fairplay drm
@@ -53,7 +54,6 @@ PLAYREADY_CONTENT_KEY = os.environ["PLAYREADY_CONTENT_KEY"]
 PLAYREADY_CONTENT_PROTECTION_DATA = os.environ["PLAYREADY_CONTENT_PROTECTION_DATA"]
 PLAYREADY_HLS_SIGNALING_DATA_MEDIA = os.environ["PLAYREADY_HLS_SIGNALING_DATA_MEDIA"]
 PLAYREADY_HLS_SIGNALING_DATA_MASTER = os.environ["PLAYREADY_HLS_SIGNALING_DATA_MASTER"]
-
 
 # globals for encrypted document responses
 DOCUMENT_KEY_SIZE = 32
@@ -321,6 +321,20 @@ class ServerResponseBuilderV2(ServerResponseBuilder):
             if hls_signalling_data_elems:
                 drm_system.find("{urn:dashif:org:cpix}HLSSignalingData[@playlist='media']").text = FAIRPLAY_HLS_SIGNALING_DATA_MEDIA
                 drm_system.find("{urn:dashif:org:cpix}HLSSignalingData[@playlist='master']").text = FAIRPLAY_HLS_SIGNALING_DATA_MASTER
+
+        elif system_id.lower() == CLEAR_KEY_AES_128_SYSTEM_ID.lower():
+            ext_x_key_uri = self.cache.url(content_id, kid)
+            self.safe_remove(drm_system, "{urn:dashif:org:cpix}ContentProtectionData")
+            self.safe_remove(drm_system, "{urn:dashif:org:cpix}PSSH")
+            self.safe_remove(drm_system, "{urn:dashif:org:cpix}SmoothStreamingProtectionHeaderData")
+
+            ext_x_session_key, ext_x_key = self.clearkey_aes_128_hls_signaling_data(ext_x_key_uri)
+
+            hls_signalling_data_elems = drm_system.findall("{urn:dashif:org:cpix}HLSSignalingData")
+            if hls_signalling_data_elems:
+                drm_system.find("{urn:dashif:org:cpix}HLSSignalingData[@playlist='media']").text = ext_x_key
+                drm_system.find("{urn:dashif:org:cpix}HLSSignalingData[@playlist='master']").text = ext_x_session_key
+
         else:
             raise Exception("Invalid system ID {}".format(system_id))
 
@@ -341,3 +355,18 @@ class ServerResponseBuilderV2(ServerResponseBuilder):
             },
             "body": element_tree.tostring(self.root).decode('utf-8')
         }
+
+    def clearkey_aes_128_hls_signaling_data(self, ext_x_key_uri):
+        method = "AES-128"
+        uri = ext_x_key_uri
+        key_format = HLS_AES_128_KEY_FORMAT
+        key_format_versions = HLS_AES_128_KEY_FORMAT_VERSIONS
+
+        # need to fix
+        ext_x_session_key = '#EXT-X-SESSION-KEY:METHOD={},URI="{}",KEYFORMAT="{}",KEYFORMATVERSIONS="{}"'.format(method, uri, key_format, key_format_versions)
+        ext_x_key = '#EXT-X-KEY:METHOD={},URI="{}",KEYFORMAT="{}",KEYFORMATVERSIONS="{}"'.format(method, uri, key_format, key_format_versions)
+
+        encoded_session_key = base64.b64encode(ext_x_session_key.encode('utf-8')).decode('utf-8')
+        encoded_key = base64.b64encode(ext_x_key.encode('utf-8')).decode('utf-8')
+
+        return encoded_session_key, encoded_key
