@@ -472,7 +472,8 @@
                         "Effect": "Allow",
                         "Principal": {
                             "Service": [
-                                "mediapackage.amazonaws.com"
+                                "mediapackage.amazonaws.com",
+                                "mediapackagev2.amazonaws.com"
                             ]
                         },
                         "Action": [
