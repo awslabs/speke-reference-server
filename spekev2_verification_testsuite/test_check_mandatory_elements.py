@@ -13,12 +13,12 @@ def basic_response(spekev2_url, test_suite_dir):
 
 
 def test_cpix_root_in_response(basic_response):
-    required_namespaces = utils.SPEKE_V2_MANDATORY_NAMESPACES
-    namespaces_in_response = dict([node for _, node in ET.iterparse(StringIO(basic_response), events=['start-ns'])])
+    required_namespaces = utils.SPEKE_V2_MANDATORY_NAMESPACES.values()
+    namespaces_in_response = dict([node for _, node in ET.iterparse(StringIO(basic_response), events=['start-ns'])]).values()
 
     # Validate if required namespaces are present in the response
     assert all(ns in namespaces_in_response for ns in required_namespaces), \
-        f"Requred namespaces must be present in response: {utils.SPEKE_V2_MANDATORY_NAMESPACES}"
+        f"Requred namespaces must be present in response: {required_namespaces}"
 
     root_cpix = ET.fromstring(basic_response)
 
