@@ -89,7 +89,7 @@ def test_speke_v2_elements_have_not_changed(basic_response):
 
 def test_sending_same_request_sent_twice_to_keyserver_without_key_rotation(duplicate_responses):
     test_responses = [response.replace("\n", "").replace("\r", "") for response in duplicate_responses]
-    regex_pattern = "<pskc:PlainValue>(.*)</pskc:PlainValue>(.*)<pskc:PlainValue>(.*)</pskc:PlainValue>"
+    regex_pattern = "<(.*):PlainValue>(.*)</(.*):PlainValue>(.*)<(.*):PlainValue>(.*)</(.*):PlainValue>"
     results = []
     for response in test_responses:
         results.append(re.search(regex_pattern, response))
