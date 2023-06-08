@@ -95,7 +95,7 @@ def test_sending_same_request_sent_twice_to_keyserver_without_key_rotation(dupli
         results.append(re.search(regex_pattern, response))
 
     if results[0] is not None:
-        assert results[0].group(1) == results[1].group(1) and results[0].group(3) == results[1].group(3), \
+        assert results[0].group(2) == results[1].group(2) and results[0].group(6) == results[1].group(6), \
             "Keys returned for duplicate responses must be the same with key rotation turned off"
     else:
         assert False, \
