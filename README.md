@@ -46,8 +46,8 @@ The following page guides the user through deployment and configuration of the S
 1. In `zappa_settings.json` under `src`, replace `aws_region` with the region this lambda will be deployed.
 1. Run `local_build.sh`. If you are working on Mac/Windows, run the script with `REQUIRES_SPEKE_SERVER_LAMBDA_LAYER=true` to generate `speke-libs` lambda layer zip file. Note that Docker is required to build the zip file. See the [sidenote](#sidenote-building-the-lambda-on-macwindows) below for more details about the lambda layer.
 1. The script will generate required artifacts under `build` folder.
-1. Create a new bucket in S3 (For example: `speke-us-east-1`). Create a folder called `speke` and upload the generated `speke-reference` lambda zip file. If you build with `REQUIRES_SPEKE_SERVER_LAMBDA_LAYER=true`, upload the generated `speke-libs` lambda layer zip file to the same folder too. 
-1. In the generated `speke_reference.json`, replace `rodeolabz` with the name of your created bucket (`speke` is used in this example).
+1. Create a new bucket in S3 (For example: `speke-bucket`). Create a folder called `speke` and upload the generated `speke-reference` lambda zip file. If you build with `REQUIRES_SPEKE_SERVER_LAMBDA_LAYER=true`, upload the generated `speke-libs` lambda layer zip file to the same folder too. 
+1. In the generated `speke_reference.json`, replace `rodeolabz` with the name of your created bucket (`speke-bucket` is used in this example).
 1. Use the `speke_reference.json` template in CloudFormation to deploy the speke reference server following the instructions below.
 
 #### **Sidenote:** Building the lambda on Mac/Windows
