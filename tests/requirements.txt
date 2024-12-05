@@ -55,7 +55,7 @@ tqdm==4.44.1
 troposphere==2.6.0
 typed-ast==1.5.4
 Unidecode==1.1.1
-urllib3==1.26.5
+urllib3==1.26.18
 Werkzeug==2.2.3
 wrapt==1.12.1
 wsgi-request-logger==0.4.6
