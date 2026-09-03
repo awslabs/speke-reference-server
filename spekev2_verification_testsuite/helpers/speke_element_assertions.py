@@ -1,21 +1,22 @@
 from . import utils
 
 
-def check_cpix_version(root):
+def check_cpix_version(root, expected=2.3):
     """
-    Check CPIX version is 2.3 for Speke v2. It is the only version currently supported
+    Check the CPIX version attribute. SPEKE v2.0 responses use CPIX 2.3; SPEKE v2.1
+    responses (ContentKeyPeriod start/end signaling) use CPIX 2.4.
     """
-    assert float(root.get('version').strip()) == 2.3, \
-        "Attribute: version value for CPIX element is expected to be 2.3"
+    assert float(root.get('version').strip()) == expected, \
+        f"Attribute: version value for CPIX element is expected to be {expected}"
 
 
-def validate_spekev2_response_headers(root):
+def validate_spekev2_response_headers(root, expected_speke_version='2.0'):
     """
         Check X-Speke-Version and X-Speke-User-Agent in the headers
     """
 
-    assert root.headers.get('X-Speke-Version') == '2.0', \
-        "X-Speke-Version must be 2.0"
+    assert root.headers.get('X-Speke-Version') == expected_speke_version, \
+        f"X-Speke-Version must be {expected_speke_version}"
     assert root.headers.get('X-Speke-User-Agent'), \
         "X-Speke-User-Agent must be present in the response"
 
@@ -53,6 +54,53 @@ def validate_mandatory_cpix_child_elements(root_cpix):
     assert '{urn:dashif:org:cpix}ContentKeyUsageRuleList' in cpix_elements_dict
     assert cpix_elements_dict.get('{urn:dashif:org:cpix}ContentKeyUsageRuleList') == 1, \
         "Only one ContentKeyUsageRuleList element is expected"
+
+
+def validate_content_key_period_start_end_echoed(request_root, response_root):
+    """
+    SPEKE v2.1: assert every ContentKeyPeriod in the request is echoed back in the
+    response with the same @start/@end. Values are compared as UTC instants, so host
+    timezone and xs:dateTime formatting differences do not matter. The rotation window
+    is authoritative - MediaPackage rejects a key provider that alters start/end.
+    """
+    cpix_ns = "{urn:dashif:org:cpix}"
+    request_periods = request_root.findall(
+        f'./{cpix_ns}ContentKeyPeriodList/{cpix_ns}ContentKeyPeriod')
+    assert request_periods, \
+        "Request is expected to contain at least one ContentKeyPeriod"
+
+    response_period_list = response_root.find(f'./{cpix_ns}ContentKeyPeriodList')
+    assert response_period_list is not None, \
+        "Response is expected to contain a ContentKeyPeriodList"
+    response_periods_by_id = {
+        p.get('id'): p
+        for p in response_period_list.findall(f'./{cpix_ns}ContentKeyPeriod')
+    }
+
+    for request_period in request_periods:
+        period_id = request_period.get('id')
+        request_start = request_period.get('start')
+        request_end = request_period.get('end')
+        assert request_start and request_end, \
+            f"ContentKeyPeriod {period_id} in the v2.1 request must carry start and end"
+
+        response_period = response_periods_by_id.get(period_id)
+        assert response_period is not None, \
+            f"Response is missing ContentKeyPeriod with id {period_id} from the request"
+
+        response_start = response_period.get('start')
+        response_end = response_period.get('end')
+        assert response_start and response_end, \
+            f"Response ContentKeyPeriod {period_id} must echo back start and end"
+
+        assert utils.normalize_xs_datetime_to_utc(response_start) == \
+            utils.normalize_xs_datetime_to_utc(request_start), \
+            f"ContentKeyPeriod {period_id} start must be echoed back unchanged: " \
+            f"sent {request_start}, got {response_start}"
+        assert utils.normalize_xs_datetime_to_utc(response_end) == \
+            utils.normalize_xs_datetime_to_utc(request_end), \
+            f"ContentKeyPeriod {period_id} end must be echoed back unchanged: " \
+            f"sent {request_end}, got {response_end}"
 
 
 def validate_content_key_list_element(root_cpix, expected_count, expected_common_encryption_scheme):
