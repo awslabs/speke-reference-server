@@ -1,5 +1,6 @@
 import re
 import base64
+import datetime
 from urllib.parse import urlparse
 import xml.etree.ElementTree as ET
 from io import StringIO
@@ -26,6 +27,10 @@ TEST_CASE_4_P_V_8_A_2 = "test_case_4_p_v_8_a_2"
 TEST_CASE_5_P_V_2_A_UNENC = "test_case_5_p_v_2_a_unencrypted"
 TEST_CASE_6_P_V_UNENC_A_2 = "test_case_6_p_v_unencrypted_a_2"
 
+# SPEKE v2.1 live test case: ContentKeyPeriod carries start/end (in addition to @index)
+TEST_CASE_7_V2_1_CONTENT_KEY_PERIOD = "test_case_7_v2_1_content_key_period"
+V2_1_WIDEVINE_LIVE_START_END = "1_speke_v2_1_dash_widevine_content_key_period_start_end.xml"
+
 # PRESET TEST CASES FILE NAMES
 PRESETS_WIDEVINE = "1_widevine.xml"
 PRESETS_PLAYREADY = "2_playready.xml"
@@ -36,6 +41,7 @@ PRESETS_PLAYREADY_FAIRPLAY = "6_playready_fairplay.xml"
 PRESETS_WIDEVINE_PLAYREADY_FAIRPLAY = "7_widevine_playready_fairplay.xml"
 
 SPEKE_V2_REQUEST_HEADERS = {"x-speke-version": "2.0", 'Content-type': 'application/xml'}
+SPEKE_V2_1_REQUEST_HEADERS = {"x-speke-version": "2.1", 'Content-type': 'application/xml'}
 SPEKE_V2_MANDATORY_NAMESPACES = {
     "cpix": "urn:dashif:org:cpix",
     "pskc": "urn:ietf:params:xml:ns:keyprov:pskc"
@@ -124,12 +130,12 @@ def read_xml_file_contents(test_type, filename):
         return f.read().encode('utf-8')
 
 
-def speke_v2_request(speke_url, request_data):
+def speke_v2_request(speke_url, request_data, headers=SPEKE_V2_REQUEST_HEADERS):
     return requests.post(
         url=speke_url,
         auth=get_aws_auth(speke_url),
         data=request_data,
-        headers=SPEKE_V2_REQUEST_HEADERS
+        headers=headers
     )
 
 
@@ -148,10 +154,20 @@ def get_aws_auth(url):
     )
 
 
-def send_speke_request(test_xml_folder, test_xml_file, spekev2_url):
+def send_speke_request(test_xml_folder, test_xml_file, spekev2_url, headers=SPEKE_V2_REQUEST_HEADERS):
     test_request_data = read_xml_file_contents(test_xml_folder, test_xml_file)
-    response = speke_v2_request(spekev2_url, test_request_data)
+    response = speke_v2_request(spekev2_url, test_request_data, headers)
     return response.text
+
+
+def send_speke_request_full(test_xml_folder, test_xml_file, spekev2_url, headers=SPEKE_V2_REQUEST_HEADERS):
+    """
+    Like send_speke_request, but returns (request_data_bytes, response) so callers can
+    parse both the request and response trees and inspect response headers.
+    """
+    test_request_data = read_xml_file_contents(test_xml_folder, test_xml_file)
+    response = speke_v2_request(spekev2_url, test_request_data, headers)
+    return test_request_data, response
 
 
 def remove_element(xml_request, element_to_remove, kid_value = ""):
@@ -227,3 +243,22 @@ def parse_ext_x_session_key_contents(text_in_bytes):
 
 def decode_b64_bytes(text_in_bytes):
     return base64.b64decode(text_in_bytes).decode('utf-8')
+
+
+def normalize_xs_datetime_to_utc(value):
+    """
+    Parse an xs:dateTime string into a timezone-aware UTC datetime.
+
+    xs:dateTime values may carry an explicit offset (e.g. '2026-01-01T00:00:00Z' or
+    '...+00:00') or omit the zone entirely. Per the SPEKE v2.1 contract, a zone-less
+    value is interpreted as UTC so that ContentKeyPeriod@start/@end comparisons are
+    independent of the host timezone.
+    """
+    text = value.strip()
+    # datetime.fromisoformat only learned to accept a trailing 'Z' in Python 3.11.
+    if text.endswith(('Z', 'z')):
+        text = text[:-1] + "+00:00"
+    parsed = datetime.datetime.fromisoformat(text)
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=datetime.timezone.utc)
+    return parsed.astimezone(datetime.timezone.utc)

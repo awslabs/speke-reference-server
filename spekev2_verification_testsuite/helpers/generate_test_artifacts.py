@@ -57,10 +57,21 @@ class TestFileGenerator:
     key_period_id = "Key_Period_1"
     cpix_root = None
 
+    # SPEKE v2.1 (live only): a single ContentKeyPeriod signals the wall-clock window it
+    # covers via @start/@end (in addition to @index). end - start is the key rotation
+    # interval; the key provider must echo start/end back unchanged.
+    v2_1_test_case_folder = utils.TEST_CASE_7_V2_1_CONTENT_KEY_PERIOD
+    V2_1_KEY_PERIOD_INDEX = "1"
+    V2_1_KEY_PERIOD_START = "2026-01-01T00:00:00Z"
+    V2_1_KEY_PERIOD_END = "2026-01-01T00:05:00Z"  # 5-minute key rotation interval
+
     def generate_artifacts(self, is_vod_suite=False):
         self.cleanup_before_run()
         self.create_folders()
         self.create_files(is_vod_suite)
+        # The v2.1 ContentKeyPeriod start/end feature is live-only.
+        if not is_vod_suite:
+            self.create_v2_1_files()
 
     def create_folders(self):
         if os.path.isdir(self.test_artifacts_folder_name):
@@ -107,7 +118,7 @@ class TestFileGenerator:
         if os.path.isdir(self.test_artifacts_folder_name):
             folder_to_delete = ""
             try:
-                for folder in self.test_case_folders:
+                for folder in self.test_case_folders + [self.v2_1_test_case_folder]:
                     folder_to_delete = str(self.test_artifacts_folder_name + "/" + folder)
                     if os.path.isdir(folder_to_delete):
                         shutil.rmtree(folder_to_delete)
@@ -176,8 +187,8 @@ class TestFileGenerator:
             self.generate_content_key_period_list()
         self.generate_content_key_usage_rule_list(key_ids, is_vod_suite)
 
-    def generate_root(self):
-        root_attribs = {"contentId": generate_random_content_id(), "version": "2.3"}
+    def generate_root(self, version="2.3"):
+        root_attribs = {"contentId": generate_random_content_id(), "version": version}
         self.cpix_root = ET.Element(ET.QName(ns["cpix"], "CPIX"), root_attribs)
         add_xmlns_attrib_to_root(self.cpix_root, ns)
 
@@ -209,6 +220,49 @@ class TestFileGenerator:
     def generate_content_key_period_list(self):
         content_key_period_list = ET.SubElement(self.cpix_root, ET.QName(ns["cpix"], "ContentKeyPeriodList"))
         content_key_period_attribs = {"id": self.key_period_id, "index": "0"}
+        ET.SubElement(content_key_period_list, ET.QName(ns["cpix"], "ContentKeyPeriod"), content_key_period_attribs)
+
+    def create_v2_1_files(self):
+        """
+        Generate the SPEKE v2.1 live request (isolated from the v2.0 suite): a single
+        widevine request whose ContentKeyPeriod carries @start/@end (in addition to
+        @index), with key rotation wired via KeyPeriodFilter.
+        """
+        folder_path = self.get_file_path(self.v2_1_test_case_folder)
+        if not os.path.isdir(folder_path):
+            os.makedirs(folder_path)
+
+        self.num_keys = 2
+        self.intended_track_types = ["VIDEO", "AUDIO"]
+        self.key_period_id = generate_random_key_period_id()
+        key_ids = generate_key_id_list(self.num_keys)
+
+        self.generate_v2_1_content(key_ids)
+        self.generate_file(self.v2_1_test_case_folder, utils.V2_1_WIDEVINE_LIVE_START_END)
+
+    def generate_v2_1_content(self, key_ids):
+        self.cpix_root = None
+        self.common_encryption_scheme = "cenc"
+        system_ids = [utils.WIDEVINE_SYSTEM_ID]
+
+        # SPEKE v2.1 responses use CPIX 2.4.
+        self.generate_root(version="2.4")
+        self.generate_content_key_list(key_ids)
+        self.generate_drm_system_list(system_ids, key_ids)
+        self.generate_v2_1_content_key_period_list()
+        # Live suite semantics: KeyPeriodFilter references the ContentKeyPeriod above.
+        self.generate_content_key_usage_rule_list(key_ids, is_vod_suite=False)
+
+    def generate_v2_1_content_key_period_list(self):
+        content_key_period_list = ET.SubElement(self.cpix_root, ET.QName(ns["cpix"], "ContentKeyPeriodList"))
+        # @start/@end are xs:dateTime wall-clock times; end - start is the key rotation
+        # interval. The key provider must echo start/end back unchanged.
+        content_key_period_attribs = {
+            "id": self.key_period_id,
+            "index": self.V2_1_KEY_PERIOD_INDEX,
+            "start": self.V2_1_KEY_PERIOD_START,
+            "end": self.V2_1_KEY_PERIOD_END,
+        }
         ET.SubElement(content_key_period_list, ET.QName(ns["cpix"], "ContentKeyPeriod"), content_key_period_attribs)
 
     def generate_content_key_usage_rule_list(self, key_ids, is_vod_suite):
